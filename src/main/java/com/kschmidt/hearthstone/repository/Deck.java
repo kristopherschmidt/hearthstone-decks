@@ -3,6 +3,7 @@ package com.kschmidt.hearthstone.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
@@ -43,6 +44,12 @@ public class Deck {
 				return Objects.equal(userCard.getCardName(), cardName);
 			}
 		});
+	}
+
+	public String toString() {
+		return MoreObjects.toStringHelper(getClass()).add("cards", cards)
+				.toString();
+
 	}
 
 }

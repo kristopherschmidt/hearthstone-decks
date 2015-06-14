@@ -1,3 +1,7 @@
 refactor ioexception to dataaccessexception
-
+add brm cards
+conform better to ootb card format
+determine cards whose names differ
 add maven autoformatter to project?
+handle missing files, exceptions
+handle non-numeric or missing numbers like number of cards (excel or icyveins)

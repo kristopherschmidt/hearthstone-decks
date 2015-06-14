@@ -6,17 +6,19 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * This class represents a certain amount of a card within the context of a
  * deck.
  */
-@JsonPropertyOrder({ "cardName", "numCards" })
+@JsonPropertyOrder({ "cardName", "numCards", "rarity", "mana" })
 public class DeckCard {
-	
+
 	private int numCards;
 	private String cardName;
 	private String set;
+	private String rarity;
+	private int mana;
 
 	public DeckCard() {
-		
+
 	}
-	
+
 	public DeckCard(String cardName, int numCards, String set) {
 		this.cardName = cardName;
 		this.numCards = numCards;
@@ -33,6 +35,14 @@ public class DeckCard {
 
 	public int getNumCards() {
 		return numCards;
+	}
+
+	public String getRarity() {
+		return rarity;
+	}
+
+	public int getMana() {
+		return mana;
 	}
 
 	public String toString() {
