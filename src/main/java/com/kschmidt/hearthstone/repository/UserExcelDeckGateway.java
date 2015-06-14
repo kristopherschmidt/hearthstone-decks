@@ -14,6 +14,12 @@ import org.slf4j.LoggerFactory;
 
 import com.kschmidt.hearthstone.domain.DeckCard;
 
+/**
+ * This parses version 4.3 of Google Sheet Hearthstone Master Collection
+ * https://
+ * docs.google.com/spreadsheets/d/1VdqhpiremPEiIKmS1YI8_8HkdYb57wb8cD4ZLnxtffU
+ * /edit#gid=357052481
+ */
 public class UserExcelDeckGateway {
 
 	private static final String[] SHEETS_WITH_CARDS = new String[] { "Neutral",

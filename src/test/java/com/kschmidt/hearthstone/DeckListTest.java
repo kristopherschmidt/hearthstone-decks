@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kschmidt.hearthstone.domain.DeckCard;
 
 public class DeckListTest {
 
@@ -37,6 +34,7 @@ public class DeckListTest {
 		}
 	}
 
+	@Ignore
 	@Test
 	public void testIt3() throws JsonParseException, JsonMappingException,
 			IOException {
