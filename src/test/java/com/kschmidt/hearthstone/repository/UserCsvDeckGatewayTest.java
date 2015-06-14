@@ -30,7 +30,7 @@ public class UserCsvDeckGatewayTest {
 		UserCsvDeckGateway gateway = new UserCsvDeckGateway();
 		Deck deck = gateway
 				.get("DruidAndNeutralCards.csv");
-		assertThat(deck.getSize(), equalTo(164));
+		assertThat(deck.getSize(), equalTo(197));
 	}
 
 }
