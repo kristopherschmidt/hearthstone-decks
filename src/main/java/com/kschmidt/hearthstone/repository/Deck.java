@@ -25,13 +25,15 @@ public class Deck {
 		}
 		return numCards;
 	}
-	
+
 	public int getSize() {
 		return getCards().size();
 	}
 
 	public void add(DeckCard deckCard) {
-		cards.add(deckCard);
+		if (deckCard.getNumCards() > 0) {
+			cards.add(deckCard);
+		}
 	}
 
 	public Optional<DeckCard> findCard(final String cardName) {

@@ -37,29 +37,6 @@ public class DeckListTest {
 		}
 	}
 
-	@Ignore
-	@Test
-	public void testIt2() throws IOException {
-		Document doc = Jsoup
-				.connect(
-						"http://www.icy-veins.com/hearthstone/legendary-malygos-dragon-warlock-brm-deck")
-				.get();
-		Element deckCardListTable = doc.select("table.deck_card_list").get(0);
-		Elements cards = deckCardListTable.select("td ul li");
-		Pattern p = Pattern.compile("(\\d)x *(.*?)( (GvG|BrM|Naxx))?");
-		for (int i = 0; i < cards.size(); ++i) {
-			Element card = cards.get(i);
-			Matcher m = p.matcher(card.text());
-			if (m.matches()) {
-				DeckCard deckCard = new DeckCard(m.group(2), Integer.parseInt(m
-						.group(1)), m.group(4));
-			} else {
-				throw new IllegalStateException("Text: '" + card.text()
-						+ "' did not parse as a card");
-			}
-		}
-	}
-
 	@Test
 	public void testIt3() throws JsonParseException, JsonMappingException,
 			IOException {
