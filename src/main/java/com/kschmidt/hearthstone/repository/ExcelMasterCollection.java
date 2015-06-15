@@ -70,8 +70,9 @@ public class ExcelMasterCollection {
 				continue;
 			}
 			String cardName = row.getCell(1).getStringCellValue();
+			Card card;
 			try {
-				Card card = cardRepository.findCard(cardName);
+				card = cardRepository.findCard(cardName);
 			} catch (Exception ex) {
 				throw new IllegalArgumentException("card: '" + cardName
 						+ "' from sheet: " + sheetName
@@ -82,7 +83,7 @@ public class ExcelMasterCollection {
 					row.getCell(4).getNumericCellValue()).intValue();
 			int numGoldCards = Double.valueOf(
 					row.getCell(5).getNumericCellValue()).intValue();
-			DeckCard deckCard = new DeckCard(cardName, numNormalCards
+			DeckCard deckCard = new DeckCard(card, numNormalCards
 					+ numGoldCards);
 			deck.add(deckCard);
 		}

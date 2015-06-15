@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Optional;
+import com.kschmidt.hearthstone.repository.Card;
 import com.kschmidt.hearthstone.repository.Deck;
 
 public class DeckDiffTest {
@@ -18,14 +19,15 @@ public class DeckDiffTest {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(DeckDiffTest.class);
 
+	private Card a = new Card("aid", "a", "Common");
 	private Deck desiredDeck = new Deck();
 	private Deck userDeck = new Deck();
 
 	@Test
 	public void testDeckRequires1AndUserHas1() {
-		desiredDeck.add(new DeckCard("a", 1));
+		desiredDeck.add(new DeckCard(a, 1));
 
-		userDeck.add(new DeckCard("a", 1));
+		userDeck.add(new DeckCard(a, 1));
 
 		DeckDiff deckDiff = new DeckDiff(desiredDeck, userDeck);
 		assertFalse(deckDiff.isMissingCards());
@@ -33,9 +35,9 @@ public class DeckDiffTest {
 
 	@Test
 	public void testDeckRequires2AndUserHas2() {
-		desiredDeck.add(new DeckCard("a", 2));
+		desiredDeck.add(new DeckCard(a, 2));
 
-		userDeck.add(new DeckCard("a", 2));
+		userDeck.add(new DeckCard(a, 2));
 
 		DeckDiff deckDiff = new DeckDiff(desiredDeck, userDeck);
 		assertFalse(deckDiff.isMissingCards());
@@ -43,7 +45,7 @@ public class DeckDiffTest {
 
 	@Test
 	public void testDeckRequires1ButUserHasNone() {
-		desiredDeck.add(new DeckCard("a", 1));
+		desiredDeck.add(new DeckCard(a, 1));
 
 		DeckDiff deckDiff = new DeckDiff(desiredDeck, userDeck);
 		Deck difference = deckDiff.getMissingCards();
@@ -56,7 +58,7 @@ public class DeckDiffTest {
 
 	@Test
 	public void testDeckRequires2ButUserHasNone() {
-		desiredDeck.add(new DeckCard("a", 2));
+		desiredDeck.add(new DeckCard(a, 2));
 
 		DeckDiff deckDiff = new DeckDiff(desiredDeck, userDeck);
 		Deck difference = deckDiff.getMissingCards();
@@ -70,9 +72,9 @@ public class DeckDiffTest {
 	@Test
 	public void testDeckRequires2ButUserHas1() {
 
-		desiredDeck.add(new DeckCard("a", 2));
+		desiredDeck.add(new DeckCard(a, 2));
 
-		userDeck.add(new DeckCard("a", 1));
+		userDeck.add(new DeckCard(a, 1));
 
 		DeckDiff deckDiff = new DeckDiff(desiredDeck, userDeck);
 		Deck difference = deckDiff.getMissingCards();
@@ -86,22 +88,22 @@ public class DeckDiffTest {
 	@Test
 	public void testDifferentRequirementsForMultipleCards() {
 
-		desiredDeck.add(new DeckCard("a", 1));
-		desiredDeck.add(new DeckCard("b", 2));
-		desiredDeck.add(new DeckCard("c", 1));
-		desiredDeck.add(new DeckCard("d", 2));
-		desiredDeck.add(new DeckCard("e", 2));
+		desiredDeck.add(new DeckCard(a, 1));
+		desiredDeck.add(new DeckCard(new Card("bid", "b", "Common"), 2));
+		desiredDeck.add(new DeckCard(new Card("cid", "c", "Rare"), 1));
+		desiredDeck.add(new DeckCard(new Card("did", "d", "Epic"), 2));
+		desiredDeck.add(new DeckCard(new Card("eid", "e", "Legendary"), 2));
 
 		// missing 1 card of a entirely
 		// has 1 of c (ok)
-		userDeck.add(new DeckCard("c", 1));
+		userDeck.add(new DeckCard(new Card("cid", "c", "Rare"), 1));
 		// has 2 of b (ok), but added to the collection in a different order
 		// than the
 		// desiredDeck
-		userDeck.add(new DeckCard("b", 2));
+		userDeck.add(new DeckCard(new Card("bid", "b", "Common"), 2));
 		// missing 2 cards of d entirely
 		// has an e but missing 1
-		userDeck.add(new DeckCard("e", 1));
+		userDeck.add(new DeckCard(new Card("eid", "e", "Legendary"), 1));
 
 		DeckDiff deckDiff = new DeckDiff(desiredDeck, userDeck);
 		Deck difference = deckDiff.getMissingCards();

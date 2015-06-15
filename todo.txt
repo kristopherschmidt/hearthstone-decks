@@ -1,6 +1,7 @@
 
 User stories:
 
+make deckcard use rich card objects?
 difference between "deck" (30 cards) and card collection. currently using interchangeably
 auto workaround spelling errors in excel sheet
 

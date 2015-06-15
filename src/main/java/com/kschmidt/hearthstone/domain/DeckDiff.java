@@ -30,7 +30,7 @@ public class DeckDiff {
 			boolean userIsMissingCards = (!correspondingUserCard.isPresent() || desiredCard
 					.getNumCards() > numMatchingUserCards);
 			if (userIsMissingCards) {
-				missingCards.add(new DeckCard(desiredCard.getCardName(),
+				missingCards.add(new DeckCard(desiredCard.getCard(),
 						desiredCard.getNumCards() - numMatchingUserCards));
 			}
 		}

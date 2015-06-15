@@ -41,8 +41,7 @@ public class IcyVeinsDeckRepository implements DeckRepository {
 			Matcher m = p.matcher(cardElement.text());
 			if (m.matches()) {
 				Card card = cardRepository.findCard(m.group(2));
-			
-				DeckCard deckCard = new DeckCard(m.group(2), Integer.parseInt(m
+				DeckCard deckCard = new DeckCard(card, Integer.parseInt(m
 						.group(1)));
 				deck.add(deckCard);
 			} else {

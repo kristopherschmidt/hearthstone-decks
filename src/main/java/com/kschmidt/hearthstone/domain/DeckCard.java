@@ -1,21 +1,27 @@
 package com.kschmidt.hearthstone.domain;
 
+import com.kschmidt.hearthstone.repository.Card;
+
 /**
  * This class represents a certain amount of a card within the context of a
  * deck.
  */
 public class DeckCard {
 
+	private Card card;
 	private int numCards;
-	private String cardName;
 
-	public DeckCard(String cardName, int numCards) {
-		this.cardName = cardName;
+	public DeckCard(Card card, int numCards) {
+		this.card = card;
 		this.numCards = numCards;
 	}
 
+	public Card getCard() {
+		return card;
+	}
+
 	public String getCardName() {
-		return cardName;
+		return card.getName();
 	}
 
 	public int getNumCards() {
@@ -26,7 +32,7 @@ public class DeckCard {
 		StringBuilder toString = new StringBuilder();
 		toString.append(numCards);
 		toString.append(" ");
-		toString.append(cardName);
+		toString.append(getCardName());
 		return toString.toString();
 	}
 
