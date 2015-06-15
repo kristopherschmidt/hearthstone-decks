@@ -8,6 +8,7 @@ auto workaround spelling errors in excel sheet
 
 Tech debt:
 
+change throws of deckrepository from exception (make runtimeex)
 refactor ioexception to dataaccessexception
 add maven autoformatter to project?
 handle missing files, exceptions

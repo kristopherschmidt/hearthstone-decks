@@ -11,6 +11,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.kschmidt.hearthstone.domain.DeckCard;
 
+/**
+ * A Deck represents an arbitrary collection of Cards and the number of each
+ * Card (as represented by DeckCard)
+ */
 public class Deck {
 
 	private List<DeckCard> cards = new ArrayList<DeckCard>();

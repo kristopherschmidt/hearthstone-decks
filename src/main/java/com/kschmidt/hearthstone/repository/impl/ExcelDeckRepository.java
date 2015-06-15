@@ -1,4 +1,4 @@
-package com.kschmidt.hearthstone.repository;
+package com.kschmidt.hearthstone.repository.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kschmidt.hearthstone.domain.DeckCard;
+import com.kschmidt.hearthstone.repository.Card;
+import com.kschmidt.hearthstone.repository.CardRepository;
+import com.kschmidt.hearthstone.repository.Deck;
+import com.kschmidt.hearthstone.repository.DeckRepository;
 
 /**
  * This parses version 4.3 of Google Sheet Hearthstone Master Collection
@@ -20,7 +24,7 @@ import com.kschmidt.hearthstone.domain.DeckCard;
  * docs.google.com/spreadsheets/d/1VdqhpiremPEiIKmS1YI8_8HkdYb57wb8cD4ZLnxtffU
  * /edit#gid=357052481
  */
-public class ExcelMasterCollection {
+public class ExcelDeckRepository implements DeckRepository {
 
 	private static final String[] SHEETS_WITH_CARDS = new String[] { "Neutral",
 			"Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman",
@@ -28,15 +32,18 @@ public class ExcelMasterCollection {
 
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory
-			.getLogger(ExcelMasterCollection.class);
+			.getLogger(ExcelDeckRepository.class);
 
 	private CardRepository cardRepository;
-	private Deck deck;
 
-	public ExcelMasterCollection(String filename, CardRepository cardRepository)
-			throws InvalidFormatException, IOException {
+	public ExcelDeckRepository(CardRepository cardRepository) {
 		this.cardRepository = cardRepository;
-		deck = new Deck();
+
+	}
+
+	public Deck getDeck(String filename) throws InvalidFormatException,
+			IOException {
+		Deck deck = new Deck();
 		File file = new File(this.getClass().getClassLoader()
 				.getResource(filename).getFile());
 		Workbook workbook = new XSSFWorkbook(file);
@@ -45,9 +52,6 @@ public class ExcelMasterCollection {
 		} finally {
 			workbook.close();
 		}
-	}
-
-	public Deck getDeck() {
 		return deck;
 	}
 

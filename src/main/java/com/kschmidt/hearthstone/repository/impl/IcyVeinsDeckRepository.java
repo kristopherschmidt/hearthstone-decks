@@ -30,7 +30,7 @@ public class IcyVeinsDeckRepository implements DeckRepository {
 	}
 
 	@Override
-	public Deck get(String url) throws IOException {
+	public Deck getDeck(String url) throws IOException {
 		Deck deck = new Deck();
 		Document doc = Jsoup.connect(url).get();
 		Element deckCardListTable = doc.select("table.deck_card_list").get(0);
