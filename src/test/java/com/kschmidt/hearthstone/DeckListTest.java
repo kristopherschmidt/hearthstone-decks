@@ -34,7 +34,6 @@ public class DeckListTest {
 		}
 	}
 
-	@Ignore
 	@Test
 	public void testIt3() throws JsonParseException, JsonMappingException,
 			IOException {

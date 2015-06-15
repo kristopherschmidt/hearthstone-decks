@@ -1,4 +1,4 @@
-package com.kschmidt.hearthstone.repository;
+package com.kschmidt.hearthstone.repository.impl;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -7,12 +7,16 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+import com.kschmidt.hearthstone.repository.Deck;
+import com.kschmidt.hearthstone.repository.DeckRepository;
+
 public class IcyVeinsDeckGatewayTest {
 
 	@Test
 	public void test() throws IOException {
-		IcyVeinsDeckGateway gateway = new IcyVeinsDeckGateway();
-		Deck deck = gateway
+		DeckRepository icyVeins = new IcyVeinsDeckRepository(
+				new JSONCardRepository("AllSets.json"));
+		Deck deck = icyVeins
 				.get("http://www.icy-veins.com/hearthstone/legendary-druid-fast-brm-deck");
 		assertThat(deck.getNumCards(), equalTo(30));
 	}

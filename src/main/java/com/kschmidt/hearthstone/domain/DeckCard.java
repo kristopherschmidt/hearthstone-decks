@@ -8,20 +8,10 @@ public class DeckCard {
 
 	private int numCards;
 	private String cardName;
-	private String set;
-
-	public DeckCard() {
-
-	}
-
-	public DeckCard(String cardName, int numCards, String set) {
-		this.cardName = cardName;
-		this.numCards = numCards;
-		this.set = set;
-	}
 
 	public DeckCard(String cardName, int numCards) {
-		this(cardName, numCards, null);
+		this.cardName = cardName;
+		this.numCards = numCards;
 	}
 
 	public String getCardName() {
@@ -37,11 +27,6 @@ public class DeckCard {
 		toString.append(numCards);
 		toString.append(" ");
 		toString.append(cardName);
-		if (set != null) {
-			toString.append(" (");
-			toString.append(set);
-			toString.append(")");
-		}
 		return toString.toString();
 	}
 

@@ -2,7 +2,7 @@
 User stories:
 
 difference between "deck" (30 cards) and card collection. currently using interchangeably
-determine cards whose names differ
+auto workaround spelling errors in excel sheet
 
 
 Tech debt:

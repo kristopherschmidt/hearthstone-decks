@@ -9,20 +9,27 @@ import org.slf4j.LoggerFactory;
 
 import com.kschmidt.hearthstone.domain.DeckDiff;
 import com.kschmidt.hearthstone.repository.Deck;
-import com.kschmidt.hearthstone.repository.IcyVeinsDeckGateway;
-import com.kschmidt.hearthstone.repository.UserExcelDeckGateway;
+import com.kschmidt.hearthstone.repository.DeckRepository;
+import com.kschmidt.hearthstone.repository.ExcelMasterCollection;
+import com.kschmidt.hearthstone.repository.impl.IcyVeinsDeckRepository;
+import com.kschmidt.hearthstone.repository.impl.JSONCardRepository;
 
 public class IntegrationTest {
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(IntegrationTest.class);
 
-	private IcyVeinsDeckGateway icyVeinsGateway = new IcyVeinsDeckGateway();
-	private UserExcelDeckGateway userCsvGateway = new UserExcelDeckGateway();
+	private DeckRepository icyVeins;
+	private ExcelMasterCollection masterCollection;
 	private Deck userDeck;
 
 	public IntegrationTest() throws InvalidFormatException, IOException {
-		userDeck = userCsvGateway.get("HearthstoneMasterCollection.xlsx");
+		icyVeins = new IcyVeinsDeckRepository(new JSONCardRepository(
+				"AllSets.json"));
+		masterCollection = new ExcelMasterCollection(
+				"HearthstoneMasterCollection.xlsx", new JSONCardRepository(
+						"AllSets.json"));
+		userDeck = masterCollection.getDeck();
 	}
 
 	@Test
@@ -36,7 +43,7 @@ public class IntegrationTest {
 	}
 
 	private void diffAgainst(String url) throws IOException {
-		Deck desiredDeck = icyVeinsGateway.get(url);
+		Deck desiredDeck = icyVeins.get(url);
 		DeckDiff deckDiff = new DeckDiff(desiredDeck, userDeck);
 		Deck missing = deckDiff.getMissingCards();
 		LOG.debug(missing.toString());

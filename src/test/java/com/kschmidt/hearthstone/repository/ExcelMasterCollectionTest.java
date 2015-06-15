@@ -14,19 +14,22 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Optional;
 import com.kschmidt.hearthstone.domain.DeckCard;
+import com.kschmidt.hearthstone.repository.impl.JSONCardRepository;
 
-public class UserExcelDeckGatewayTest {
+public class ExcelMasterCollectionTest {
 
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory
-			.getLogger(UserExcelDeckGatewayTest.class);
+			.getLogger(ExcelMasterCollectionTest.class);
 
 	private Deck deck;
 
 	@Test
-	public void testReadExcel() throws IOException, InvalidFormatException {
-		UserExcelDeckGateway gateway = new UserExcelDeckGateway();
-		deck = gateway.get("HearthstoneMasterCollection.xlsx");
+	public void testGetDeck() throws IOException, InvalidFormatException {
+		ExcelMasterCollection masterCollection = new ExcelMasterCollection(
+				"HearthstoneMasterCollection.xlsx", new JSONCardRepository(
+						"AllSets.json"));
+		deck = masterCollection.getDeck();
 
 		// check for a card that shouldn't be present
 		Optional<DeckCard> card = deck.findCard("Millhouse Manastorm");

@@ -20,7 +20,7 @@ import com.kschmidt.hearthstone.domain.DeckCard;
  * docs.google.com/spreadsheets/d/1VdqhpiremPEiIKmS1YI8_8HkdYb57wb8cD4ZLnxtffU
  * /edit#gid=357052481
  */
-public class UserExcelDeckGateway {
+public class ExcelMasterCollection {
 
 	private static final String[] SHEETS_WITH_CARDS = new String[] { "Neutral",
 			"Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman",
@@ -28,11 +28,15 @@ public class UserExcelDeckGateway {
 
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory
-			.getLogger(UserExcelDeckGateway.class);
+			.getLogger(ExcelMasterCollection.class);
 
-	public Deck get(String filename) throws InvalidFormatException, IOException {
-		Deck deck = new Deck();
+	private CardRepository cardRepository;
+	private Deck deck;
 
+	public ExcelMasterCollection(String filename, CardRepository cardRepository)
+			throws InvalidFormatException, IOException {
+		this.cardRepository = cardRepository;
+		deck = new Deck();
 		File file = new File(this.getClass().getClassLoader()
 				.getResource(filename).getFile());
 		Workbook workbook = new XSSFWorkbook(file);
@@ -41,6 +45,9 @@ public class UserExcelDeckGateway {
 		} finally {
 			workbook.close();
 		}
+	}
+
+	public Deck getDeck() {
 		return deck;
 	}
 
@@ -52,16 +59,25 @@ public class UserExcelDeckGateway {
 
 	private void addCardsFromSheet(String sheetName, Deck deck,
 			Workbook workbook) {
-		Sheet neutral = workbook.getSheet(sheetName);
-		Iterator<Row> rowIterator = neutral.rowIterator();
+		Sheet sheet = workbook.getSheet(sheetName);
+		Iterator<Row> rowIterator = sheet.rowIterator();
 		// skip header row
 		rowIterator.next();
 		while (rowIterator.hasNext()) {
 			Row row = rowIterator.next();
-			if (row.getCell(1) == null) {
+			if (row.getCell(1) == null
+					|| "".equals(row.getCell(1).getStringCellValue())) {
 				continue;
 			}
 			String cardName = row.getCell(1).getStringCellValue();
+			try {
+				Card card = cardRepository.findCard(cardName);
+			} catch (Exception ex) {
+				throw new IllegalArgumentException("card: '" + cardName
+						+ "' from sheet: " + sheetName
+						+ " does not exist in repository");
+			}
+
 			int numNormalCards = Double.valueOf(
 					row.getCell(4).getNumericCellValue()).intValue();
 			int numGoldCards = Double.valueOf(
@@ -71,5 +87,4 @@ public class UserExcelDeckGateway {
 			deck.add(deckCard);
 		}
 	}
-
 }
