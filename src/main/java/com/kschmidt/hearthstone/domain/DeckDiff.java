@@ -5,21 +5,27 @@ import com.google.common.base.Optional;
 public class DeckDiff {
 
 	private Deck desiredDeck;
+	private Deck missingCards;
 	private Deck userDeck;
 
 	public DeckDiff(Deck desiredDeck, Deck userDeck) {
 		this.desiredDeck = desiredDeck;
 		this.userDeck = userDeck;
+		missingCards = calculateMissingCards();
 	}
 
 	public boolean isMissingCards() {
-		return !getMissingCards().getCards().isEmpty();
+		return !missingCards.getCards().isEmpty();
+	}
+
+	public Deck getMissingCards() {
+		return missingCards;
 	}
 
 	/**
 	 * @return a deck representing the missing cards
 	 */
-	public Deck getMissingCards() {
+	private Deck calculateMissingCards() {
 		Deck missingCards = new Deck();
 		for (DeckCard desiredCard : desiredDeck.getCards()) {
 			Optional<DeckCard> correspondingUserCard = userDeck
@@ -35,4 +41,19 @@ public class DeckDiff {
 		}
 		return missingCards;
 	}
+
+	/**
+	 * @return the amount of dust required to completely fill out the deck
+	 */
+	public int getRequiredDust() {
+		int requiredDust = 0;
+		if (isMissingCards()) {
+			for (DeckCard missingCard : missingCards.getCards()) {
+				requiredDust += missingCard.getNumCards()
+						* missingCard.getDustValue();
+			}
+		}
+		return requiredDust;
+	}
+
 }

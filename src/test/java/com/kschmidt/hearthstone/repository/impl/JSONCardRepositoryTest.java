@@ -13,6 +13,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.kschmidt.hearthstone.domain.Card;
+import com.kschmidt.hearthstone.domain.Rarity;
 import com.kschmidt.hearthstone.repository.CardRepository;
 import com.kschmidt.hearthstone.repository.impl.JSONCardRepository;
 
@@ -28,6 +29,6 @@ public class JSONCardRepositoryTest {
 
 		Card card = cardRepository.findCard("Deathwing");
 		assertNotNull(card);
-		assertThat(card.getRarity(), equalTo("Legendary"));
+		assertThat(card.getRarity(), equalTo(Rarity.Legendary));
 	}
 }

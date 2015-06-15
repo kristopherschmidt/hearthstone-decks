@@ -1,5 +1,8 @@
 package com.kschmidt.hearthstone;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.io.IOException;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -33,19 +36,28 @@ public class IntegrationTest {
 
 	@Test
 	public void test() throws Exception {
-		diffAgainst("http://www.icy-veins.com/hearthstone/legendary-druid-fast-brm-deck");
+		diffAgainst(
+				"http://www.icy-veins.com/hearthstone/legendary-druid-fast-brm-deck",
+				0);
 	}
 
 	@Test
 	public void test2() throws Exception {
-		diffAgainst("http://www.icy-veins.com/hearthstone/legendary-dragon-ramp-druid-brm-deck");
+		diffAgainst(
+				"http://www.icy-veins.com/hearthstone/legendary-dragon-ramp-druid-brm-deck",
+				2800);
 	}
 
-	private void diffAgainst(String url) throws Exception {
+	private void diffAgainst(String url, int expectedRequiredDust)
+			throws Exception {
 		Deck desiredDeck = icyVeins.getDeck(url);
 		DeckDiff deckDiff = new DeckDiff(desiredDeck, userDeck);
 		Deck missing = deckDiff.getMissingCards();
+		
 		LOG.debug(missing.toString());
+		LOG.debug("Required dust: " + deckDiff.getRequiredDust());
+		
+		assertThat(deckDiff.getRequiredDust(), equalTo(expectedRequiredDust));
 	}
 
 }

@@ -1,12 +1,18 @@
 package com.kschmidt.hearthstone.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Strings;
 
 public class Card {
 
+	@SuppressWarnings("unused")
+	private static final Logger LOG = LoggerFactory.getLogger(Card.class);
+
 	private String id;
 	private String name;
-	private String rarity;
+	private Rarity rarity;
 
 	public Card(String id, String name, String rarity) {
 		if (Strings.isNullOrEmpty(id)) {
@@ -19,7 +25,18 @@ public class Card {
 		}
 		this.id = id;
 		this.name = name;
-		this.rarity = rarity;
+		if (rarity != null) {
+			try {
+				this.rarity = Rarity.valueOf(rarity);
+			} catch (IllegalArgumentException ex) {
+				LOG.error("Unknown card rarity: '" + rarity + "' for card: "
+						+ name, ex);
+			}
+		}
+	}
+
+	public int getDustValue() {
+		return rarity.getDustValue();
 	}
 
 	public String getId() {
@@ -30,7 +47,7 @@ public class Card {
 		return name;
 	}
 
-	public String getRarity() {
+	public Rarity getRarity() {
 		return rarity;
 	}
 

@@ -1,6 +1,5 @@
 package com.kschmidt.hearthstone.domain;
 
-
 /**
  * This class represents a certain amount of a card within the context of a
  * deck.
@@ -23,8 +22,16 @@ public class DeckCard {
 		return card.getName();
 	}
 
+	public int getDustValue() {
+		return card.getDustValue();
+	}
+
 	public int getNumCards() {
 		return numCards;
+	}
+
+	public Rarity getRarity() {
+		return card.getRarity();
 	}
 
 	public String toString() {
