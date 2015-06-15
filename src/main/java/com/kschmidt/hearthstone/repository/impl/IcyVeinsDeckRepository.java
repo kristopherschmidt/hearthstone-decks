@@ -11,10 +11,10 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.kschmidt.hearthstone.domain.Card;
+import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.domain.DeckCard;
-import com.kschmidt.hearthstone.repository.Card;
 import com.kschmidt.hearthstone.repository.CardRepository;
-import com.kschmidt.hearthstone.repository.Deck;
 import com.kschmidt.hearthstone.repository.DeckRepository;
 
 public class IcyVeinsDeckRepository implements DeckRepository {

@@ -1,4 +1,4 @@
-package com.kschmidt.hearthstone.repository;
+package com.kschmidt.hearthstone.repository.impl;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Optional;
+import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.domain.DeckCard;
 import com.kschmidt.hearthstone.repository.impl.ExcelDeckRepository;
 import com.kschmidt.hearthstone.repository.impl.JSONCardRepository;

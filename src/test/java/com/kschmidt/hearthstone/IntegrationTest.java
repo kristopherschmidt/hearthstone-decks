@@ -7,8 +7,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.domain.DeckDiff;
-import com.kschmidt.hearthstone.repository.Deck;
 import com.kschmidt.hearthstone.repository.DeckRepository;
 import com.kschmidt.hearthstone.repository.impl.ExcelDeckRepository;
 import com.kschmidt.hearthstone.repository.impl.IcyVeinsDeckRepository;

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import com.kschmidt.hearthstone.repository.Card;
+import com.kschmidt.hearthstone.domain.Card;
 import com.kschmidt.hearthstone.repository.CardRepository;
 
 public class JSONCardRepository implements CardRepository {

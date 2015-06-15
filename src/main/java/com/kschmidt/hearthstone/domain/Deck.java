@@ -1,4 +1,4 @@
-package com.kschmidt.hearthstone.repository;
+package com.kschmidt.hearthstone.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,6 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.kschmidt.hearthstone.domain.DeckCard;
 
 /**
  * A Deck represents an arbitrary collection of Cards and the number of each

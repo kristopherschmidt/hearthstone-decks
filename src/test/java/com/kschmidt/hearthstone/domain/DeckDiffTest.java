@@ -10,8 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Optional;
-import com.kschmidt.hearthstone.repository.Card;
-import com.kschmidt.hearthstone.repository.Deck;
 
 public class DeckDiffTest {
 

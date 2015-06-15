@@ -5,7 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
-import com.kschmidt.hearthstone.repository.Deck;
+import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.repository.DeckRepository;
 
 public class IcyVeinsDeckGatewayTest {

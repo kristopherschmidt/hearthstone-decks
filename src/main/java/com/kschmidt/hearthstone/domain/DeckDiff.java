@@ -1,7 +1,6 @@
 package com.kschmidt.hearthstone.domain;
 
 import com.google.common.base.Optional;
-import com.kschmidt.hearthstone.repository.Deck;
 
 public class DeckDiff {
 

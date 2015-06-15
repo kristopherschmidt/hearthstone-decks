@@ -1,6 +1,5 @@
 package com.kschmidt.hearthstone.domain;
 
-import com.kschmidt.hearthstone.repository.Card;
 
 /**
  * This class represents a certain amount of a card within the context of a

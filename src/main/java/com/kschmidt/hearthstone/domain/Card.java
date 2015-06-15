@@ -1,4 +1,4 @@
-package com.kschmidt.hearthstone.repository;
+package com.kschmidt.hearthstone.domain;
 
 import com.google.common.base.Strings;
 
