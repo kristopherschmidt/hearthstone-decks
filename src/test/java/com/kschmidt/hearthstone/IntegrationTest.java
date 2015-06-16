@@ -17,7 +17,6 @@ import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.domain.DeckCard;
 import com.kschmidt.hearthstone.domain.DeckDiff;
 import com.kschmidt.hearthstone.repository.CardRepository;
-import com.kschmidt.hearthstone.repository.DeckRepository;
 import com.kschmidt.hearthstone.repository.impl.ExcelDeckRepository;
 import com.kschmidt.hearthstone.repository.impl.IcyVeinsDeckRepository;
 import com.kschmidt.hearthstone.repository.impl.JSONCardRepository;
@@ -27,7 +26,7 @@ public class IntegrationTest {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(IntegrationTest.class);
 
-	private static DeckRepository icyVeins;
+	private static IcyVeinsDeckRepository icyVeins;
 	private static ExcelDeckRepository masterCollection;
 	private static Deck userDeck;
 
@@ -44,14 +43,14 @@ public class IntegrationTest {
 	public void test1() throws Exception {
 		diffAgainst(
 				"http://www.icy-veins.com/hearthstone/legendary-druid-fast-brm-deck",
-				0, 6840);
+				0, 11180);
 	}
 
 	@Test
 	public void test2() throws Exception {
 		diffAgainst(
 				"http://www.icy-veins.com/hearthstone/legendary-dragon-ramp-druid-brm-deck",
-				2800, 4560);
+				2800, 8160);
 	}
 
 	@Test

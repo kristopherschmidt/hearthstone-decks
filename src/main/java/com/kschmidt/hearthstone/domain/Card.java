@@ -7,7 +7,6 @@ import com.google.common.base.Strings;
 
 public class Card {
 
-	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(Card.class);
 
 	private String id;

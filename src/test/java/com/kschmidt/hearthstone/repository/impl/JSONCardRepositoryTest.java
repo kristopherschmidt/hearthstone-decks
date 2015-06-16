@@ -15,12 +15,11 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.kschmidt.hearthstone.domain.Card;
 import com.kschmidt.hearthstone.domain.Rarity;
 import com.kschmidt.hearthstone.repository.CardRepository;
-import com.kschmidt.hearthstone.repository.impl.JSONCardRepository;
 
 public class JSONCardRepositoryTest {
 
 	@Test
-	public void test() throws JsonParseException, JsonMappingException,
+	public void testFindCard() throws JsonParseException, JsonMappingException,
 			IOException {
 
 		CardRepository cardRepository = new JSONCardRepository("AllSets.json");

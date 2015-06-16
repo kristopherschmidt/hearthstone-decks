@@ -1,6 +1,7 @@
 
 User stories:
 
+capture deck name
 difference between "deck" (30 cards) and card collection. currently using interchangeably
 eliminate deckcard as a concept and make it internal to deck or cardcollection
 auto workaround spelling errors in excel sheet

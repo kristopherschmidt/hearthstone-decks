@@ -48,7 +48,7 @@ public class DeckDiffTest {
 		DeckDiff deckDiff = new DeckDiff(desiredDeck, userDeck);
 		Deck difference = deckDiff.getMissingCards();
 
-		assertThat(difference.getSize(), equalTo(1));
+		assertThat(difference.getNumCards(), equalTo(1));
 		Optional<DeckCard> a = difference.findCard("a");
 		assertTrue(a.isPresent());
 		assertThat(a.get().getNumCards(), equalTo(1));
@@ -61,7 +61,7 @@ public class DeckDiffTest {
 		DeckDiff deckDiff = new DeckDiff(desiredDeck, userDeck);
 		Deck difference = deckDiff.getMissingCards();
 
-		assertThat(difference.getSize(), equalTo(1));
+		assertThat(difference.getNumCards(), equalTo(2));
 		Optional<DeckCard> a = difference.findCard("a");
 		assertTrue(a.isPresent());
 		assertThat(a.get().getNumCards(), equalTo(2));
@@ -77,7 +77,7 @@ public class DeckDiffTest {
 		DeckDiff deckDiff = new DeckDiff(desiredDeck, userDeck);
 		Deck difference = deckDiff.getMissingCards();
 
-		assertThat(difference.getSize(), equalTo(1));
+		assertThat(difference.getNumCards(), equalTo(1));
 		Optional<DeckCard> a = difference.findCard("a");
 		assertTrue(a.isPresent());
 		assertThat(a.get().getNumCards(), equalTo(1));
@@ -106,7 +106,7 @@ public class DeckDiffTest {
 		DeckDiff deckDiff = new DeckDiff(desiredDeck, userDeck);
 		Deck difference = deckDiff.getMissingCards();
 
-		assertThat(difference.getSize(), equalTo(3));
+		assertThat(difference.getNumCards(), equalTo(4));
 		Optional<DeckCard> a = difference.findCard("a");
 		assertTrue(a.isPresent());
 		assertThat(a.get().getNumCards(), equalTo(1));

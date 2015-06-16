@@ -1,6 +1,8 @@
 package com.kschmidt.hearthstone.repository.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,11 +17,9 @@ import com.kschmidt.hearthstone.domain.Card;
 import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.domain.DeckCard;
 import com.kschmidt.hearthstone.repository.CardRepository;
-import com.kschmidt.hearthstone.repository.DeckRepository;
 
-public class IcyVeinsDeckRepository implements DeckRepository {
+public class IcyVeinsDeckRepository {
 
-	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory
 			.getLogger(IcyVeinsDeckRepository.class);
 
@@ -29,7 +29,6 @@ public class IcyVeinsDeckRepository implements DeckRepository {
 		this.cardRepository = cardRepository;
 	}
 
-	@Override
 	public Deck getDeck(String url) throws IOException {
 		Deck deck = new Deck();
 		Document doc = Jsoup.connect(url).get();
@@ -50,6 +49,29 @@ public class IcyVeinsDeckRepository implements DeckRepository {
 			}
 		}
 		return deck;
+	}
+
+	public List<Deck> getDecks(String deckListUrl) throws IOException {
+		List<Deck> decks = new ArrayList<Deck>();
+		for (String deckUrl : getDeckUrls(deckListUrl)) {
+			decks.add(getDeck(deckUrl));
+		}
+		return decks;
+	}
+
+	List<String> getDeckUrls(String deckListUrl) throws IOException {
+		List<String> urls = new ArrayList<String>();
+		Document doc = Jsoup.connect(deckListUrl).get();
+		Elements deckRows = doc.select("table.deck_presentation tr");
+		for (Element deckRow : deckRows) {
+			Element link = deckRow.select("td.deck_presentation_name a")
+					.first();
+			if (link != null) {
+				// LOG.debug(link.text());
+				urls.add(link.attr("href"));
+			}
+		}
+		return urls;
 	}
 
 }
