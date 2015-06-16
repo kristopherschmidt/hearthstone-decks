@@ -20,6 +20,7 @@ import com.kschmidt.hearthstone.repository.CardRepository;
 
 public class IcyVeinsDeckRepository {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory
 			.getLogger(IcyVeinsDeckRepository.class);
 
@@ -30,7 +31,7 @@ public class IcyVeinsDeckRepository {
 	}
 
 	public Deck getDeck(String url) throws IOException {
-		Deck deck = new Deck();
+		Deck deck = new Deck(url);
 		Document doc = Jsoup.connect(url).get();
 		Element deckCardListTable = doc.select("table.deck_card_list").get(0);
 		Elements cardElements = deckCardListTable.select("td ul li");

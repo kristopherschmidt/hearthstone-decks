@@ -33,6 +33,11 @@ public class JSONCardRepository implements CardRepository {
 			for (Map<String, String> cardData : cardsInSet) {
 				if (Arrays.asList(new String[] { "Minion", "Spell", "Weapon" })
 						.contains(cardData.get("type"))) {
+					//skip anything with no rarity; these are NPC cards or
+					//choice cards that can't appear in user decks
+					if (cardData.get("rarity") == null) {
+						continue;
+					}
 					Card card = new Card(cardData.get("id"),
 							cardData.get("name"), cardData.get("rarity"));
 					cards.add(card);

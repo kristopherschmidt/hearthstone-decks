@@ -17,9 +17,18 @@ import com.google.common.collect.Iterables;
 public class Deck {
 
 	private List<DeckCard> cards = new ArrayList<DeckCard>();
+	private String name;
+
+	public Deck(String name) {
+		this.name = name;
+	}
 
 	public List<DeckCard> getCards() {
 		return ImmutableList.copyOf(cards);
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public int getNumCards() {
@@ -50,8 +59,8 @@ public class Deck {
 	}
 
 	public String toString() {
-		return MoreObjects.toStringHelper(getClass()).add("cards", cards)
-				.toString();
+		return MoreObjects.toStringHelper(getClass()).add("name", name)
+				.add("cards", cards).toString();
 
 	}
 

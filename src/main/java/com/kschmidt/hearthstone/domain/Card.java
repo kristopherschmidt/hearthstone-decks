@@ -35,7 +35,13 @@ public class Card {
 	}
 
 	public int getDustValue() {
-		return rarity.getDustValue();
+		if (rarity != null) {
+			return rarity.getDustValue();
+		} else {
+			throw new IllegalStateException(
+					"Tried to get dust value of card with no rarity: " + id
+							+ "/" + name);
+		}
 	}
 
 	public String getId() {
@@ -48,6 +54,10 @@ public class Card {
 
 	public Rarity getRarity() {
 		return rarity;
+	}
+
+	public String toString() {
+		return name;
 	}
 
 }

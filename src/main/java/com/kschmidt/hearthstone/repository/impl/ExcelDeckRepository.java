@@ -43,7 +43,7 @@ public class ExcelDeckRepository implements DeckRepository {
 
 	public Deck getDeck(String filename) throws InvalidFormatException,
 			IOException {
-		Deck deck = new Deck();
+		Deck deck = new Deck(filename);
 		File file = new File(this.getClass().getClassLoader()
 				.getResource(filename).getFile());
 		Workbook workbook = new XSSFWorkbook(file);

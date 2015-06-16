@@ -18,8 +18,8 @@ public class DeckDiffTest {
 			.getLogger(DeckDiffTest.class);
 
 	private Card a = new Card("aid", "a", "Common");
-	private Deck desiredDeck = new Deck();
-	private Deck userDeck = new Deck();
+	private Deck desiredDeck = new Deck("desiredDeck");
+	private Deck userDeck = new Deck("userDeck");
 
 	@Test
 	public void testDeckRequires1AndUserHas1() {

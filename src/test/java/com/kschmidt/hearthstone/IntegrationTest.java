@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.junit.BeforeClass;
@@ -14,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.kschmidt.hearthstone.domain.Deck;
-import com.kschmidt.hearthstone.domain.DeckCard;
 import com.kschmidt.hearthstone.domain.DeckDiff;
 import com.kschmidt.hearthstone.repository.CardRepository;
 import com.kschmidt.hearthstone.repository.impl.ExcelDeckRepository;
@@ -60,19 +60,33 @@ public class IntegrationTest {
 				800, 6300);
 	}
 
+	@Test
+	public void testDiffAllDruidDecks() throws Exception {
+		List<Deck> druidDecks = icyVeins
+				.getDecks("http://www.icy-veins.com/hearthstone/druid-decks");
+		for (Deck deck : druidDecks) {
+			DeckDiff deckDiff = new DeckDiff(deck, userDeck);
+			Deck missing = deckDiff.getMissingCards();
+			LOG.debug(deck.getCards().toString());
+			LOG.debug(missing.toString());
+			LOG.debug("Required dust: " + deckDiff.getRequiredDust());
+			LOG.debug("Deck dust value: " + deck.getDustValue());
+			double percentComplete = (deck.getDustValue() - deckDiff
+					.getRequiredDust()) / deck.getDustValue() * 100d;
+			LOG.debug("Percent complete: " + percentComplete);
+		}
+	}
+
 	private void diffAgainst(String url, int expectedRequiredDust,
 			int expectedFullDust) throws Exception {
 		Deck desiredDeck = icyVeins.getDeck(url);
 		DeckDiff deckDiff = new DeckDiff(desiredDeck, userDeck);
 		Deck missing = deckDiff.getMissingCards();
 
-		LOG.debug(url);
-		LOG.debug(missing.toString());
-		LOG.debug("Required dust: " + deckDiff.getRequiredDust());
-
-		for (DeckCard card : desiredDeck.getCards()) {
-			LOG.debug(card.toString() + ": " + card.getDustValue());
-		}
+		/**
+		 * LOG.debug(url); LOG.debug(missing.toString());
+		 * LOG.debug("Required dust: " + deckDiff.getRequiredDust());
+		 */
 
 		assertThat(deckDiff.getRequiredDust(), equalTo(expectedRequiredDust));
 		assertThat(desiredDeck.getDustValue(), equalTo(expectedFullDust));

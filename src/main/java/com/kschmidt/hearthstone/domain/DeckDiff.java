@@ -26,7 +26,8 @@ public class DeckDiff {
 	 * @return a deck representing the missing cards
 	 */
 	private Deck calculateMissingCards() {
-		Deck missingCards = new Deck();
+		Deck missingCards = new Deck("User cards missing from '"
+				+ desiredDeck.getName() + "'");
 		for (DeckCard desiredCard : desiredDeck.getCards()) {
 			Optional<DeckCard> correspondingUserCard = userDeck
 					.findCard(desiredCard.getCardName());
