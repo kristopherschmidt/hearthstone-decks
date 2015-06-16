@@ -44,10 +44,22 @@ public class DeckDiff {
 	}
 
 	/**
+	 * @return dust value of the desired deck
+	 */
+	public int getFullDustValue() {
+		return desiredDeck.getDustValue();
+	}
+
+	/**
 	 * @return the amount of dust required to completely fill out the deck
 	 */
 	public int getRequiredDust() {
 		return missingCards.getDustValue();
+	}
+
+	public double getPercentComplete() {
+		return (getFullDustValue() - getRequiredDust())
+				/ (double) getFullDustValue() * 100;
 	}
 
 }

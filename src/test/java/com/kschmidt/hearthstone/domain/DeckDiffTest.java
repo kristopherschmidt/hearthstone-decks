@@ -88,20 +88,20 @@ public class DeckDiffTest {
 
 		desiredDeck.add(new DeckCard(a, 1));
 		desiredDeck.add(new DeckCard(new Card("bid", "b", "Common"), 2));
-		desiredDeck.add(new DeckCard(new Card("cid", "c", "Rare"), 1));
+		desiredDeck.add(new DeckCard(new Card("cid", "c", "Legendary"), 1));
 		desiredDeck.add(new DeckCard(new Card("did", "d", "Epic"), 2));
-		desiredDeck.add(new DeckCard(new Card("eid", "e", "Legendary"), 2));
+		desiredDeck.add(new DeckCard(new Card("eid", "e", "Rare"), 2));
 
 		// missing 1 card of a entirely
 		// has 1 of c (ok)
-		userDeck.add(new DeckCard(new Card("cid", "c", "Rare"), 1));
+		userDeck.add(new DeckCard(new Card("cid", "c", "Legendary"), 1));
 		// has 2 of b (ok), but added to the collection in a different order
 		// than the
 		// desiredDeck
 		userDeck.add(new DeckCard(new Card("bid", "b", "Common"), 2));
 		// missing 2 cards of d entirely
 		// has an e but missing 1
-		userDeck.add(new DeckCard(new Card("eid", "e", "Legendary"), 1));
+		userDeck.add(new DeckCard(new Card("eid", "e", "Rare"), 1));
 
 		DeckDiff deckDiff = new DeckDiff(desiredDeck, userDeck);
 		Deck difference = deckDiff.getMissingCards();
@@ -116,5 +116,29 @@ public class DeckDiffTest {
 		Optional<DeckCard> e = difference.findCard("e");
 		assertTrue(e.isPresent());
 		assertThat(e.get().getNumCards(), equalTo(1));
+	}
+
+	@Test
+	public void testFullDustValue() {
+
+		desiredDeck.add(new DeckCard(a, 1));
+		desiredDeck.add(new DeckCard(new Card("eid", "e", "Rare"), 2));
+
+		userDeck.add(new DeckCard(new Card("eid", "e", "Rare"), 1));
+
+		DeckDiff deckDiff = new DeckDiff(desiredDeck, userDeck);
+		assertThat(deckDiff.getFullDustValue(), equalTo(240));
+	}
+
+	@Test
+	public void testPercentComplete() {
+
+		desiredDeck.add(new DeckCard(a, 1));
+		desiredDeck.add(new DeckCard(new Card("eid", "e", "Rare"), 2));
+
+		userDeck.add(new DeckCard(new Card("eid", "e", "Rare"), 1));
+
+		DeckDiff deckDiff = new DeckDiff(desiredDeck, userDeck);
+		assertThat(deckDiff.getPercentComplete(), equalTo(100d / 240 * 100));
 	}
 }

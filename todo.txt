@@ -1,12 +1,17 @@
 
 User stories:
 
+single line / nicer output of deck diff
+averages of missing cards - what cards are most important to most decks
+sorting algorithm
+eliminate sucky decks - low cost, old seasons (by date), etc
+web enable
 capture deck name
 difference between "deck" (30 cards) and card collection. currently using interchangeably
 eliminate deckcard as a concept and make it internal to deck or cardcollection
 auto workaround spelling errors in excel sheet
 count or not count naxx + brm in full cost of deck (leaning toward counting - use of those cards is value)
-
+not possible to have more than 1 legendary
 
 
 Tech debt:
