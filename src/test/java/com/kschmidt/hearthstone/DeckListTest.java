@@ -16,12 +16,12 @@ public class DeckListTest {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(DeckListTest.class);
 
-	@Ignore
 	@Test
 	public void testIt() throws IOException {
 		Document doc = Jsoup.connect(
 				"http://www.icy-veins.com/hearthstone/warlock-decks").get();
 		Elements els = doc.select("table.deck_presentation tr");
+		//skip over the header row
 		for (int i = 1; i < els.size(); ++i) {
 			Element el = els.get(i);
 			LOG.debug(el.toString());

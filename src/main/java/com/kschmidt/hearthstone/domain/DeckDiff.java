@@ -46,14 +46,7 @@ public class DeckDiff {
 	 * @return the amount of dust required to completely fill out the deck
 	 */
 	public int getRequiredDust() {
-		int requiredDust = 0;
-		if (isMissingCards()) {
-			for (DeckCard missingCard : missingCards.getCards()) {
-				requiredDust += missingCard.getNumCards()
-						* missingCard.getDustValue();
-			}
-		}
-		return requiredDust;
+		return missingCards.getDustValue();
 	}
 
 }

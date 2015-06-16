@@ -55,4 +55,12 @@ public class Deck {
 
 	}
 
+	public int getDustValue() {
+		int dust = 0;
+		for (DeckCard card : cards) {
+			dust += card.getDustValue();
+		}
+		return dust;
+	}
+
 }

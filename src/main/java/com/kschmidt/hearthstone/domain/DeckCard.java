@@ -23,7 +23,7 @@ public class DeckCard {
 	}
 
 	public int getDustValue() {
-		return card.getDustValue();
+		return card.getDustValue() * numCards;
 	}
 
 	public int getNumCards() {

@@ -1,9 +1,11 @@
 
 User stories:
 
-make deckcard use rich card objects?
 difference between "deck" (30 cards) and card collection. currently using interchangeably
+eliminate deckcard as a concept and make it internal to deck or cardcollection
 auto workaround spelling errors in excel sheet
+count or not count naxx + brm in full cost of deck (leaning toward counting - use of those cards is value)
+
 
 
 Tech debt:
