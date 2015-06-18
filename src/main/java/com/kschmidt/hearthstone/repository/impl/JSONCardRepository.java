@@ -24,7 +24,7 @@ public class JSONCardRepository implements CardRepository {
 	public JSONCardRepository(String filename) throws JsonParseException,
 			JsonMappingException, IOException {
 		File jsonCardFile = new File(this.getClass().getClassLoader()
-				.getResource("AllSets.json").getFile());
+				.getResource(filename).getFile());
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, List<Map<String, String>>> data = mapper.readValue(
 				jsonCardFile, Map.class);
@@ -33,8 +33,8 @@ public class JSONCardRepository implements CardRepository {
 			for (Map<String, String> cardData : cardsInSet) {
 				if (Arrays.asList(new String[] { "Minion", "Spell", "Weapon" })
 						.contains(cardData.get("type"))) {
-					//skip anything with no rarity; these are NPC cards or
-					//choice cards that can't appear in user decks
+					// skip anything with no rarity; these are NPC cards or
+					// choice cards that can't appear in user decks
 					if (cardData.get("rarity") == null) {
 						continue;
 					}

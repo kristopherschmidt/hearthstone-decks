@@ -66,8 +66,11 @@ public class IntegrationTest {
 	public void testDiffAllDruidDecks() throws Exception {
 		List<DeckDiff> diffs = new ArrayList<DeckDiff>();
 
+		//List<Deck> druidDecks = icyVeins
+		//		.getDecks("http://www.icy-veins.com/hearthstone/druid-decks");
+		
 		List<Deck> druidDecks = icyVeins
-				.getDecks("http://www.icy-veins.com/hearthstone/druid-decks");
+				.getDecks("http://www.icy-veins.com/hearthstone/hunter-decks");
 		for (Deck deck : druidDecks) {
 			DeckDiff deckDiff = new DeckDiff(deck, userDeck);
 			diffs.add(deckDiff);
