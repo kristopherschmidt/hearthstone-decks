@@ -12,24 +12,20 @@ import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.domain.DeckDiff;
 import com.kschmidt.hearthstone.repository.impl.IcyVeinsDeckRepository;
 
+@RestController
 public class DeckDiffResource {
 
 	@Autowired
-	private IcyVeinsDeckRepository icyVeins;
+	private IcyVeinsDeckRepository icyVeinsDeckRepository;
 
+	@Autowired
 	private Deck userDeck;
 
-	@RestController
-	@RequestMapping("/api")
-	public class LogsResource {
-
-		@RequestMapping(value = "/deckdiff", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-		public DeckDiff diff() throws IOException {
-			Deck desiredDeck = icyVeins
-					.getDeck("http://www.icy-veins.com/hearthstone/legendary-dragon-ramp-druid-brm-deck");
-			return new DeckDiff(desiredDeck, userDeck);
-		}
-
+	@RequestMapping(value = "/api/deckdiff", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public DeckDiff diff() throws IOException {
+		Deck desiredDeck = icyVeinsDeckRepository
+				.getDeck("http://www.icy-veins.com/hearthstone/legendary-dragon-ramp-druid-brm-deck");
+		return new DeckDiff(desiredDeck, userDeck);
 	}
 
 }
