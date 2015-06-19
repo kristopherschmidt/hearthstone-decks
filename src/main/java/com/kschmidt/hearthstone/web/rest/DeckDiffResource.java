@@ -42,4 +42,10 @@ public class DeckDiffResource {
 		return diffs;
 	}
 
+	@RequestMapping(value = "/api/deckdiffall", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<DeckDiff> diffAllDecks() throws IOException {
+		return DeckDiff.diffDecks(userDeck,
+				icyVeinsDeckRepository.getAllDecks());
+	}
+
 }

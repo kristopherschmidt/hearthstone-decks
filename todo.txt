@@ -1,11 +1,12 @@
 
 User stories:
 
-deckdiff name
+allow clicking on deck name to show details (or at least turn into url)
 allow table to be manually sortable
 give user ability to put in URL for decklist
 only pull 1st set of recent decks from pages
 loop through all pages and rank decks from different classes together
+user choice to diff 1 class or diff all
 bootstrap theme/style?
 missing cards hover
 averages of missing cards - what cards are most important to most decks
@@ -13,6 +14,7 @@ sorting algorithm
 eliminate sucky decks - low cost, old seasons (by date), etc
 make deck filtering manual
 capture deck name better, or url
+add support for hearthhead
 difference between "deck" (30 cards) and card collection. currently using interchangeably
 eliminate deckcard as a concept and make it internal to deck or cardcollection
 auto workaround spelling errors in excel sheet

@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,5 +76,12 @@ public class IcyVeinsDeckRepositoryTest {
 		for (Deck deck : decks) {
 			assertThat(deck.getNumCards(), equalTo(30));
 		}
+	}
+
+	/** this test runs a long time. */
+	@Ignore
+	@Test
+	public void testGetAllDecks() throws IOException {
+		List<Deck> decks = icyVeins.getAllDecks();
 	}
 }

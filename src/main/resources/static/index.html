@@ -19,6 +19,7 @@
   	<table class="table table-bordered table-striped">
   		<thead>
   			<tr>
+  				<th>Deck Name</th>
   				<th>Required Dust</th>
   				<th>Full Dust Value</th>
   				<th>Percent Complete</th>
@@ -28,6 +29,7 @@
   		</thead>
   		<tbody>
   			<tr ng-repeat="deckDiff in diffs | orderBy:'-rankingMetric'">
+  				<td><a href="{{ deckDiff.desiredDeckName }}" target="_blank">{{ deckDiff.desiredDeckName }}</a></td>
   				<td>{{ deckDiff.requiredDust }}</td>
   				<td>{{ deckDiff.fullDustValue }}</td>
   				<td>{{ deckDiff.percentComplete | number : 0 }}%</td>
@@ -45,8 +47,6 @@
   	</table>  
   	
   </div>	
-  
-  {{ diffs }}
   
   </body>
 </html>

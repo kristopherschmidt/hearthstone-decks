@@ -1,5 +1,8 @@
 package com.kschmidt.hearthstone.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.common.base.Optional;
 
 public class DeckDiff {
@@ -8,10 +11,23 @@ public class DeckDiff {
 	private Deck missingCards;
 	private Deck userDeck;
 
+	public static List<DeckDiff> diffDecks(Deck userDeck, List<Deck> decks) {
+		List<DeckDiff> diffs = new ArrayList<DeckDiff>();
+		for (Deck deck : decks) {
+			DeckDiff deckDiff = new DeckDiff(deck, userDeck);
+			diffs.add(deckDiff);
+		}
+		return diffs;
+	}
+
 	public DeckDiff(Deck desiredDeck, Deck userDeck) {
 		this.desiredDeck = desiredDeck;
 		this.userDeck = userDeck;
 		missingCards = calculateMissingCards();
+	}
+
+	public String getDesiredDeckName() {
+		return desiredDeck.getName();
 	}
 
 	public boolean isMissingCards() {
@@ -61,7 +77,7 @@ public class DeckDiff {
 		return (getFullDustValue() - getRequiredDust())
 				/ (double) getFullDustValue() * 100;
 	}
-	
+
 	public double getRankingMetric() {
 		int investedAmount = getFullDustValue() - getRequiredDust();
 		return investedAmount * getPercentComplete() / 100;

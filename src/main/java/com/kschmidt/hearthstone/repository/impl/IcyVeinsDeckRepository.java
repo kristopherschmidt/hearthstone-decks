@@ -12,6 +12,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 
 import com.kschmidt.hearthstone.domain.Card;
 import com.kschmidt.hearthstone.domain.Deck;
@@ -20,7 +21,6 @@ import com.kschmidt.hearthstone.repository.CardRepository;
 
 public class IcyVeinsDeckRepository {
 
-	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory
 			.getLogger(IcyVeinsDeckRepository.class);
 
@@ -52,6 +52,22 @@ public class IcyVeinsDeckRepository {
 		return deck;
 	}
 
+	public List<Deck> getAllDecks() throws IOException {
+		List<Deck> decks = new ArrayList<Deck>();
+		String deckListUrlPrefix = "http://www.icy-veins.com/hearthstone/";
+		String deckListUrlPostfix = "-decks";
+		String[] classes = new String[] { "druid", "hunter", "mage", "paladin",
+				"priest", "rogue", "shaman", "warlock", "warrior" };
+		for (int i = 0; i < classes.length; ++i) {
+			String deckListUrl = deckListUrlPrefix + classes[i]
+					+ deckListUrlPostfix;
+			LOG.debug("Fetching decks from: " + deckListUrl);
+			decks.addAll(getDecks(deckListUrl));
+		}
+		return decks;
+	}
+
+	@Cacheable("decks")
 	public List<Deck> getDecks(String deckListUrl) throws IOException {
 		List<Deck> decks = new ArrayList<Deck>();
 		for (String deckUrl : getDeckUrls(deckListUrl)) {
