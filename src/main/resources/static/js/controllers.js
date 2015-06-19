@@ -1,8 +1,6 @@
-var hearthstoneApp = angular.module('hearthstoneApp', []);
-
-hearthstoneApp.controller('IndexController', [ '$scope', function ($scope) {
-  $scope.phones = [
-    {'name': 'abc S',
-     'snippet': 'Fast just got faster with Nexus S.'}
-  ];
-}]);
+angular.module('hearthstoneApp', []).controller('IndexController', [ '$scope', '$http',
+		function($scope, $http) {
+			$http.get('/api/decklistdiff').success(function(data) {
+				$scope.diffs = data;
+			})
+		} ]);

@@ -70,16 +70,25 @@ public class IntegrationTest {
 		//		.getDecks("http://www.icy-veins.com/hearthstone/druid-decks");
 		
 		List<Deck> druidDecks = icyVeins
-				.getDecks("http://www.icy-veins.com/hearthstone/hunter-decks");
+				.getDecks("http://www.icy-veins.com/hearthstone/priest-decks");
 		for (Deck deck : druidDecks) {
 			DeckDiff deckDiff = new DeckDiff(deck, userDeck);
 			diffs.add(deckDiff);
 		}
 
+		/**
 		diffs.sort(new Comparator<DeckDiff>() {
 			public int compare(DeckDiff lhs, DeckDiff rhs) {
 				return Integer.valueOf(lhs.getRequiredDust()).compareTo(
 						rhs.getRequiredDust());
+			}
+		});
+		*/
+		
+		diffs.sort(new Comparator<DeckDiff>() {
+			public int compare(DeckDiff lhs, DeckDiff rhs) {
+				return Double.valueOf(lhs.getRankingMetric()).compareTo(
+						rhs.getRankingMetric());
 			}
 		});
 
@@ -88,6 +97,7 @@ public class IntegrationTest {
 			LOG.debug("Required dust: " + diff.getRequiredDust());
 			LOG.debug("Deck dust value: " + diff.getFullDustValue());
 			LOG.debug("Percent complete: " + diff.getPercentComplete());
+			LOG.debug("Ranking metric: " + diff.getRankingMetric());
 		}
 
 	}

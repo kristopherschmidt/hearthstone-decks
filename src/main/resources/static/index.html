@@ -2,22 +2,51 @@
 <html ng-app="hearthstoneApp">
 
   <head>
-    <title>My Angular App</title>
+    <title>Hearthstone Deck Comparison Tool</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
     <script src="js/controllers.js"></script>
+  
   </head>
   
   <body ng-controller="IndexController">
   
-  	Hi Angular
+  <div class="container">
   
-  <ul>
-    <li ng-repeat="phone in phones">
-      <span>{{phone.name}}</span>
-      <p>{{phone.snippet}}</p>
-    </li>
-  </ul>
+  	<table class="table table-bordered table-striped">
+  		<thead>
+  			<tr>
+  				<th>Required Dust</th>
+  				<th>Full Dust Value</th>
+  				<th>Percent Complete</th>
+  				<th>Ranking Metric</th>
+  				<th>Missing Cards</th>
+  			</tr>
+  		</thead>
+  		<tbody>
+  			<tr ng-repeat="deckDiff in diffs | orderBy:'-rankingMetric'">
+  				<td>{{ deckDiff.requiredDust }}</td>
+  				<td>{{ deckDiff.fullDustValue }}</td>
+  				<td>{{ deckDiff.percentComplete | number : 0 }}%</td>
+  				<td>{{ deckDiff.rankingMetric | number : 0 }}</td>
+  				<td>
+  		
+	  					<ul>
+	  						<li ng-repeat="card in deckDiff.missingCards.cards">
+	  							{{ card.numCards }}x {{ card.cardName }}</li>
+	  					</ul>
+
+  				</td>
+  			</tr>
+  		</tbody>
+  	</table>  
+  	
+  </div>	
   
+  {{ diffs }}
   
   </body>
 </html>

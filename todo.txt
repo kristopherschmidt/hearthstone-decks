@@ -1,21 +1,29 @@
 
 User stories:
 
-single line / nicer output of deck diff
+deckdiff name
+allow table to be manually sortable
+give user ability to put in URL for decklist
+only pull 1st set of recent decks from pages
+loop through all pages and rank decks from different classes together
+bootstrap theme/style?
+missing cards hover
 averages of missing cards - what cards are most important to most decks
 sorting algorithm
 eliminate sucky decks - low cost, old seasons (by date), etc
-web enable
-capture deck name
+make deck filtering manual
+capture deck name better, or url
 difference between "deck" (30 cards) and card collection. currently using interchangeably
 eliminate deckcard as a concept and make it internal to deck or cardcollection
 auto workaround spelling errors in excel sheet
-count or not count naxx + brm in full cost of deck (leaning toward counting - use of those cards is value)
 not possible to have more than 1 legendary
 
 
 Tech debt:
 
+DTO layer - the domain model is way too thick
+caching
+webjars
 REST exception handling
 change throws of deckrepository from exception (make runtimeex)
 refactor ioexception to dataaccessexception
