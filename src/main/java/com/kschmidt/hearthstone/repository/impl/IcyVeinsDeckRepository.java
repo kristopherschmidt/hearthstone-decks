@@ -71,6 +71,10 @@ public class IcyVeinsDeckRepository {
 	public List<Deck> getDecks(String deckListUrl) throws IOException {
 		List<Deck> decks = new ArrayList<Deck>();
 		for (String deckUrl : getDeckUrls(deckListUrl)) {
+			if (deckUrl.startsWith("/basic-") || deckUrl.contains("/season-")
+					|| deckUrl.endsWith("-mode")) {
+				continue;
+			}
 			decks.add(getDeck(deckUrl));
 		}
 		return decks;
