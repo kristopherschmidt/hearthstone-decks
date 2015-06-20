@@ -29,15 +29,15 @@ public class DiffAnalyzerIntegrationTest {
 
 	@Test
 	public void testIt() throws IOException {
-		List<DeckDiff> diffs = DeckDiff
-				.diffDecks(
-						userDeck,
-						icyVeinsDeckRepository.getAllDecks());
+		List<DeckDiff> diffs = DeckDiff.diffDecks(userDeck,
+				icyVeinsDeckRepository.getAllDecks());
 		LOG.debug(diffs.toString());
 		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
+		analyzer.filterByPercentComplete(70);
 		Deck allMissing = analyzer.getAllMissingCards();
 
 		LOG.debug(allMissing.sortByDustValue().toString());
+		LOG.debug(allMissing.sortByNumCards().toString());
 
 	}
 
