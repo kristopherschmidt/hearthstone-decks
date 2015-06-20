@@ -1,17 +1,16 @@
 
 User stories:
 
+averages of missing cards - what cards are most important to most decks
+search which decks a particular card is in
+give user ability to put in URL for decklist
+support hearthstone topdecks
 allow clicking on deck name to show details (or at least turn into url)
 allow table to be manually sortable
-give user ability to put in URL for decklist
-only pull 1st set of recent decks from pages
-loop through all pages and rank decks from different classes together
 user choice to diff 1 class or diff all
 bootstrap theme/style?
 missing cards hover
-averages of missing cards - what cards are most important to most decks
 sorting algorithm
-eliminate sucky decks - low cost, old seasons (by date), etc
 make deck filtering manual
 capture deck name better, or url
 add support for hearthhead
@@ -19,6 +18,7 @@ difference between "deck" (30 cards) and card collection. currently using interc
 eliminate deckcard as a concept and make it internal to deck or cardcollection
 auto workaround spelling errors in excel sheet
 not possible to have more than 1 legendary
+eliminate sucky decks - low cost, by date, etc (already eliminated decks specific to mode, season)
 
 
 Tech debt:
@@ -32,3 +32,4 @@ refactor ioexception to dataaccessexception
 add maven autoformatter to project?
 handle missing files, exceptions
 handle non-numeric or missing numbers like number of cards (excel or icyveins)
+rewrite deckdifftest using deckdiffbuilder

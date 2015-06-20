@@ -82,6 +82,6 @@ public class IcyVeinsDeckRepositoryTest {
 	@Ignore
 	@Test
 	public void testGetAllDecks() throws IOException {
-		List<Deck> decks = icyVeins.getAllDecks();
+		icyVeins.getAllDecks();
 	}
 }

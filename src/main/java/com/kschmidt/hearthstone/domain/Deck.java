@@ -1,6 +1,7 @@
 package com.kschmidt.hearthstone.domain;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import com.google.common.base.MoreObjects;
@@ -70,6 +71,26 @@ public class Deck {
 			dust += card.getDustValue();
 		}
 		return dust;
+	}
+
+	public List<DeckCard> sortByNumCards() {
+		List<DeckCard> cards = new ArrayList<DeckCard>(getCards());
+		cards.sort(new Comparator<DeckCard>() {
+			public int compare(DeckCard lhs, DeckCard rhs) {
+				return rhs.getNumCards() - lhs.getNumCards();
+			}
+		});
+		return cards;
+	}
+
+	public List<DeckCard> sortByDustValue() {
+		List<DeckCard> cards = new ArrayList<DeckCard>(getCards());
+		cards.sort(new Comparator<DeckCard>() {
+			public int compare(DeckCard lhs, DeckCard rhs) {
+				return rhs.getDustValue() - lhs.getDustValue();
+			}
+		});
+		return cards;
 	}
 
 }
