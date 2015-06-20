@@ -4,9 +4,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.junit.BeforeClass;
@@ -25,6 +22,7 @@ import com.kschmidt.hearthstone.repository.impl.JSONCardRepository;
 
 public class IntegrationTest {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory
 			.getLogger(IntegrationTest.class);
 
@@ -42,76 +40,30 @@ public class IntegrationTest {
 	}
 
 	@Test
-	public void test1() throws Exception {
+	public void testDiffAgainstDruidFastBRM() throws Exception {
 		diffAgainst(
 				"http://www.icy-veins.com/hearthstone/legendary-druid-fast-brm-deck",
 				0, 11180);
 	}
 
 	@Test
-	public void test2() throws Exception {
+	public void testDiffAgainstLegendaryDragonRamp() throws Exception {
 		diffAgainst(
 				"http://www.icy-veins.com/hearthstone/legendary-dragon-ramp-druid-brm-deck",
 				2800, 8160);
 	}
 
 	@Test
-	public void test3() throws Exception {
+	public void testDiffAgainstMidBudgetRampDruid() throws Exception {
 		diffAgainst(
 				"http://www.icy-veins.com/hearthstone/mid-budget-ramp-druid-brm-deck",
 				800, 6300);
-	}
-
-	@Test
-	public void testDiffAllDruidDecks() throws Exception {
-		List<DeckDiff> diffs = new ArrayList<DeckDiff>();
-
-		//List<Deck> druidDecks = icyVeins
-		//		.getDecks("http://www.icy-veins.com/hearthstone/druid-decks");
-		
-		List<Deck> druidDecks = icyVeins
-				.getDecks("http://www.icy-veins.com/hearthstone/priest-decks");
-		for (Deck deck : druidDecks) {
-			DeckDiff deckDiff = new DeckDiff(deck, userDeck);
-			diffs.add(deckDiff);
-		}
-
-		/**
-		diffs.sort(new Comparator<DeckDiff>() {
-			public int compare(DeckDiff lhs, DeckDiff rhs) {
-				return Integer.valueOf(lhs.getRequiredDust()).compareTo(
-						rhs.getRequiredDust());
-			}
-		});
-		*/
-		
-		diffs.sort(new Comparator<DeckDiff>() {
-			public int compare(DeckDiff lhs, DeckDiff rhs) {
-				return Double.valueOf(lhs.getRankingMetric()).compareTo(
-						rhs.getRankingMetric());
-			}
-		});
-
-		for (DeckDiff diff : diffs) {
-			LOG.debug(diff.getMissingCards().toString());
-			LOG.debug("Required dust: " + diff.getRequiredDust());
-			LOG.debug("Deck dust value: " + diff.getFullDustValue());
-			LOG.debug("Percent complete: " + diff.getPercentComplete());
-			LOG.debug("Ranking metric: " + diff.getRankingMetric());
-		}
-
 	}
 
 	private void diffAgainst(String url, int expectedRequiredDust,
 			int expectedFullDust) throws Exception {
 		Deck desiredDeck = icyVeins.getDeck(url);
 		DeckDiff deckDiff = new DeckDiff(desiredDeck, userDeck);
-		Deck missing = deckDiff.getMissingCards();
-
-		/**
-		 * LOG.debug(url); LOG.debug(missing.toString());
-		 * LOG.debug("Required dust: " + deckDiff.getRequiredDust());
-		 */
 
 		assertThat(deckDiff.getRequiredDust(), equalTo(expectedRequiredDust));
 		assertThat(desiredDeck.getDustValue(), equalTo(expectedFullDust));

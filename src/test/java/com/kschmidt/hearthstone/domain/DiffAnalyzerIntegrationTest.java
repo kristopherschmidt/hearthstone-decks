@@ -3,6 +3,7 @@ package com.kschmidt.hearthstone.domain;
 import java.io.IOException;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ public class DiffAnalyzerIntegrationTest {
 	@Autowired
 	private Deck userDeck;
 
+	@Ignore
 	@Test
 	public void testIt() throws IOException {
 		List<DeckDiff> diffs = DeckDiff.diffDecks(userDeck,

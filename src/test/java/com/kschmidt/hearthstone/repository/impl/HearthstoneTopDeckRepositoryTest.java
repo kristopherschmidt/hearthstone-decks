@@ -78,6 +78,7 @@ public class HearthstoneTopDeckRepositoryTest {
 		}
 	}
 
+	@Ignore
 	@Test
 	public void testGetAllDecks() throws Exception {
 		List<Deck> decks = topDeck.getAllDecks();

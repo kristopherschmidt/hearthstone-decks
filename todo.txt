@@ -23,6 +23,7 @@ eliminate sucky decks - low cost, by date, etc (already eliminated decks specifi
 
 Tech debt:
 
+slam decks into mongodb
 DTO layer - the domain model is way too thick
 caching
 webjars

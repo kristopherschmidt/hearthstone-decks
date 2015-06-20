@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.repository.impl.ExcelDeckRepository;
+import com.kschmidt.hearthstone.repository.impl.HearthstoneTopDeckRepository;
 import com.kschmidt.hearthstone.repository.impl.IcyVeinsDeckRepository;
 import com.kschmidt.hearthstone.repository.impl.JSONCardRepository;
 
@@ -22,6 +23,12 @@ public class RepositoryConfiguration {
 	public JSONCardRepository jsonCardRepository() throws JsonParseException,
 			JsonMappingException, IOException {
 		return new JSONCardRepository("AllSets.json");
+	}
+
+	@Bean
+	public HearthstoneTopDeckRepository hearthstoneTopDeckRepository()
+			throws JsonParseException, JsonMappingException, IOException {
+		return new HearthstoneTopDeckRepository(jsonCardRepository());
 	}
 
 	@Bean
