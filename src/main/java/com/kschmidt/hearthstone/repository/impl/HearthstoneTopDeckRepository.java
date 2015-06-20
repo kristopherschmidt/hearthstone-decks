@@ -21,7 +21,6 @@ import com.kschmidt.hearthstone.repository.CardRepository;
 
 public class HearthstoneTopDeckRepository {
 
-	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory
 			.getLogger(HearthstoneTopDeckRepository.class);
 
@@ -32,8 +31,10 @@ public class HearthstoneTopDeckRepository {
 	}
 
 	public Deck getDeck(String url) throws IOException {
-		Deck deck = new Deck(url);
 		Document doc = Jsoup.connect(url).get();
+		String deckName = doc.select("div#center div.headbar div").first()
+				.text();
+		Deck deck = new Deck(deckName);
 		Element deckCardListTable = doc.select(
 				"div#contentfr table :has(div.cardname)").get(0);
 		Elements cardElements = deckCardListTable.select("div.cardname span");
