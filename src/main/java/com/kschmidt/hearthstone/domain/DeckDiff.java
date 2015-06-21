@@ -30,6 +30,10 @@ public class DeckDiff {
 		return desiredDeck.getName();
 	}
 
+	public String getDesiredDeckUrl() {
+		return desiredDeck.getUrl();
+	}
+
 	public boolean isMissingCards() {
 		return !missingCards.getCards().isEmpty();
 	}
@@ -80,8 +84,7 @@ public class DeckDiff {
 
 	public double getRankingMetric() {
 		int investedAmount = getFullDustValue() - getRequiredDust();
-		return investedAmount * getPercentComplete() / 100
-				* getPercentComplete() / 100;
+		return investedAmount * getPercentComplete() / 100;
 	}
 
 }

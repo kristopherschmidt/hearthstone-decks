@@ -1,7 +1,7 @@
 
 User stories:
 
-averages of missing cards - what cards are most important to most decks
+search decks with user's legendaries (max #)
 search which decks a particular card is in
 give user ability to put in URL for decklist
 support hearthstone topdecks
@@ -23,9 +23,7 @@ eliminate sucky decks - low cost, by date, etc (already eliminated decks specifi
 
 Tech debt:
 
-slam decks into mongodb
-DTO layer - the domain model is way too thick
-caching
+test springloaded for hot reload
 webjars
 REST exception handling
 change throws of deckrepository from exception (make runtimeex)

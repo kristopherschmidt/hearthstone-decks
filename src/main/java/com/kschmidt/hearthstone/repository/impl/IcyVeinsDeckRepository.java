@@ -18,8 +18,9 @@ import com.kschmidt.hearthstone.domain.Card;
 import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.domain.DeckCard;
 import com.kschmidt.hearthstone.repository.CardRepository;
+import com.kschmidt.hearthstone.repository.WebDeckRepository;
 
-public class IcyVeinsDeckRepository {
+public class IcyVeinsDeckRepository implements WebDeckRepository {
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(IcyVeinsDeckRepository.class);
@@ -32,6 +33,7 @@ public class IcyVeinsDeckRepository {
 
 	public Deck getDeck(String url) throws IOException {
 		Deck deck = new Deck(url);
+		deck.setUrl(url);
 		Document doc = Jsoup.connect(url).get();
 		Element deckCardListTable = doc.select("table.deck_card_list").get(0);
 		Elements cardElements = deckCardListTable.select("td ul li");

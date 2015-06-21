@@ -16,7 +16,6 @@ import com.kschmidt.hearthstone.domain.Card;
 import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.domain.DeckCard;
 import com.kschmidt.hearthstone.repository.CardRepository;
-import com.kschmidt.hearthstone.repository.DeckRepository;
 
 /**
  * This parses version 4.3 of Google Sheet Hearthstone Master Collection
@@ -24,7 +23,7 @@ import com.kschmidt.hearthstone.repository.DeckRepository;
  * docs.google.com/spreadsheets/d/1VdqhpiremPEiIKmS1YI8_8HkdYb57wb8cD4ZLnxtffU
  * /edit#gid=357052481
  */
-public class ExcelDeckRepository implements DeckRepository {
+public class ExcelDeckRepository {
 
 	private static final String[] SHEETS_WITH_CARDS = new String[] { "Neutral",
 			"Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman",

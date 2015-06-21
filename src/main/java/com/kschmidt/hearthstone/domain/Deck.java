@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Optional;
@@ -17,8 +19,12 @@ import com.google.common.collect.Iterables;
  */
 public class Deck {
 
+	@Id
+	private String id;
+	
 	private List<DeckCard> cards = new ArrayList<DeckCard>();
 	private String name;
+	private String url;
 
 	public Deck(String name) {
 		this.name = name;
@@ -42,6 +48,14 @@ public class Deck {
 
 	public int getSize() {
 		return getCards().size();
+	}
+	
+	public String getUrl() {
+		return url;
+	}
+	
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public void add(DeckCard deckCard) {

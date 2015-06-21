@@ -12,6 +12,10 @@ public class Card {
 	private String id;
 	private String name;
 	private Rarity rarity;
+	
+	public Card() {
+		
+	}
 
 	public Card(String id, String name, String rarity) {
 		if (Strings.isNullOrEmpty(id)) {

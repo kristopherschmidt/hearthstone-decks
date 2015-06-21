@@ -39,19 +39,19 @@ public class ExcelDeckRepositoryTest {
 		// neutral
 		assertCardExists("Elven Archer", 2);
 		// druid
-		assertCardExists("Soul of the Forest", 1);
+		assertCardExists("Soul of the Forest", 2);
 		// hunter
 		assertCardExists("King of Beasts", 1);
 		// mage
 		assertCardExists("Flamecannon", 2);
 		// paladin
-		assertCardExists("Repentance", 2);
+		assertCardExists("Avenge", 2);
 		// priest
-		assertCardExists("Prophet Velen", 1);
+		assertCardExists("Silence", 2);
 		// rogue
 		assertCardExists("Conceal", 2);
 		// shaman
-		assertCardExists("Crackle", 1);
+		assertCardExists("Windfury", 2);
 		// warlock
 		assertCardExists("Darkbomb", 2);
 		// warrior

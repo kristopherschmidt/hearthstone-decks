@@ -28,8 +28,8 @@
   			</tr>
   		</thead>
   		<tbody>
-  			<tr ng-repeat="deckDiff in diffs | orderBy:['-percentComplete', '-fullDustValue']">
-  				<td><a href="{{ deckDiff.desiredDeckName }}" target="_blank">{{ deckDiff.desiredDeckName }}</a></td>
+  			<tr ng-repeat="deckDiff in diffs | orderBy:['-rankingMetric']">
+  				<td><a href="{{ deckDiff.desiredDeckUrl }}" target="_blank">{{ deckDiff.desiredDeckName }}</a></td>
   				<td>{{ deckDiff.requiredDust }}</td>
   				<td>{{ deckDiff.fullDustValue }}</td>
   				<td>{{ deckDiff.percentComplete | number : 0 }}%</td>

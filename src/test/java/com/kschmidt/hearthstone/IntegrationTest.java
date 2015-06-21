@@ -50,14 +50,14 @@ public class IntegrationTest {
 	public void testDiffAgainstLegendaryDragonRamp() throws Exception {
 		diffAgainst(
 				"http://www.icy-veins.com/hearthstone/legendary-dragon-ramp-druid-brm-deck",
-				2800, 8160);
+				2000, 8160);
 	}
 
 	@Test
 	public void testDiffAgainstMidBudgetRampDruid() throws Exception {
 		diffAgainst(
 				"http://www.icy-veins.com/hearthstone/mid-budget-ramp-druid-brm-deck",
-				800, 6300);
+				0, 6300);
 	}
 
 	private void diffAgainst(String url, int expectedRequiredDust,

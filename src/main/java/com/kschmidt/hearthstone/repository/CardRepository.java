@@ -6,8 +6,8 @@ import com.kschmidt.hearthstone.domain.Card;
 
 public interface CardRepository {
 
-	public abstract List<Card> getCards();
+	public List<Card> getCards();
 
-	public abstract Card findCard(String cardName);
+	public Card findCard(String cardName);
 
 }

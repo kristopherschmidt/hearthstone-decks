@@ -18,8 +18,9 @@ import com.kschmidt.hearthstone.domain.Card;
 import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.domain.DeckCard;
 import com.kschmidt.hearthstone.repository.CardRepository;
+import com.kschmidt.hearthstone.repository.WebDeckRepository;
 
-public class HearthstoneTopDeckRepository {
+public class HearthstoneTopDeckRepository implements WebDeckRepository {
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(HearthstoneTopDeckRepository.class);
@@ -35,6 +36,7 @@ public class HearthstoneTopDeckRepository {
 		String deckName = doc.select("div#center div.headbar div").first()
 				.text();
 		Deck deck = new Deck(deckName);
+		deck.setUrl(url);
 		Element deckCardListTable = doc.select(
 				"div#contentfr table :has(div.cardname)").get(0);
 		Elements cardElements = deckCardListTable.select("div.cardname span");
