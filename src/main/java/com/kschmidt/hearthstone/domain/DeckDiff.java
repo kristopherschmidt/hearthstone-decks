@@ -83,8 +83,10 @@ public class DeckDiff {
 	}
 
 	public double getRankingMetric() {
-		int investedAmount = getFullDustValue() - getRequiredDust();
-		return investedAmount * getPercentComplete() / 100;
+		double dustWeight = getFullDustValue();
+		double percentWeight = 1 - Math.sqrt(1 - getPercentComplete() / 100
+				* getPercentComplete() / 100);
+		return dustWeight * percentWeight;
 	}
 
 }

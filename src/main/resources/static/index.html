@@ -28,7 +28,7 @@
   			</tr>
   		</thead>
   		<tbody>
-  			<tr ng-repeat="deckDiff in diffs | orderBy:['-rankingMetric']">
+  			<tr ng-repeat="deckDiff in diffs | orderBy:['-rankingMetric'] | filter: { desiredDeckName : '!Druid' }">
   				<td><a href="{{ deckDiff.desiredDeckUrl }}" target="_blank">{{ deckDiff.desiredDeckName }}</a></td>
   				<td>{{ deckDiff.requiredDust }}</td>
   				<td>{{ deckDiff.fullDustValue }}</td>
