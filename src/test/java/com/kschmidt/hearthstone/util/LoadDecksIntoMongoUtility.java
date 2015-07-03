@@ -1,4 +1,4 @@
-package com.kschmidt.hearthstone.repository.impl;
+package com.kschmidt.hearthstone.util;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,18 +15,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.kschmidt.hearthstone.App;
 import com.kschmidt.hearthstone.domain.Deck;
-import com.kschmidt.hearthstone.domain.DeckDiff;
-import com.kschmidt.hearthstone.domain.DiffAnalyzer;
 import com.kschmidt.hearthstone.repository.MongoDeckRepository;
 import com.kschmidt.hearthstone.repository.WebDeckRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = App.class)
-public class LoadMongoTest {
+public class LoadDecksIntoMongoUtility {
 
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory
-			.getLogger(LoadMongoTest.class);
+			.getLogger(LoadDecksIntoMongoUtility.class);
 
 	@Autowired
 	@Qualifier("hearthstoneTopDeckRepository")
@@ -57,13 +55,4 @@ public class LoadMongoTest {
 		mongoDeckRepository.save(decks);
 	}
 
-	@Test
-	public void testDiffs() {
-
-		DiffAnalyzer analyzer = new DiffAnalyzer(DeckDiff.diffDecks(userDeck,
-				mongoDeckRepository.findAll()));
-		analyzer.filterByPercentComplete(60);
-		LOG.info(analyzer.getAllMissingCards().sortByDustValue().toString());
-		LOG.info(analyzer.getAllMissingCards().sortByNumCards().toString());
-	}
 }

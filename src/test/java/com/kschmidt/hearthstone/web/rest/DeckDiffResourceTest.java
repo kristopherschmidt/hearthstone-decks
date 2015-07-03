@@ -34,39 +34,11 @@ public class DeckDiffResourceTest {
 	}
 
 	@Test
-	public void testDiff() throws Exception {
+	public void testDiffs() throws Exception {
 
 		this.mockMvc
 				.perform(
-						get("/api/diffdeck")
-								.accept(MediaType
-										.parseMediaType("application/json;charset=UTF-8")))
-				.andExpect(status().isOk())
-				.andExpect(
-						content().contentType("application/json;charset=UTF-8"));
-
-	}
-
-	@Test
-	public void testDiffList() throws Exception {
-
-		this.mockMvc
-				.perform(
-						get("/api/difflist")
-								.accept(MediaType
-										.parseMediaType("application/json;charset=UTF-8")))
-				.andExpect(status().isOk())
-				.andExpect(
-						content().contentType("application/json;charset=UTF-8"));
-
-	}
-
-	@Test
-	public void testDiffAll() throws Exception {
-
-		this.mockMvc
-				.perform(
-						get("/api/diffalldb")
+						get("/api/diffs")
 								.accept(MediaType
 										.parseMediaType("application/json;charset=UTF-8")))
 				.andExpect(status().isOk())
