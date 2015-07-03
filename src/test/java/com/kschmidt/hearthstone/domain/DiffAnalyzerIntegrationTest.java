@@ -10,14 +10,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.kschmidt.hearthstone.App;
 import com.kschmidt.hearthstone.config.RepositoryConfiguration;
+import com.kschmidt.hearthstone.repository.MongoDeckRepository;
 import com.kschmidt.hearthstone.repository.WebDeckRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { RepositoryConfiguration.class })
+@SpringApplicationConfiguration(classes = App.class)
 public class DiffAnalyzerIntegrationTest {
 
 	private static final Logger LOG = LoggerFactory
@@ -30,6 +33,9 @@ public class DiffAnalyzerIntegrationTest {
 	@Autowired
 	@Qualifier("hearthstoneTopDeckRepository")
 	private WebDeckRepository hearthstoneTopDeck;
+	
+	@Autowired
+	private MongoDeckRepository mongoDeckRepository;
 
 	@Autowired
 	private Deck userDeck;
@@ -40,7 +46,6 @@ public class DiffAnalyzerIntegrationTest {
 		testWebDeckRepository(icyVeins);
 	}
 
-	@Ignore
 	@Test
 	public void testHearthstoneTopDeck() throws IOException {
 		testWebDeckRepository(hearthstoneTopDeck);
@@ -49,14 +54,14 @@ public class DiffAnalyzerIntegrationTest {
 	private void testWebDeckRepository(WebDeckRepository deckRepository)
 			throws IOException {
 		List<DeckDiff> diffs = DeckDiff.diffDecks(userDeck,
-				deckRepository.getAllDecks());
+				mongoDeckRepository.findAll());
 		LOG.debug(diffs.toString());
 		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
-		analyzer.filterByPercentComplete(70);
+		analyzer.filterByPercentComplete(60);
 		Deck allMissing = analyzer.getAllMissingCards();
 
-		LOG.debug(allMissing.sortByDustValue().toString());
-		LOG.debug(allMissing.sortByNumCards().toString());
+		LOG.info(allMissing.sortByDustValue().toString());
+		LOG.info(allMissing.sortByNumCards().toString());
 	}
 
 }

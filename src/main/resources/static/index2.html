@@ -2,7 +2,7 @@
 <html ng-app="hearthstoneApp">
 
   <head>
-    <title>Hearthstone Deck Comparison Tool</title>
+    <title>Hearthstone Deck Comparison Tool 2</title>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	
@@ -28,7 +28,7 @@
   			</tr>
   		</thead>
   		<tbody>
-  			<tr ng-repeat="deckDiff in diffs | orderBy:['-rankingMetric'] | filter: { desiredDeckName : '!Paladin' }">
+  			<tr ng-repeat="deckDiff in diffs | orderBy:['-rankingMetric'] | filter: { desiredDeckName : 'priest' }">
   				<td><a href="{{ deckDiff.desiredDeckUrl }}" target="_blank">{{ deckDiff.desiredDeckName }}</a></td>
   				<td>{{ deckDiff.requiredDust }}</td>
   				<td>{{ deckDiff.fullDustValue }}</td>
