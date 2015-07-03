@@ -26,20 +26,42 @@ public class DeckDiff {
 		missingCards = calculateMissingCards();
 	}
 
-	public String getDesiredDeckName() {
-		return desiredDeck.getName();
+	public Deck getDesiredDeck() {
+		return desiredDeck;
 	}
 
-	public String getDesiredDeckUrl() {
-		return desiredDeck.getUrl();
-	}
-
-	public boolean isMissingCards() {
-		return !missingCards.getCards().isEmpty();
+	/**
+	 * @return dust value of the desired deck
+	 */
+	public int getFullDustValue() {
+		return desiredDeck.getDustValue();
 	}
 
 	public Deck getMissingCards() {
 		return missingCards;
+	}
+
+	public double getPercentComplete() {
+		return (getFullDustValue() - getRequiredDust())
+				/ (double) getFullDustValue() * 100;
+	}
+
+	public double getRankingMetric() {
+		double dustWeight = getFullDustValue();
+		double percentWeight = 1 - Math.sqrt(1 - getPercentComplete() / 100
+				* getPercentComplete() / 100);
+		return dustWeight * percentWeight;
+	}
+
+	/**
+	 * @return the amount of dust required to completely fill out the deck
+	 */
+	public int getRequiredDust() {
+		return missingCards.getDustValue();
+	}
+
+	public boolean isMissingCards() {
+		return !missingCards.getCards().isEmpty();
 	}
 
 	/**
@@ -61,32 +83,6 @@ public class DeckDiff {
 			}
 		}
 		return missingCards;
-	}
-
-	/**
-	 * @return dust value of the desired deck
-	 */
-	public int getFullDustValue() {
-		return desiredDeck.getDustValue();
-	}
-
-	/**
-	 * @return the amount of dust required to completely fill out the deck
-	 */
-	public int getRequiredDust() {
-		return missingCards.getDustValue();
-	}
-
-	public double getPercentComplete() {
-		return (getFullDustValue() - getRequiredDust())
-				/ (double) getFullDustValue() * 100;
-	}
-
-	public double getRankingMetric() {
-		double dustWeight = getFullDustValue();
-		double percentWeight = 1 - Math.sqrt(1 - getPercentComplete() / 100
-				* getPercentComplete() / 100);
-		return dustWeight * percentWeight;
 	}
 
 }

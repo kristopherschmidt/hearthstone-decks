@@ -40,9 +40,9 @@ public class MongoDeckRepositoryTest {
 
 	@Test
 	public void testFindByCardNamesIn() {
-		List<Deck> decks = mongoDeckRepository.findDecksContainingSomeCards(Arrays.asList(
-				"Cruel Taskmaster", "Warsong Commander"));
-		System.out.println(decks.size());
+		List<Deck> decks = mongoDeckRepository
+				.findDecksContainingSomeCards(Arrays.asList("Cruel Taskmaster",
+						"Warsong Commander"));
 		assertTrue(decks.size() > 1);
 		for (Deck deck : decks) {
 			assertTrue(deck.findCard("Cruel Taskmaster").isPresent()
@@ -52,9 +52,9 @@ public class MongoDeckRepositoryTest {
 
 	@Test
 	public void testFindByCardNamesAll() {
-		List<Deck> decks = mongoDeckRepository.findDecksContainingAllCards(Arrays
-				.asList("Cruel Taskmaster", "Warsong Commander"));
-		System.out.println(decks.size());
+		List<Deck> decks = mongoDeckRepository
+				.findDecksContainingAllCards(Arrays.asList("Cruel Taskmaster",
+						"Warsong Commander"));
 		assertTrue(decks.size() > 1);
 		for (Deck deck : decks) {
 			assertTrue(deck.findCard("Cruel Taskmaster").isPresent()

@@ -49,7 +49,12 @@ public class IcyVeinsDeckRepositoryTest {
 		Deck deck = icyVeins
 				.getDeck("http://www.icy-veins.com/hearthstone/legendary-druid-fast-brm-deck");
 		assertThat(deck.getNumCards(), equalTo(30));
-
+		assertThat(
+				deck.getName(),
+				equalTo("http://www.icy-veins.com/hearthstone/legendary-druid-fast-brm-deck"));
+		assertThat(
+				deck.getUrl(),
+				equalTo("http://www.icy-veins.com/hearthstone/legendary-druid-fast-brm-deck"));
 		Optional<DeckCard> card = deck.findCard("Loatheb");
 		assertTrue(card.isPresent());
 		assertThat(card.get().getCardName(), equalTo("Loatheb"));

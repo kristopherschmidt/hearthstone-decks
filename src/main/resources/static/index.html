@@ -29,7 +29,7 @@
   		</thead>
   		<tbody>
   			<tr ng-repeat="deckDiff in diffs | orderBy:['-rankingMetric'] | filter: { desiredDeckName : '!Paladin' }">
-  				<td><a href="{{ deckDiff.desiredDeckUrl }}" target="_blank">{{ deckDiff.desiredDeckName }}</a></td>
+  				<td><a href="{{ deckDiff.desiredDeck.url }}" target="_blank">{{ deckDiff.desiredDeck.name }}</a></td>
   				<td>{{ deckDiff.requiredDust }}</td>
   				<td>{{ deckDiff.fullDustValue }}</td>
   				<td>{{ deckDiff.percentComplete | number : 0 }}%</td>

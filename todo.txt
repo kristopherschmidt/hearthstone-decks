@@ -2,6 +2,7 @@
 User stories:
 
 search decks with user's legendaries (max #)
+search decks using passthrough search string
 search which decks a particular card is in
 give user ability to put in URL for decklist
 support hearthstone topdecks

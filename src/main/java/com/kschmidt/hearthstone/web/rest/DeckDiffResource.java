@@ -27,4 +27,10 @@ public class DeckDiffResource {
 		return DeckDiff.diffDecks(userDeck, mongoDeckRepository.findAll());
 	}
 
+	@RequestMapping(value = "/api/diffs2", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<DeckDiff> diffs2() throws IOException {
+		return DeckDiff.diffDecks(userDeck,
+				mongoDeckRepository.findDecksContainingCard("Ragnaros the Firelord"));
+	}
+
 }
