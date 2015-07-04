@@ -1,10 +1,10 @@
 angular.module('hearthstoneApp', []).controller('IndexController',
 		[ '$scope', '$http', function($scope, $http) {
 
-			$scope.diff = function() {
+			$scope.diff = function(collection) {
 				$http.get('/api/diffs', {
 					params: {
-						collection: $scope.collection
+						collection: collection
 					}
 				}).success(function(data) {
 					$scope.diffs = data;
@@ -23,7 +23,7 @@ angular.module('hearthstoneApp', []).controller('IndexController',
 			
 			$scope.updateCollection = function() {
 				console.log("updateCollection: " + $scope.collection);
-				$scope.diff();
+				$scope.diff($scope.collection);
 			}
 			
 			$scope.collection = "";
