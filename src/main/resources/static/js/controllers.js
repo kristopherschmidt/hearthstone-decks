@@ -19,6 +19,12 @@ angular.module('hearthstoneApp', []).controller('IndexController',
 				}).success(function(data) {
 					$scope.diffs = data;
 				})
+				
+				var page = 1;
+				var perpage = 24;
+				$http.post('https://tempostorm.com/decks', { klass: "all", page: page, perpage: perpage }).success(function (data) {
+	                console.log(data);
+	            });
 			}
 			
 			$scope.diffAll();
