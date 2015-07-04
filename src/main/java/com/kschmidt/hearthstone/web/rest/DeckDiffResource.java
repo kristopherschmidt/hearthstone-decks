@@ -30,6 +30,11 @@ public class DeckDiffResource {
 	@Autowired
 	private Deck userDeck;
 
+	@RequestMapping(value = "/api/cards", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Card> getCards() {
+		return jsonCardRepository.getCards();
+	}
+
 	@RequestMapping(value = "/api/diffs", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<DeckDiff> diffs(
 			@RequestParam(required = false, value = "collection") String collectionName)
@@ -44,18 +49,13 @@ public class DeckDiffResource {
 		return DeckDiff.diffDecks(userDeck, decks);
 	}
 
-	@RequestMapping(value = "/api/cards", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Card> getCards() {
-		return jsonCardRepository.getCards();
-	}
-
 	/** todo map this somehow to diffs */
 	@RequestMapping(value = "/api/diffs2", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<DeckDiff> diffs2(
-			@RequestParam(required = false, value = "card") String cardName)
+			@RequestParam(required = true, value = "cards") List<String> cardNames)
 			throws IOException {
 		return DeckDiff.diffDecks(userDeck,
-				mongoDeckRepository.findDecksContainingCard(cardName));
+				mongoDeckRepository.findDecksContainingAllCards(cardNames));
 	}
 
 	/** todo implement resource to look for multi cards */

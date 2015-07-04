@@ -79,26 +79,12 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Cards</label>
 							<div class="col-sm-8">
-								<!--
-								<input type="text" class="form-control" ng-model="card"></input>
-								-->
-								<angucomplete placeholder="Search cards" pause="300"
-									selectedobject="card" localdata="cards" titlefield="name"
-									searchfields="name" minlength="1" inputclass="form-control" />
-							</div>
-							<div class="col-sm-2">
-								<a class="form-control btn btn-primary btn-large"
-									ng-click="search()">Search</a>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Cards</label>
-							<div class="col-sm-8">
-								<tags-input ng-model="searchCards" placeholder="Add a card" add-from-autocomplete-only="true">
+								<tags-input ng-model="searchCards" placeholder="Add a card"
+									add-from-autocomplete-only="true" key-property="id"
+									display-property="name" replace-spaces-with-dashes="false">
 								<auto-complete source="getCardsMatchingName($query)"
-									min-length="1"> </auto-complete> </tags-input>
-								{{ searchCards }}
+									min-length="1" max-results-to-show="100"
+									display-property="name"> </auto-complete> </tags-input>
 							</div>
 							<div class="col-sm-2">
 								<a class="form-control btn btn-primary btn-large"

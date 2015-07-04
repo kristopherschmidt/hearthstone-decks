@@ -1,6 +1,7 @@
 
 User stories:
 
+print # of results
 multi-card select (ngtags input)
 make mobile
 filter by class
@@ -21,6 +22,7 @@ eliminate sucky decks - low cost, by date, etc (already eliminated decks specifi
 
 Tech debt:
 
+handle empty search cards 
 webjars
 REST exception handling
 refactor ioexception to dataaccessexception

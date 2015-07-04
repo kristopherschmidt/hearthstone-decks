@@ -1,7 +1,9 @@
 var hearthstoneApp = angular.module('hearthstoneApp', [ 'angucomplete',
 		'ngTagsInput' ])
 
-hearthstoneApp.controller('IndexController', [ '$scope', '$http',
+hearthstoneApp.controller('IndexController', [
+		'$scope',
+		'$http',
 		function($scope, $http) {
 
 			$http.get('/api/cards').success(function(data) {
@@ -18,10 +20,10 @@ hearthstoneApp.controller('IndexController', [ '$scope', '$http',
 				})
 			}
 
-			$scope.search = function() {
+			$scope.searchDecksByCards = function() {
 				$http.get('/api/diffs2', {
 					params : {
-						card : $scope.card.title
+						cards : $scope.searchCards.map(function(card) { return card.name })
 					}
 				}).success(function(data) {
 					$scope.diffs = data;
@@ -35,15 +37,10 @@ hearthstoneApp.controller('IndexController', [ '$scope', '$http',
 
 			$scope.getCardsMatchingName = function(query) {
 				console.log("getCardsMatchingName: " + query);
-				return [ {
-					"text" : "abc"
-				}, {
-					"text" : "def"
-				}, {
-					"text" : "geh"
-				}, {
-					"text" : "jkl"
-				} ];
+				return $scope.cards.filter(function(card) {
+					return card.name.toLowerCase().startsWith(
+							query.toLowerCase());
+				});
 			}
 
 			$scope.collection = "";
