@@ -1,9 +1,9 @@
 
 User stories:
 
+multi-card select (ngtags input)
 make mobile
 filter by class
-autocomplete of card search
 allow automatic download of user deck, or easier upload + storage
 implement ability to delete and refresh a single collection rather than all
 search decks with user's legendaries (max #)
