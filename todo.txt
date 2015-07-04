@@ -1,13 +1,15 @@
 
 User stories:
 
-
+make mobile
+filter by class
+autocomplete of card search
+allow automatic download of user deck, or easier upload + storage
 implement ability to delete and refresh a single collection rather than all
 search decks with user's legendaries (max #)
 search decks using passthrough search string
 allow table to be manually sortable
 user choice to diff 1 class or diff all
-bootstrap theme/style?
 missing cards hover
 sorting algorithm
 make deck filtering manual

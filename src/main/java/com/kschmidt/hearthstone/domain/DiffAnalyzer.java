@@ -55,7 +55,7 @@ public class DiffAnalyzer {
 		return deck;
 	}
 
-	public List<DeckDiff> getFilteredDiffs() {
+	List<DeckDiff> getFilteredDiffs() {
 		List<DeckDiff> filteredDiffs = new ArrayList<DeckDiff>();
 		for (DeckDiff diff : diffs) {
 

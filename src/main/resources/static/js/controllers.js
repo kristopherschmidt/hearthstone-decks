@@ -1,4 +1,6 @@
-angular.module('hearthstoneApp', []).controller('IndexController',
+var hearthstoneApp = angular.module('hearthstoneApp', [ ])
+
+hearthstoneApp.controller('IndexController',
 		[ '$scope', '$http', function($scope, $http) {
 
 			$scope.diff = function(collection) {
@@ -24,7 +26,7 @@ angular.module('hearthstoneApp', []).controller('IndexController',
 			$scope.updateCollection = function() {
 				console.log("updateCollection: " + $scope.collection);
 				$scope.diff($scope.collection);
-			}
+			}       
 			
 			$scope.collection = "";
 			$scope.diff();

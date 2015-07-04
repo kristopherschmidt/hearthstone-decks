@@ -45,13 +45,20 @@ public class DeckDiff {
 		return (getFullDustValue() - getRequiredDust())
 				/ (double) getFullDustValue() * 100;
 	}
+	
+	public double getRankingMetric() {
+		double dustWeight = getFullDustValue();
+		return dustWeight * getPercentComplete() / 100;
+	}
 
+	/**
 	public double getRankingMetric() {
 		double dustWeight = getFullDustValue();
 		double percentWeight = 1 - Math.sqrt(1 - getPercentComplete() / 100
 				* getPercentComplete() / 100);
 		return dustWeight * percentWeight;
 	}
+	*/
 
 	/**
 	 * @return the amount of dust required to completely fill out the deck
