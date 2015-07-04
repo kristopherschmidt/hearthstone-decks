@@ -47,4 +47,18 @@ public class DeckDiffResourceTest {
 
 	}
 
+	@Test
+	public void testCards() throws Exception {
+
+		this.mockMvc
+				.perform(
+						get("/api/cards")
+								.accept(MediaType
+										.parseMediaType("application/json;charset=UTF-8")))
+				.andExpect(status().isOk())
+				.andExpect(
+						content().contentType("application/json;charset=UTF-8"));
+
+	}
+
 }

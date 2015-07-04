@@ -15,6 +15,9 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/elegant-icons-style.css" rel="stylesheet" />
 
+<!-- Angucomplete -->
+<link rel="stylesheet" href="https://rawgit.com/darylrowland/angucomplete/master/angucomplete.css"/>
+
 <!-- Custom CSS -->
 <link href="css/bootstrap-theme.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
@@ -56,7 +59,7 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Collection</label>
 							<div class="col-sm-10">
-								<select class="form-control m-bot15" ng-model="collection"
+								<select class="form-control" ng-model="collection"
 									ng-change="updateCollection()">
 									<option value="">All</option>
 									<option value="hearthstoneTopDeckRepository">Hearthstone
@@ -71,13 +74,19 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Cards</label>
 							<div class="col-sm-8">
+								<!--
 								<input type="text" class="form-control" ng-model="card"></input>
+								-->
+								<angucomplete placeholder="Search cards" pause="300"
+									selectedobject="card" localdata="cards" titlefield="name"
+									searchfields="name" minlength="1" inputclass="form-control" />
 							</div>
 							<div class="col-sm-2">
-								<a class="form-control btn btn-primary btn-large" ng-click="search()">Search</a>
+								<a class="form-control btn btn-primary btn-large"
+									ng-click="search()">Search</a>
 							</div>
 						</div>
-							
+
 					</form>
 				</div>
 			</section>
@@ -134,6 +143,8 @@
 	<!--  Custom scripts -->
 	<script src="js/controllers.js"></script>
 	<script src="js/scripts.js"></script>
+	<script
+		src="https://rawgit.com/darylrowland/angucomplete/master/angucomplete.js"></script>
 
 </body>
 

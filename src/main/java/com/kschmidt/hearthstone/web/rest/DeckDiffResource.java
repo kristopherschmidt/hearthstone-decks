@@ -12,12 +12,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.base.Strings;
+import com.kschmidt.hearthstone.domain.Card;
 import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.domain.DeckDiff;
 import com.kschmidt.hearthstone.repository.MongoDeckRepository;
+import com.kschmidt.hearthstone.repository.impl.JSONCardRepository;
 
 @RestController
 public class DeckDiffResource {
+
+	@Autowired
+	private JSONCardRepository jsonCardRepository;
 
 	@Autowired
 	private MongoDeckRepository mongoDeckRepository;
@@ -37,6 +42,11 @@ public class DeckDiffResource {
 		}
 
 		return DeckDiff.diffDecks(userDeck, decks);
+	}
+
+	@RequestMapping(value = "/api/cards", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Card> getCards() {
+		return jsonCardRepository.getCards();
 	}
 
 	/** todo map this somehow to diffs */
