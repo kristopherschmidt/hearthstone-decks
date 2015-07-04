@@ -11,6 +11,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +52,7 @@ public class TempoStormDeckRepositoryTest {
 		assertThat(
 				deck.getUrl(),
 				equalTo("https://tempostorm.com/hearthstone/decks/seventythree-aggro-flamewaker-mage"));
+		assertThat(deck.getCollection(), equalTo("tempoStormDeckRepository"));
 
 		Optional<DeckCard> card = deck.findCard("Clockwork Gnome");
 		assertTrue(card.isPresent());
@@ -68,6 +70,7 @@ public class TempoStormDeckRepositoryTest {
 		Assert.assertFalse(deckSlugs.isEmpty());
 	}
 
+	@Ignore
 	@Test
 	public void testGetDecks() throws IOException {
 		List<Deck> decks = tempoStorm.getDecks("https://tempostorm.com/decks");
@@ -81,6 +84,7 @@ public class TempoStormDeckRepositoryTest {
 		}
 	}
 
+	@Ignore
 	@Test
 	public void testGetAllDecks() throws IOException {
 		List<Deck> decks = tempoStorm.getAllDecks();

@@ -15,6 +15,7 @@ import com.kschmidt.hearthstone.repository.impl.ExcelDeckRepository;
 import com.kschmidt.hearthstone.repository.impl.HearthstoneTopDeckRepository;
 import com.kschmidt.hearthstone.repository.impl.IcyVeinsDeckRepository;
 import com.kschmidt.hearthstone.repository.impl.JSONCardRepository;
+import com.kschmidt.hearthstone.repository.impl.TempoStormDeckRepository;
 
 @Configuration
 public class RepositoryConfiguration {
@@ -35,6 +36,12 @@ public class RepositoryConfiguration {
 	public IcyVeinsDeckRepository icyVeinsDeckRepository()
 			throws JsonParseException, JsonMappingException, IOException {
 		return new IcyVeinsDeckRepository(jsonCardRepository());
+	}
+
+	@Bean
+	public TempoStormDeckRepository tempoStormDeckRepository()
+			throws JsonParseException, JsonMappingException, IOException {
+		return new TempoStormDeckRepository(jsonCardRepository());
 	}
 
 	@Bean

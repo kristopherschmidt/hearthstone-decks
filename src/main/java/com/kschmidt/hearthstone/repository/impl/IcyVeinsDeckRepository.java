@@ -33,6 +33,7 @@ public class IcyVeinsDeckRepository implements WebDeckRepository {
 
 	public Deck getDeck(String url) throws IOException {
 		Deck deck = new Deck(url);
+		deck.setCollection("icyVeinsDeckRepository");
 		deck.setUrl(url);
 		Document doc = Jsoup.connect(url).get();
 		Element deckCardListTable = doc.select("table.deck_card_list").get(0);

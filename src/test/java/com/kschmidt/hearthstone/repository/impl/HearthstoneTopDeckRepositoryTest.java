@@ -49,6 +49,10 @@ public class HearthstoneTopDeckRepositoryTest {
 				.getDeck("http://www.hearthstonetopdeck.com/deck.php?d=4577&filter=current");
 		assertThat(deck.getNumCards(), equalTo(30));
 		assertThat(deck.getName(), equalTo("#1 - HandLock - Falcon"));
+		assertThat(
+				deck.getUrl(),
+				equalTo("http://www.hearthstonetopdeck.com/deck.php?d=4577&filter=current"));
+		assertThat(deck.getCollection(), equalTo("hearthstoneTopDeckRepository"));
 
 		Optional<DeckCard> card = deck.findCard("Loatheb");
 		assertTrue(card.isPresent());

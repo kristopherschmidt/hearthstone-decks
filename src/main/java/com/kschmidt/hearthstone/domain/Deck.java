@@ -21,8 +21,9 @@ public class Deck {
 
 	@Id
 	private String id;
-	
+
 	private List<DeckCard> cards = new ArrayList<DeckCard>();
+	private String collection;
 	private String name;
 	private String url;
 
@@ -32,6 +33,14 @@ public class Deck {
 
 	public List<DeckCard> getCards() {
 		return ImmutableList.copyOf(cards);
+	}
+
+	public String getCollection() {
+		return collection;
+	}
+
+	public void setCollection(String collection) {
+		this.collection = collection;
 	}
 
 	public String getName() {
@@ -49,11 +58,11 @@ public class Deck {
 	public int getSize() {
 		return getCards().size();
 	}
-	
+
 	public String getUrl() {
 		return url;
 	}
-	
+
 	public void setUrl(String url) {
 		this.url = url;
 	}

@@ -36,6 +36,7 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 		String deckName = doc.select("div#center div.headbar div").first()
 				.text();
 		Deck deck = new Deck(deckName);
+		deck.setCollection("hearthstoneTopDeckRepository");
 		deck.setUrl(url);
 		Element deckCardListTable = doc.select(
 				"div#contentfr table :has(div.cardname)").get(0);
