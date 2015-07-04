@@ -1,11 +1,11 @@
 package com.kschmidt.hearthstone.util;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -32,13 +32,18 @@ public class MongoDeckLoaderTest {
 	@Autowired
 	private MongoDeckRepository mongoDeckRepository;
 
+	@Ignore
 	@Test
-	public void test() throws IOException {
-		loader.load("tempoStormDeckRepository");
+	public void testDeleteAll() {
+		loader.deleteAll();
+		assertTrue(mongoDeckRepository.findAll().isEmpty());
+	}
+
+	@Test
+	public void testRefreshAll() throws IOException {
+		loader.refreshAll();
 		List<Deck> decks = mongoDeckRepository.findAll();
-		for (Deck deck : decks) {
-			assertThat(deck.getCollection(), equalTo("tempoStorm"));
-		}
+		assertTrue(!decks.isEmpty());
 	}
 
 }

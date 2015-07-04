@@ -1,6 +1,7 @@
 
 User stories:
 
+implement ability to delete and refresh a single collection rather than all
 search decks with user's legendaries (max #)
 search decks using passthrough search string
 search which decks a particular card is in

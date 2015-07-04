@@ -25,12 +25,22 @@ public class MongoDeckLoader {
 	@Autowired
 	Map<String, WebDeckRepository> webDeckRepositories;
 
-	public void load(String collectionName) throws IOException {
+	public void refreshAll() throws IOException {
+		deleteAll();
+		for (String collectionName : webDeckRepositories.keySet()) {
+			load(collectionName);
+		}
+	}
+
+	void deleteAll() {
+		mongoDeckRepository.deleteAll();
+	}
+
+	private void load(String collectionName) throws IOException {
 		WebDeckRepository repo = webDeckRepositories.get(collectionName);
 		List<Deck> decks = repo.getAllDecks();
-		for (Deck deck : decks) {
-			LOG.info("loaded: "+deck.getName());
-		}
+		mongoDeckRepository.save(decks);
+		LOG.info("Loaded decks for collection: " + collectionName);
 	}
 
 }
