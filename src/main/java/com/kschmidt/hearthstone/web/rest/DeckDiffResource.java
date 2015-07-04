@@ -29,29 +29,19 @@ public class DeckDiffResource {
 		return DeckDiff.diffDecks(userDeck, mongoDeckRepository.findAll());
 	}
 
+	/** todo map this somehow to diffs */
 	@RequestMapping(value = "/api/diffs2", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<DeckDiff> diffs2(@RequestParam(required = false, value = "card") String cardName) throws IOException {
 		return DeckDiff.diffDecks(userDeck, mongoDeckRepository
 				.findDecksContainingCard(cardName));
 	}
-
-	@RequestMapping(value = "/api/diffs3", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<DeckDiff> diffs3() throws IOException {
-		return DeckDiff.diffDecks(userDeck, mongoDeckRepository
-				.findDecksContainingAllCards(Arrays.asList("Dr. Boom",
-						"Sylvanas Windrunner")));
-	}
 	
+	/** todo implement resource to look for multi cards */
 	@RequestMapping(value = "/api/diffs4", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<DeckDiff> diffs4() throws IOException {
 		return DeckDiff.diffDecks(userDeck, mongoDeckRepository
 				.findDecksContainingAllCards(Arrays.asList("Dr. Boom",
 						"Sylvanas Windrunner", "Ragnaros the Firelord")));
 	}
-	
-	@RequestMapping(value = "/api/diffs5", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<DeckDiff> diffs5() throws IOException {
-		return DeckDiff.diffDecks(userDeck, mongoDeckRepository
-				.findDecksContainingAllCards(Arrays.asList("Sea Giant")));
-	}
+
 }

@@ -1,5 +1,7 @@
 package com.kschmidt.hearthstone.repository.impl;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -59,6 +61,16 @@ public class MongoDeckRepositoryTest {
 		for (Deck deck : decks) {
 			assertTrue(deck.findCard("Cruel Taskmaster").isPresent()
 					&& deck.findCard("Warsong Commander").isPresent());
+		}
+	}
+
+	@Test
+	public void testFindByCollection() {
+		List<Deck> decks = mongoDeckRepository
+				.findByCollection("icyVeinsDeckRepository");
+		assertTrue(decks.size() > 1);
+		for (Deck deck : decks) {
+			assertThat(deck.getCollection(), equalTo("icyVeinsDeckRepository"));
 		}
 	}
 

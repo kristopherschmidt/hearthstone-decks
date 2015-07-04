@@ -1,10 +1,10 @@
 angular.module('hearthstoneApp', []).controller('IndexController',
 		[ '$scope', '$http', function($scope, $http) {
 
-			$scope.diffAll = function() {
+			$scope.diff = function() {
 				$http.get('/api/diffs', {
 					params: {
-						card: $scope.card
+						collection: $scope.collection
 					}
 				}).success(function(data) {
 					$scope.diffs = data;
@@ -19,16 +19,14 @@ angular.module('hearthstoneApp', []).controller('IndexController',
 				}).success(function(data) {
 					$scope.diffs = data;
 				})
-				
-				var page = 1;
-				var perpage = 24;
-				$http.post('https://tempostorm.com/decks', { klass: "all", page: page, perpage: perpage }).success(function (data) {
-	                console.log(data);
-	            });
 			}
 			
-			$scope.diffAll();
+			$scope.updateCollection = function() {
+				console.log("updateCollection: " + $scope.collection);
+				$scope.diff();
+			}
 			
-
+			$scope.collection = "";
+			$scope.diff();
 
 		} ]);

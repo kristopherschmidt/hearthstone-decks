@@ -1,23 +1,17 @@
 
 User stories:
 
+weed out completely similar decks?
 implement ability to delete and refresh a single collection rather than all
 search decks with user's legendaries (max #)
 search decks using passthrough search string
-search which decks a particular card is in
-give user ability to put in URL for decklist
-support hearthstone topdecks
-allow clicking on deck name to show details (or at least turn into url)
 allow table to be manually sortable
 user choice to diff 1 class or diff all
 bootstrap theme/style?
 missing cards hover
 sorting algorithm
 make deck filtering manual
-capture deck name better, or url
 add support for hearthhead
-difference between "deck" (30 cards) and card collection. currently using interchangeably
-eliminate deckcard as a concept and make it internal to deck or cardcollection
 auto workaround spelling errors in excel sheet
 not possible to have more than 1 legendary
 eliminate sucky decks - low cost, by date, etc (already eliminated decks specific to mode, season)
@@ -25,10 +19,8 @@ eliminate sucky decks - low cost, by date, etc (already eliminated decks specifi
 
 Tech debt:
 
-test springloaded for hot reload
 webjars
 REST exception handling
-change throws of deckrepository from exception (make runtimeex)
 refactor ioexception to dataaccessexception
 add maven autoformatter to project?
 handle missing files, exceptions

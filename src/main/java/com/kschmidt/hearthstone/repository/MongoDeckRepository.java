@@ -18,4 +18,6 @@ public interface MongoDeckRepository extends MongoRepository<Deck, String> {
 	@Query(value = "{ 'cards.card.name' : { $all : ?0 } }")
 	List<Deck> findDecksContainingAllCards(List<String> cardNames);
 
+	List<Deck> findByCollection(String collectionName);
+
 }
