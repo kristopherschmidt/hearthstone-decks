@@ -1,7 +1,7 @@
 
 User stories:
 
-weed out completely similar decks?
+
 implement ability to delete and refresh a single collection rather than all
 search decks with user's legendaries (max #)
 search decks using passthrough search string

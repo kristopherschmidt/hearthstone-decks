@@ -43,6 +43,10 @@ public class Deck {
 		this.collection = collection;
 	}
 
+	public String getId() {
+		return id;
+	}
+
 	public String getName() {
 		return name;
 	}
