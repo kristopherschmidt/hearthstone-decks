@@ -43,7 +43,7 @@
 	<section id="container">
 
 		<aside>
-			<div id="sidebar" class="nav-collapse " tabindex="5000"
+			<div id="sidebar" class="nav-collapse" tabindex="5000"
 				style="overflow: hidden; outline: none;">
 				<!-- sidebar menu start-->
 				<ul class="sidebar-menu">
@@ -98,9 +98,11 @@
 			<section class="panel">
 
 				<div class="panel-heading">
-					Found {{ diffs.length }} results. Top 5 missing cards:
+					Found {{ diffs.length }} results. Top 5 missing cards (click to
+					filter):
 					<ol class="list-group">
 						<a href="#" class="list-group-item"
+							ng-click="filterByCard(deckCard.card)"
 							ng-repeat="deckCard in allMissingCards | orderBy: '-dustValue' | limitTo:5">
 							{{ deckCard.cardName }} ({{ deckCard.numCards }})</a>
 					</ol>
@@ -120,7 +122,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="deckDiff in diffs | orderBy:['-rankingMetric']">
+							<tr
+								ng-repeat="deckDiff in diffs | orderBy:['-rankingMetric'] | filter:diffFilter">
 								<td><a href="{{ deckDiff.desiredDeck.url }}"
 									target="_blank">{{ deckDiff.desiredDeck.name }}</a></td>
 								<td>{{ deckDiff.requiredDust }}</td>
@@ -162,8 +165,6 @@
 	<!-- Other 3rd party scripts -->
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/2.3.0/ng-tags-input.js"></script>
-	<script
-		src="https://rawgit.com/darylrowland/angucomplete/master/angucomplete.js"></script>
 
 	<!--  Custom scripts -->
 	<script src="js/controllers.js"></script>

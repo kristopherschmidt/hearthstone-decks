@@ -39,6 +39,7 @@ public class MongoDeckLoaderTest {
 		assertTrue(mongoDeckRepository.findAll().isEmpty());
 	}
 
+	@Ignore
 	@Test
 	public void testRefreshAll() throws IOException {
 		loader.refreshAll();

@@ -1,7 +1,13 @@
 
 User stories:
 
-click top 5 missing card results to filter
+copy db when loading new decks
+date decks, allow filters by date
+filter top 5 cards by rare, epic, legend, all
+strategy menu, e.g. good decks with most minions 2 or less
+view your own deck (EPIC) - show pretty images, allow editing, stats, etc etc
+display number of results by class. allow filtering by click
+put more stuff on leftnav...anything!
 multi-card select - ANY cards not ALL cards
 make mobile
 filter by class

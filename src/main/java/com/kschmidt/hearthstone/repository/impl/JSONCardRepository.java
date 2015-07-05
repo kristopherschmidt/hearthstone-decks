@@ -39,7 +39,8 @@ public class JSONCardRepository implements CardRepository {
 						continue;
 					}
 					Card card = new Card(cardData.get("id"),
-							cardData.get("name"), cardData.get("rarity"));
+							cardData.get("name"), cardData.get("rarity"),
+							cardData.get("playerClass"));
 					cards.add(card);
 				}
 			}

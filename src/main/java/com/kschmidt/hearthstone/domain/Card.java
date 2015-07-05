@@ -11,13 +11,19 @@ public class Card {
 
 	private String id;
 	private String name;
+	private PlayerClass playerClass;
 	private Rarity rarity;
-	
+
 	public Card() {
-		
+
 	}
 
 	public Card(String id, String name, String rarity) {
+		this(id, name, rarity, null);
+	}
+
+	public Card(String id, String name, String rarityString,
+			String playerClassString) {
 		if (Strings.isNullOrEmpty(id)) {
 			throw new IllegalArgumentException("Card is missing id (name = "
 					+ name + ")");
@@ -28,12 +34,22 @@ public class Card {
 		}
 		this.id = id;
 		this.name = name;
-		if (rarity != null) {
+		if (playerClassString != null) {
 			try {
-				this.rarity = Rarity.valueOf(rarity);
+				this.playerClass = PlayerClass.valueOf(playerClassString);
 			} catch (IllegalArgumentException ex) {
-				LOG.error("Unknown card rarity: '" + rarity + "' for card: "
-						+ name, ex);
+				LOG.error("Unknown card class: '" + playerClassString
+						+ "' for card: " + name, ex);
+			}
+		} else {
+			playerClass = PlayerClass.Neutral;
+		}
+		if (rarityString != null) {
+			try {
+				this.rarity = Rarity.valueOf(rarityString);
+			} catch (IllegalArgumentException ex) {
+				LOG.error("Unknown card rarity: '" + rarityString
+						+ "' for card: " + name, ex);
 			}
 		}
 	}
@@ -54,6 +70,10 @@ public class Card {
 
 	public String getName() {
 		return name;
+	}
+
+	public PlayerClass getPlayerClass() {
+		return playerClass;
 	}
 
 	public Rarity getRarity() {

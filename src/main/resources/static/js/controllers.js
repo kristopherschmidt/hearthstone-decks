@@ -30,15 +30,27 @@ hearthstoneApp.controller('IndexController', [
 			}
 
 			$scope.getCardsMatchingName = function(query) {
-				console.log("getCardsMatchingName: " + query);
 				return $scope.cards.filter(function(card) {
 					return card.name.toLowerCase().startsWith(
 							query.toLowerCase());
 				});
 			}
 
+			$scope.filterByCard = function(card) {
+				var alreadyContainsSearchCard = $scope.searchCards
+						.some(function(c) {
+							return c.id == card.id
+						});
+				if (!alreadyContainsSearchCard) {
+					$scope.searchCards.push(card);
+					$scope.diff();
+				}
+
+			}
+
 			$scope.collection = "";
 			$scope.searchCards = [];
+			$scope.diffFilter = "";
 			$scope.diff();
 
 		} ]);
