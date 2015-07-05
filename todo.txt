@@ -1,6 +1,7 @@
 
 User stories:
 
+add question marks / help markers to explain certain pages & functions
 copy db when loading new decks
 date decks, allow filters by date
 filter top 5 cards by rare, epic, legend, all

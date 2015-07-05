@@ -1,1 +1,25 @@
-hi: abc
+<section class="panel">
+	<header class="panel-heading">Reload Decks</header>
+	<div class="panel-body">
+		<span class="help-block">Choosing this option will reload all
+			decks from the web. Warning: this make take awhile.</span> <a
+			class="btn btn-primary" ng-click="reloadDecks()">Go!</a>
+	</div>
+</section>
+
+<div class="modal fade" id="deckLoadSuccessModal" tabindex="-1"
+	role="dialog" aria-labelledby="Deck Load Success" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Success</h4>
+			</div>
+			<div class="modal-body">The decks were successfully reloaded.</div>
+			<div class="modal-footer">
+				<button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -4,7 +4,7 @@ var hearthstoneApp = angular.module('hearthstoneApp', [ 'ngTagsInput',
 hearthstoneApp.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/admin/load', {
 		templateUrl : 'partials/admin/load.html',
-		controller : 'IndexController'
+		controller : 'DeckLoadController'
 	}).when('/', {
 		templateUrl : 'partials/search.html',
 		controller : 'IndexController'
@@ -67,3 +67,12 @@ hearthstoneApp.controller('IndexController', [
 			$scope.diff();
 
 		} ]);
+
+hearthstoneApp.controller('DeckLoadController', [ '$scope',
+
+function($scope) {
+	$scope.reloadDecks = function() {
+		console.log("reloadDecks");
+		$("#deckLoadSuccessModal").modal();
+	}
+} ]);
