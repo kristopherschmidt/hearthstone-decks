@@ -21,7 +21,7 @@ import com.kschmidt.hearthstone.App;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = App.class)
 @WebAppConfiguration
-public class DeckDiffResourceTest {
+public class CardResourceTest {
 
 	@Autowired
 	private WebApplicationContext wac;
@@ -34,11 +34,11 @@ public class DeckDiffResourceTest {
 	}
 
 	@Test
-	public void testDiffs() throws Exception {
+	public void testCards() throws Exception {
 
 		this.mockMvc
 				.perform(
-						get("/api/diffanalyzer")
+						get("/api/cards")
 								.accept(MediaType
 										.parseMediaType("application/json;charset=UTF-8")))
 				.andExpect(status().isOk())
