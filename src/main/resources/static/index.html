@@ -97,7 +97,11 @@
 
 			<section class="panel">
 
-				<div class="panel-heading">Found {{ diffs.length }} results</div>
+				<div class="panel-heading">Found {{ diffs.length }} results
+					<div ng-repeat="card in allMissingCards">
+						{{ card }}
+					</div>
+				</div>
 
 				<div class="panel-body">
 

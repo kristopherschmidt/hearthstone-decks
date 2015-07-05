@@ -22,7 +22,7 @@ eliminate sucky decks - low cost, by date, etc (already eliminated decks specifi
 
 Tech debt:
 
-handle empty search cards 
+make services out of rest calls
 webjars
 REST exception handling
 refactor ioexception to dataaccessexception
