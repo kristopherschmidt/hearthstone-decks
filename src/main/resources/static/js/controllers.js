@@ -26,10 +26,6 @@ hearthstoneApp.controller('IndexController', [
 					$scope.diffanalyzer = data;
 					$scope.allMissingCards = data.allMissingCards.cards;
 					$scope.diffs = data.filteredDiffs;
-
-					$scope.allMissingCards.sort(function(lhs, rhs) {
-						return rhs.dustValue - lhs.dustValue;
-					});
 				})
 			}
 

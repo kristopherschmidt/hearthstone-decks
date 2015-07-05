@@ -33,7 +33,7 @@ public class DiffAnalyzerIntegrationTest {
 				mongoDeckRepository.findAll());
 		LOG.debug(diffs.toString());
 		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
-		analyzer.filterByPercentComplete(70);
+		analyzer.filterByPercentComplete(0);
 		Deck allMissing = analyzer.getAllMissingCards();
 
 		LOG.info(allMissing.sortByDustValue().toString());

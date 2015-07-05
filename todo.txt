@@ -1,7 +1,7 @@
 
 User stories:
 
-show most common missing card in any list of results
+click top 5 missing card results to filter
 multi-card select - ANY cards not ALL cards
 make mobile
 filter by class

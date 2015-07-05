@@ -97,10 +97,13 @@
 
 			<section class="panel">
 
-				<div class="panel-heading">Found {{ diffs.length }} results
-					<div ng-repeat="card in allMissingCards">
-						{{ card }}
-					</div>
+				<div class="panel-heading">
+					Found {{ diffs.length }} results. Top 5 missing cards:
+					<ol class="list-group">
+						<a href="#" class="list-group-item"
+							ng-repeat="deckCard in allMissingCards | orderBy: '-dustValue' | limitTo:5">
+							{{ deckCard.cardName }} ({{ deckCard.numCards }})</a>
+					</ol>
 				</div>
 
 				<div class="panel-body">
