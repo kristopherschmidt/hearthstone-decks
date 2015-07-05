@@ -1,5 +1,4 @@
-var hearthstoneApp = angular.module('hearthstoneApp', [ 'angucomplete',
-		'ngTagsInput' ])
+var hearthstoneApp = angular.module('hearthstoneApp', [ 'ngTagsInput' ])
 
 hearthstoneApp.controller('IndexController', [
 		'$scope',
@@ -11,25 +10,20 @@ hearthstoneApp.controller('IndexController', [
 			})
 
 			$scope.diff = function() {
-				var cards = [];
+				var searchCardsParam = [];
 				if ($scope.searchCards != null) {
-					cards = $scope.searchCards.map(function(card) {
+					searchCardsParam = $scope.searchCards.map(function(card) {
 						return card.name
 					});
 				}
 				$http.get('/api/diffs', {
 					params : {
 						collection : $scope.collection,
-						cards : cards
+						cards : searchCardsParam
 					}
 				}).success(function(data) {
 					$scope.diffs = data;
 				})
-			}
-
-			$scope.updateCollection = function() {
-				console.log("updateCollection: " + $scope.collection);
-				$scope.diff();
 			}
 
 			$scope.getCardsMatchingName = function(query) {
@@ -41,6 +35,7 @@ hearthstoneApp.controller('IndexController', [
 			}
 
 			$scope.collection = "";
+			$scope.searchCards = [];
 			$scope.diff();
 
 		} ]);
