@@ -28,6 +28,7 @@ eliminate sucky decks - low cost, by date, etc (already eliminated decks specifi
 
 Tech debt:
 
+break out app.js from controller.js
 make services out of rest calls
 webjars
 REST exception handling

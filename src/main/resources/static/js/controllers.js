@@ -1,4 +1,17 @@
-var hearthstoneApp = angular.module('hearthstoneApp', [ 'ngTagsInput' ])
+var hearthstoneApp = angular.module('hearthstoneApp', [ 'ngTagsInput',
+		'ngRoute' ])
+
+hearthstoneApp.config([ '$routeProvider', function($routeProvider) {
+	$routeProvider.when('/admin/load', {
+		templateUrl : 'partials/admin/load.html',
+		controller : 'IndexController'
+	}).when('/', {
+		templateUrl : 'partials/search.html',
+		controller : 'IndexController'
+	}).otherwise({
+		redirectTo : '/'
+	});
+} ]);
 
 hearthstoneApp.controller('IndexController', [
 		'$scope',
