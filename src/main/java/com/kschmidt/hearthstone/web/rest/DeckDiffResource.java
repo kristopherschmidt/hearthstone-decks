@@ -2,7 +2,6 @@ package com.kschmidt.hearthstone.web.rest;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import com.google.common.base.Strings;
 import com.kschmidt.hearthstone.domain.Card;
 import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.domain.DeckDiff;
+import com.kschmidt.hearthstone.domain.DiffAnalyzer;
 import com.kschmidt.hearthstone.repository.MongoDeckRepository;
 import com.kschmidt.hearthstone.repository.impl.JSONCardRepository;
 
@@ -52,21 +52,20 @@ public class DeckDiffResource {
 		return DeckDiff.diffDecks(userDeck, decks);
 	}
 
-	/** todo map this somehow to diffs */
-	@RequestMapping(value = "/api/diffs2", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<DeckDiff> diffs2(
-			@RequestParam(required = true, value = "cards") List<String> cardNames)
+	@RequestMapping(value = "/api/diffanalyzer", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public DiffAnalyzer diffAnalyzer(
+			@RequestParam(required = false, value = "collection") String collectionName,
+			@RequestParam(required = false, value = "cards") List<String> cardNames)
 			throws IOException {
-		return DeckDiff.diffDecks(userDeck,
-				mongoDeckRepository.findDecksContainingAllCards(cardNames));
-	}
-
-	/** todo implement resource to look for multi cards */
-	@RequestMapping(value = "/api/diffs4", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<DeckDiff> diffs4() throws IOException {
-		return DeckDiff.diffDecks(userDeck, mongoDeckRepository
-				.findDecksContainingAllCards(Arrays.asList("Dr. Boom",
-						"Sylvanas Windrunner", "Ragnaros the Firelord")));
+		if (Strings.isNullOrEmpty(collectionName)) {
+			collectionName = null;
+		}
+		if (cardNames == null) {
+			cardNames = new ArrayList<String>();
+		}
+		List<Deck> decks = mongoDeckRepository.findByCollectionAndCards(
+				collectionName, cardNames);
+		return new DiffAnalyzer(DeckDiff.diffDecks(userDeck, decks));
 	}
 
 }

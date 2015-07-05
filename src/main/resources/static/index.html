@@ -78,7 +78,7 @@
 
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Cards</label>
-							<div class="col-sm-8">
+							<div class="col-sm-10">
 								<tags-input ng-model="searchCards" placeholder="Add a card"
 									add-from-autocomplete-only="true" key-property="id"
 									display-property="name" replace-spaces-with-dashes="false"
@@ -86,10 +86,6 @@
 									source="getCardsMatchingName($query)" min-length="1"
 									max-results-to-show="100" display-property="name">
 								</auto-complete> </tags-input>
-							</div>
-							<div class="col-sm-2">
-								<a class="form-control btn btn-primary btn-large"
-									ng-click="diff()">Search</a>
 							</div>
 						</div>
 

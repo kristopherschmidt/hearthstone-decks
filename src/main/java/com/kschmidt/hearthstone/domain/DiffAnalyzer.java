@@ -13,7 +13,7 @@ public class DiffAnalyzer {
 
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory
-			.getLogger(DiffAnalyzerTest.class);
+			.getLogger(DiffAnalyzer.class);
 
 	private List<DeckDiff> diffs;
 	private double percentComplete = 0;

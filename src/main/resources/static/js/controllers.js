@@ -16,6 +16,7 @@ hearthstoneApp.controller('IndexController', [
 						return card.name
 					});
 				}
+				/*
 				$http.get('/api/diffs', {
 					params : {
 						collection : $scope.collection,
@@ -23,6 +24,18 @@ hearthstoneApp.controller('IndexController', [
 					}
 				}).success(function(data) {
 					$scope.diffs = data;
+				})
+				*/
+
+				$http.get('/api/diffanalyzer', {
+					params : {
+						collection : $scope.collection,
+						cards : searchCardsParam
+					}
+				}).success(function(data) {
+					$scope.diffanalyzer = data;
+					$scope.allMissingCards = data.allMissingCards;
+					$scope.diffs = data.filteredDiffs;
 				})
 			}
 
