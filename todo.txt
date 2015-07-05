@@ -1,8 +1,8 @@
 
 User stories:
 
-print # of results
-multi-card select (ngtags input)
+show most common missing card in any list of results
+multi-card select - ANY cards not ALL cards
 make mobile
 filter by class
 allow automatic download of user deck, or easier upload + storage

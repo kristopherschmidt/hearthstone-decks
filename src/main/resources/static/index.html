@@ -81,14 +81,15 @@
 							<div class="col-sm-8">
 								<tags-input ng-model="searchCards" placeholder="Add a card"
 									add-from-autocomplete-only="true" key-property="id"
-									display-property="name" replace-spaces-with-dashes="false">
-								<auto-complete source="getCardsMatchingName($query)"
-									min-length="1" max-results-to-show="100"
-									display-property="name"> </auto-complete> </tags-input>
+									display-property="name" replace-spaces-with-dashes="false"
+									on-tag-added="diff()" on-tag-removed="diff()"> <auto-complete
+									source="getCardsMatchingName($query)" min-length="1"
+									max-results-to-show="100" display-property="name">
+								</auto-complete> </tags-input>
 							</div>
 							<div class="col-sm-2">
 								<a class="form-control btn btn-primary btn-large"
-									ng-click="searchDecksByCards()">Search</a>
+									ng-click="diff()">Search</a>
 							</div>
 						</div>
 
@@ -98,36 +99,46 @@
 
 			<hr>
 
-			<table class="table table-bordered table-striped">
-				<thead>
-					<tr>
-						<th>Deck Name</th>
-						<th>Required Dust</th>
-						<th>Full Dust Value</th>
-						<th>Percent Complete</th>
-						<th>Ranking Metric</th>
-						<th>Missing Cards</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="deckDiff in diffs | orderBy:['-rankingMetric']">
-						<td><a href="{{ deckDiff.desiredDeck.url }}" target="_blank">{{
-								deckDiff.desiredDeck.name }}</a></td>
-						<td>{{ deckDiff.requiredDust }}</td>
-						<td>{{ deckDiff.fullDustValue }}</td>
-						<td>{{ deckDiff.percentComplete | number : 0 }}%</td>
-						<td>{{ deckDiff.rankingMetric | number : 0 }}</td>
-						<td>
+			<section class="panel">
 
-							<ul>
-								<li ng-repeat="card in deckDiff.missingCards.cards">{{
-									card.numCards }}x {{ card.cardName }}</li>
-							</ul>
+				<div class="panel-heading">Found {{ diffs.length }} results</div>
 
-						</td>
-					</tr>
-				</tbody>
-			</table>
+				<div class="panel-body">
+
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Deck Name</th>
+								<th>Required Dust</th>
+								<th>Full Dust Value</th>
+								<th>Percent Complete</th>
+								<th>Ranking Metric</th>
+								<th>Missing Cards</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="deckDiff in diffs | orderBy:['-rankingMetric']">
+								<td><a href="{{ deckDiff.desiredDeck.url }}"
+									target="_blank">{{ deckDiff.desiredDeck.name }}</a></td>
+								<td>{{ deckDiff.requiredDust }}</td>
+								<td>{{ deckDiff.fullDustValue }}</td>
+								<td>{{ deckDiff.percentComplete | number : 0 }}%</td>
+								<td>{{ deckDiff.rankingMetric | number : 0 }}</td>
+								<td>
+
+									<ul>
+										<li ng-repeat="card in deckDiff.missingCards.cards">{{
+											card.numCards }}x {{ card.cardName }}</li>
+									</ul>
+
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+
+			</section>
 
 		</section>
 		<!-- main content -->

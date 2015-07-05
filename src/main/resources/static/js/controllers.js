@@ -10,20 +10,17 @@ hearthstoneApp.controller('IndexController', [
 				$scope.cards = data;
 			})
 
-			$scope.diff = function(collection) {
+			$scope.diff = function() {
+				var cards = [];
+				if ($scope.searchCards != null) {
+					cards = $scope.searchCards.map(function(card) {
+						return card.name
+					});
+				}
 				$http.get('/api/diffs', {
 					params : {
-						collection : collection
-					}
-				}).success(function(data) {
-					$scope.diffs = data;
-				})
-			}
-
-			$scope.searchDecksByCards = function() {
-				$http.get('/api/diffs2', {
-					params : {
-						cards : $scope.searchCards.map(function(card) { return card.name })
+						collection : $scope.collection,
+						cards : cards
 					}
 				}).success(function(data) {
 					$scope.diffs = data;
@@ -32,7 +29,7 @@ hearthstoneApp.controller('IndexController', [
 
 			$scope.updateCollection = function() {
 				console.log("updateCollection: " + $scope.collection);
-				$scope.diff($scope.collection);
+				$scope.diff();
 			}
 
 			$scope.getCardsMatchingName = function(query) {

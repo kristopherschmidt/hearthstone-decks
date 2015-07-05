@@ -2,8 +2,10 @@ package com.kschmidt.hearthstone.repository.impl;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -72,6 +74,52 @@ public class MongoDeckRepositoryTest {
 		for (Deck deck : decks) {
 			assertThat(deck.getCollection(), equalTo("icyVeinsDeckRepository"));
 		}
+	}
+
+	@Test
+	public void testFindByCollectionNullReturnsAllDecks() {
+		List<Deck> decks = mongoDeckRepository.findByCollection(null);
+		assertThat(decks.size(), equalTo(mongoDeckRepository.findAll().size()));
+	}
+
+	@Test
+	public void testFindByCollectionEmptyStringReturnsNoDecks() {
+		List<Deck> decks = mongoDeckRepository.findByCollection("");
+		assertThat(decks.size(), equalTo(0));
+	}
+
+	@Test
+	public void testFindByCollectionAndCards() {
+		List<Deck> decks = mongoDeckRepository.findByCollectionAndCards(
+				"icyVeinsDeckRepository",
+				Arrays.asList("Ragnaros the Firelord", "Sylvanas Windrunner"));
+		assertTrue(decks.size() > 0);
+		for (Deck deck : decks) {
+			assertThat(deck.getCollection(), equalTo("icyVeinsDeckRepository"));
+			assertTrue(deck.findCard("Ragnaros the Firelord").isPresent());
+			assertTrue(deck.findCard("Sylvanas Windrunner").isPresent());
+		}
+	}
+
+	// Should search for the cards in all collections
+	@Test
+	public void testFindByCollectionAndCardsWhereCollectionIsNull() {
+		List<Deck> decks = mongoDeckRepository.findByCollectionAndCards(null,
+				Arrays.asList("Ragnaros the Firelord", "Sylvanas Windrunner"));
+		assertTrue(decks.size() > 0);
+		for (Deck deck : decks) {
+			assertNotNull(deck.getCollection());
+			assertTrue(deck.findCard("Ragnaros the Firelord").isPresent());
+			assertTrue(deck.findCard("Sylvanas Windrunner").isPresent());
+		}
+	}
+
+	// Should search for the cards in all collections
+	@Test
+	public void testFindByCollectionAndCardsWhereCardsAreEmpty() {
+		List<Deck> decks = mongoDeckRepository.findByCollectionAndCards(null,
+				new ArrayList<String>());
+		assertThat(decks.size(), equalTo(mongoDeckRepository.findAll().size()));
 	}
 
 }

@@ -18,6 +18,14 @@ public interface MongoDeckRepository extends MongoRepository<Deck, String> {
 	@Query(value = "{ 'cards.card.name' : { $all : ?0 } }")
 	List<Deck> findDecksContainingAllCards(List<String> cardNames);
 
+	@Query(value = "{ $or : [ { $where: '?0 == null' } , { collection : ?0 } ] }")
 	List<Deck> findByCollection(String collectionName);
+
+	@Query(value = "{ $and : [ "
+			+ "{ $or : [ { $where: '?0 == null' }, { collection : ?0 } ] }, "
+			+ "{ $or : [ { $where: '?1.length == 0' }, { cards.card.name : { $all : ?1 } } ] }"
+			+ " ] }")
+	List<Deck> findByCollectionAndCards(String collectionName,
+			List<String> cardNames);
 
 }

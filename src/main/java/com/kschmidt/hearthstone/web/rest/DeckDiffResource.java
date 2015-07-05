@@ -1,6 +1,7 @@
 package com.kschmidt.hearthstone.web.rest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,15 +38,17 @@ public class DeckDiffResource {
 
 	@RequestMapping(value = "/api/diffs", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<DeckDiff> diffs(
-			@RequestParam(required = false, value = "collection") String collectionName)
+			@RequestParam(required = false, value = "collection") String collectionName,
+			@RequestParam(required = false, value = "cards") List<String> cardNames)
 			throws IOException {
-		List<Deck> decks;
-		if (!Strings.isNullOrEmpty(collectionName)) {
-			decks = mongoDeckRepository.findByCollection(collectionName);
-		} else {
-			decks = mongoDeckRepository.findAll();
+		if (Strings.isNullOrEmpty(collectionName)) {
+			collectionName = null;
 		}
-
+		if (cardNames == null) {
+			cardNames = new ArrayList<String>();
+		}
+		List<Deck> decks = mongoDeckRepository.findByCollectionAndCards(
+				collectionName, cardNames);
 		return DeckDiff.diffDecks(userDeck, decks);
 	}
 
