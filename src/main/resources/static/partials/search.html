@@ -60,6 +60,7 @@
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
+					<th>Class</th>
 					<th>Deck Name</th>
 					<th>Required Dust</th>
 					<th>Full Dust Value</th>
@@ -71,6 +72,7 @@
 			<tbody>
 				<tr
 					ng-repeat="deckDiff in diffs | orderBy:['-rankingMetric'] | filter:diffFilter">
+					<td>{{ deckDiff.desiredDeck.playerClass }}</td>
 					<td><a href="{{ deckDiff.desiredDeck.url }}" target="_blank">{{
 							deckDiff.desiredDeck.name }}</a></td>
 					<td>{{ deckDiff.requiredDust }}</td>

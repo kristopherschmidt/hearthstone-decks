@@ -69,7 +69,7 @@ public class Deck {
 	}
 
 	public PlayerClass getPlayerClass() {
-		return playerClass;
+		return playerClass != null ? playerClass : PlayerClass.Neutral;
 	}
 
 	public int getSize() {
@@ -88,10 +88,17 @@ public class Deck {
 		if (deckCard.getNumCards() > 0) {
 			cards.add(deckCard);
 		}
-		if (playerClass == null) {
-			playerClass = deckCard.getCard().getPlayerClass();
-		} else if (playerClass != deckCard.getCard().getPlayerClass()) {
+		PlayerClass cardClass = deckCard.getCard().getPlayerClass();
+		if (playerClass == null && cardClass != PlayerClass.Neutral) {
+			playerClass = cardClass;
+		} else if (playerClass != null && cardClass != PlayerClass.Neutral
+				&& playerClass != cardClass) {
+			// we have mixed player classes in the same deck
 			playerClass = PlayerClass.Neutral;
+		} else {
+			// Either the player class is the same as the card class,
+			// or the player class is null and the card class is neutral,
+			// so we can't determine the class (wait for the next card)
 		}
 	}
 

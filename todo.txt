@@ -1,6 +1,7 @@
 
 User stories:
 
+add filtering by percent complete
 add question marks / help markers to explain certain pages & functions
 copy db when loading new decks
 date decks, allow filters by date
@@ -9,25 +10,22 @@ strategy menu, e.g. good decks with most minions 2 or less
 view your own deck (EPIC) - show pretty images, allow editing, stats, etc etc
 display number of results by class. allow filtering by click
 put more stuff on leftnav...anything!
-multi-card select - ANY cards not ALL cards
-make mobile
-filter by class
+make mobile (+test!)
 allow automatic download of user deck, or easier upload + storage
 implement ability to delete and refresh a single collection rather than all
 search decks with user's legendaries (max #)
-search decks using passthrough search string
 allow table to be manually sortable
 user choice to diff 1 class or diff all
 missing cards hover
-sorting algorithm
-make deck filtering manual
+better sorting algorithm for completion
 add support for hearthhead
 auto workaround spelling errors in excel sheet
-not possible to have more than 1 legendary
+
 eliminate sucky decks - low cost, by date, etc (already eliminated decks specific to mode, season)
 
 
 Tech debt:
+
 
 break out app.js from controller.js
 make services out of rest calls
@@ -38,3 +36,4 @@ add maven autoformatter to project?
 handle missing files, exceptions
 handle non-numeric or missing numbers like number of cards (excel or icyveins)
 rewrite deckdifftest using deckdiffbuilder
+make an error when adding more than 1 legendary to a deck
