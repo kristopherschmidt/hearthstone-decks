@@ -61,6 +61,11 @@ hearthstoneApp.controller('IndexController', [
 
 			}
 
+			$scope.filterByClass = function(playerClass) {
+				console.log("filterByclass(" + playerClass + ")");
+				console.log($scope.classFilter[playerClass]);
+			}
+
 			$scope.collection = "";
 			$scope.searchCards = [];
 			$scope.diffFilter = "";

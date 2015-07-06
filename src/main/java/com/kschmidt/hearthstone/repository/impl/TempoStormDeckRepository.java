@@ -50,6 +50,7 @@ public class TempoStormDeckRepository implements WebDeckRepository {
 
 	@SuppressWarnings("unchecked")
 	public Deck getDeck(String slug) throws IOException {
+		LOG.info("TempoStorm fetching deck with slug: " + slug);
 		Deck deck = new Deck(slug);
 		deck.setCollection("tempoStormDeckRepository");
 		deck.setUrl("https://tempostorm.com/hearthstone/decks/" + slug);

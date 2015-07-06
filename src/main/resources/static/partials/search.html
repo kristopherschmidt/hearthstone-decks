@@ -36,6 +36,16 @@
 				</div>
 			</div>
 
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Classes</label>
+				<div class="col-lg-10">
+					<label class="checkbox-inline"> <input type="checkbox"
+						value="Druid" ng-model="classFilter.Druid"
+						ng-change="filterByClass('Druid')">Druid
+					</label>
+				</div>
+			</div>
+
 		</form>
 	</div>
 </section>
@@ -57,22 +67,20 @@
 
 	<div class="panel-body">
 
-		<table class="table table-bordered table-striped">
+		<table class="table table-condensed table-bordered table-striped">
 			<thead>
 				<tr>
-					<th>Class</th>
-					<th>Deck Name</th>
-					<th>Required Dust</th>
-					<th>Full Dust Value</th>
-					<th>Percent Complete</th>
-					<th>Ranking Metric</th>
-					<th>Missing Cards</th>
+					<th class="col-sm-4">Deck Name</th>
+					<th class="col-sm-1">Required Dust</th>
+					<th class="col-sm-1">Full Dust Value</th>
+					<th class=col-sm-1>Percent Complete</th>
+					<th class="col-sm-1">Ranking Metric</th>
+					<th class="col-sm-4">Missing Cards</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr
 					ng-repeat="deckDiff in diffs | orderBy:['-rankingMetric'] | filter:diffFilter">
-					<td>{{ deckDiff.desiredDeck.playerClass }}</td>
 					<td><a href="{{ deckDiff.desiredDeck.url }}" target="_blank">{{
 							deckDiff.desiredDeck.name }}</a></td>
 					<td>{{ deckDiff.requiredDust }}</td>
