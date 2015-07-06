@@ -88,6 +88,7 @@ public class TempoStormDeckRepository implements WebDeckRepository {
 
 	@Cacheable("decks")
 	public List<Deck> getDecks(String serviceUrl) throws IOException {
+		LOG.info("TempoStorm fetching all decks from: " + serviceUrl);
 		List<Deck> decks = new ArrayList<Deck>();
 		for (String deckSlug : getDeckSlugs(serviceUrl)) {
 			Deck deck = getDeck(deckSlug);
@@ -99,6 +100,7 @@ public class TempoStormDeckRepository implements WebDeckRepository {
 			throw new IllegalArgumentException("No decks found at: "
 					+ serviceUrl);
 		}
+		LOG.info("TempoStorm fetched a total of: " + decks.size() + " decks");
 		return decks;
 	}
 

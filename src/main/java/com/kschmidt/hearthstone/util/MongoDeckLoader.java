@@ -41,6 +41,7 @@ public class MongoDeckLoader {
 	}
 
 	public void deleteRepeats(List<Deck> decks) throws IOException {
+		LOG.info("deleting repeats from db");
 		int compareCount = 0;
 		int duplicateCount = 0;
 		for (Deck deck1 : decks) {
@@ -80,10 +81,12 @@ public class MongoDeckLoader {
 	}
 
 	void deleteAll() {
+		LOG.info("deleting all deck collections from db");
 		mongoDeckRepository.deleteAll();
 	}
 
 	private void load(String collectionName) throws IOException {
+		LOG.info("loading collection: " + collectionName + " into db");
 		WebDeckRepository repo = webDeckRepositories.get(collectionName);
 		List<Deck> decks = repo.getAllDecks();
 		mongoDeckRepository.save(decks);

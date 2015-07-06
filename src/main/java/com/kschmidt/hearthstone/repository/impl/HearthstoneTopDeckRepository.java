@@ -71,7 +71,6 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 		for (int i = 0; i < classes.length; ++i) {
 			String deckListUrl = deckListUrlPrefix + classes[i]
 					+ deckListUrlPostfix;
-			LOG.debug("Fetching decks from: " + deckListUrl);
 			decks.addAll(getDecks(deckListUrl));
 		}
 		return decks;
@@ -79,6 +78,7 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 
 	@Cacheable("decks")
 	public List<Deck> getDecks(String deckListUrl) throws IOException {
+		LOG.info("HearthstoneTopDeck fetching decks from: " + deckListUrl);
 		List<Deck> decks = new ArrayList<Deck>();
 		for (String deckUrl : getDeckUrls(deckListUrl)) {
 			decks.add(getDeck(deckUrl));
@@ -87,6 +87,7 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 			throw new IllegalArgumentException("No decks found at: "
 					+ deckListUrl);
 		}
+		LOG.info("fetched: " + decks.size() + " decks");
 		return decks;
 	}
 

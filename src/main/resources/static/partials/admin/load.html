@@ -1,9 +1,17 @@
+<div class="row">
+	<div class="col-sm-12">
+		<h3 class="page-header">Reload Decks</h3>
+	</div>
+</div>
+
 <section class="panel">
-	<header class="panel-heading">Reload Decks</header>
 	<div class="panel-body">
-		<span class="help-block">Choosing this option will reload all
-			decks from the web. Warning: this make take awhile.</span> <a
-			class="btn btn-primary" ng-click="reloadDecks()">Go!</a>
+		<div class="text-center">
+			<span class="help-block">Choosing this option will reload all
+				decks from the web. Warning: this make take awhile.</span> <a
+				class="btn btn-primary" ng-hide="loading" ng-click="reloadDecks()">Go!</a>
+			<i class="fa fa-spinner fa-spin fa-3x" ng-show="loading"></i>
+		</div>
 	</div>
 </section>
 
@@ -17,6 +25,23 @@
 				<h4 class="modal-title">Success</h4>
 			</div>
 			<div class="modal-body">The decks were successfully reloaded.</div>
+			<div class="modal-footer">
+				<button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="deckLoadErrorModal" tabindex="-1"
+	role="dialog" aria-labelledby="Deck Load Error" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Error</h4>
+			</div>
+			<div class="modal-body">There was a problem reloading the decks.</div>
 			<div class="modal-footer">
 				<button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
 			</div>

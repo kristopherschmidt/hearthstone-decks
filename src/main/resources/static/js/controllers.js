@@ -68,11 +68,20 @@ hearthstoneApp.controller('IndexController', [
 
 		} ]);
 
-hearthstoneApp.controller('DeckLoadController', [ '$scope',
+hearthstoneApp.controller('DeckLoadController', [ '$scope', '$http',
+		function($scope, $http) {
+			$scope.reloadDecks = function() {
+				$scope.loading = true;
+				console.log("reloadDecks");
+				$scope.loading = true;
+				$http.get('/api/decks/refresh').success(function() {
+					$scope.loading = false;
+					$("#deckLoadSuccessModal").modal();
+				}).error(function() {
+					$scope.loading = false;
+					$("#deckLoadErrorModal").modal();
+				})
+			}
+			$scope.loading = false;
 
-function($scope) {
-	$scope.reloadDecks = function() {
-		console.log("reloadDecks");
-		$("#deckLoadSuccessModal").modal();
-	}
-} ]);
+		} ]);

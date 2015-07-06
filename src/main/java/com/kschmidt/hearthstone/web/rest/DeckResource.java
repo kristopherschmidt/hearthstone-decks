@@ -17,8 +17,9 @@ public class DeckResource {
 	private MongoDeckLoader mongoDeckLoader;
 
 	@RequestMapping(value = "/api/decks/refresh", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void refreshAll() throws IOException {
+	public boolean refreshAll() throws IOException {
 		mongoDeckLoader.refreshAll();
+		return true;
 	}
 
 }

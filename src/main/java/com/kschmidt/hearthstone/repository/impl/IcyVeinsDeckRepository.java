@@ -64,7 +64,6 @@ public class IcyVeinsDeckRepository implements WebDeckRepository {
 		for (int i = 0; i < classes.length; ++i) {
 			String deckListUrl = deckListUrlPrefix + classes[i]
 					+ deckListUrlPostfix;
-			LOG.debug("Fetching decks from: " + deckListUrl);
 			decks.addAll(getDecks(deckListUrl));
 		}
 		return decks;
@@ -72,6 +71,7 @@ public class IcyVeinsDeckRepository implements WebDeckRepository {
 
 	@Cacheable("decks")
 	public List<Deck> getDecks(String deckListUrl) throws IOException {
+		LOG.info("IcyVeins fetching decks from: " + deckListUrl);
 		List<Deck> decks = new ArrayList<Deck>();
 		for (String deckUrl : getDeckUrls(deckListUrl)) {
 			if (deckUrl.startsWith("/basic-") || deckUrl.contains("/season-")
@@ -80,6 +80,7 @@ public class IcyVeinsDeckRepository implements WebDeckRepository {
 			}
 			decks.add(getDeck(deckUrl));
 		}
+		LOG.info("fetched: " + decks.size() + " decks");
 		return decks;
 	}
 
