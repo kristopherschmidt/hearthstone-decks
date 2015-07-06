@@ -48,7 +48,7 @@
 		Found {{ diffs.length }} results. Top 5 missing cards (click to
 		filter):
 		<ol class="list-group">
-			<a href="#" class="list-group-item"
+			<a href="#/" class="list-group-item"
 				ng-click="filterByCard(deckCard.card)"
 				ng-repeat="deckCard in allMissingCards | orderBy: '-dustValue' | limitTo:5">
 				{{ deckCard.cardName }} ({{ deckCard.numCards }})</a>

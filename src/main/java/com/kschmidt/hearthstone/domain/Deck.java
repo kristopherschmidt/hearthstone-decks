@@ -25,6 +25,7 @@ public class Deck {
 	private List<DeckCard> cards = new ArrayList<DeckCard>();
 	private String collection;
 	private String name;
+	private PlayerClass playerClass;
 	private String url;
 
 	public Deck(String name) {
@@ -43,6 +44,14 @@ public class Deck {
 		this.collection = collection;
 	}
 
+	public int getDustValue() {
+		int dust = 0;
+		for (DeckCard card : cards) {
+			dust += card.getDustValue();
+		}
+		return dust;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -57,6 +66,10 @@ public class Deck {
 			numCards += card.getNumCards();
 		}
 		return numCards;
+	}
+
+	public PlayerClass getPlayerClass() {
+		return playerClass;
 	}
 
 	public int getSize() {
@@ -75,6 +88,11 @@ public class Deck {
 		if (deckCard.getNumCards() > 0) {
 			cards.add(deckCard);
 		}
+		if (playerClass == null) {
+			playerClass = deckCard.getCard().getPlayerClass();
+		} else if (playerClass != deckCard.getCard().getPlayerClass()) {
+			playerClass = PlayerClass.Neutral;
+		}
 	}
 
 	public Optional<DeckCard> findCard(final String cardName) {
@@ -90,14 +108,6 @@ public class Deck {
 		return MoreObjects.toStringHelper(getClass()).add("name", name)
 				.add("cards", cards).toString();
 
-	}
-
-	public int getDustValue() {
-		int dust = 0;
-		for (DeckCard card : cards) {
-			dust += card.getDustValue();
-		}
-		return dust;
 	}
 
 	public List<DeckCard> sortByNumCards() {
