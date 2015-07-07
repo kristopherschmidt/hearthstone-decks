@@ -29,7 +29,8 @@ public class DeckDiffResource {
 	@RequestMapping(value = "/api/diffanalyzer", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public DiffAnalyzer diffAnalyzer(
 			@RequestParam(required = false, value = "collection") String collectionName,
-			@RequestParam(required = false, value = "cards") List<String> cardNames)
+			@RequestParam(required = false, value = "cards") List<String> cardNames,
+			@RequestParam(required = false, value = "playerClasses") List<String> playerClasses)
 			throws IOException {
 		if (Strings.isNullOrEmpty(collectionName)) {
 			collectionName = null;
@@ -37,8 +38,11 @@ public class DeckDiffResource {
 		if (cardNames == null) {
 			cardNames = new ArrayList<String>();
 		}
-		List<Deck> decks = mongoDeckRepository.findByCollectionAndCards(
-				collectionName, cardNames);
+		if (playerClasses == null) {
+			playerClasses = new ArrayList<String>();
+		}
+		List<Deck> decks = mongoDeckRepository.find(collectionName, cardNames,
+				playerClasses);
 		return new DiffAnalyzer(DeckDiff.diffDecks(userDeck, decks));
 	}
 

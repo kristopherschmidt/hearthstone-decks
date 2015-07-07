@@ -1,6 +1,7 @@
 
 User stories:
 
+filter by max dust required
 add filtering by percent complete
 add question marks / help markers to explain certain pages & functions
 copy db when loading new decks

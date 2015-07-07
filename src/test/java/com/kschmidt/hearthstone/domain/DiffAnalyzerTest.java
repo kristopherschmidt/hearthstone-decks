@@ -38,6 +38,10 @@ public class DiffAnalyzerTest {
 				.withDesiredCard("c", Rarity.Epic, 1).build();
 		diffs = Arrays.asList(new DeckDiff[] { diff1, diff2, diff3 });
 		analyzer = new DiffAnalyzer(diffs);
+		
+		System.out.println(diff1.getRequiredDust());
+		System.out.println(diff2.getRequiredDust());
+		System.out.println(diff3.getRequiredDust());
 	}
 
 	@Test

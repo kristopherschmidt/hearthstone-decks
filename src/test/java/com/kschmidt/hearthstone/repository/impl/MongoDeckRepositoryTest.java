@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.kschmidt.hearthstone.App;
 import com.kschmidt.hearthstone.domain.Deck;
+import com.kschmidt.hearthstone.domain.PlayerClass;
 import com.kschmidt.hearthstone.repository.MongoDeckRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -122,4 +123,26 @@ public class MongoDeckRepositoryTest {
 		assertThat(decks.size(), equalTo(mongoDeckRepository.findAll().size()));
 	}
 
+	// Should search for the cards in all collections
+	@Test
+	public void testFindByCollectionAndCardsAndPlayerClass() {
+		List<Deck> allClasses = mongoDeckRepository.findByCollectionAndCards(
+				null, Arrays.asList("Dr. Boom", "Sylvanas Windrunner"));
+		List<Deck> druidOnly = mongoDeckRepository.find(null,
+				Arrays.asList("Dr. Boom", "Sylvanas Windrunner"),
+				Arrays.asList("Druid"));
+		assertTrue(druidOnly.size() > 0);
+		assertTrue(druidOnly.size() < allClasses.size());
+		for (Deck deck : druidOnly) {
+			assertThat(deck.getPlayerClass(), equalTo(PlayerClass.Druid));
+		}
+	}
+
+	// Should search for the cards in all collections
+	@Test
+	public void testFindByCollectionAndCardsAndPlayerClassWhereClassIsEmpty() {
+		List<Deck> decks = mongoDeckRepository.find(null,
+				new ArrayList<String>(), new ArrayList<String>());
+		assertThat(decks.size(), equalTo(mongoDeckRepository.findAll().size()));
+	}
 }
