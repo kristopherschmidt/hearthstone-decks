@@ -29,12 +29,18 @@ hearthstoneApp.controller('IndexController', [
 						return card.name
 					});
 				}
+				var playerClassParam = [];
+				for (className in $scope.playerClass) {
+					if ($scope.playerClass[className]) {
+						playerClassParam.push(className);
+					}
+				}
 
 				$http.get('/api/diffanalyzer', {
 					params : {
 						collection : $scope.collection,
 						cards : searchCardsParam,
-						playerClasses : $scope.playerClasses
+						playerClasses : playerClassParam
 					}
 				}).success(function(data) {
 					$scope.diffanalyzer = data;
@@ -62,15 +68,10 @@ hearthstoneApp.controller('IndexController', [
 
 			}
 
-			$scope.filterByClass = function(playerClass) {
-				console.log("filterByclass(" + playerClass + ")");
-				console.log($scope.classFilter[playerClass]);
-			}
-
 			$scope.collection = "";
 			$scope.searchCards = [];
 			$scope.diffFilter = "";
-			//$scope.playerClasses = [ "Mage" ];
+			$scope.playerClass = {};
 			$scope.diff();
 
 		} ]);

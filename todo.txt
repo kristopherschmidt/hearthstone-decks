@@ -17,7 +17,6 @@ make mobile (+test!)
 allow automatic download of user deck, or easier upload + storage
 implement ability to delete and refresh a single collection rather than all
 search decks with user's legendaries (max #)
-allow table to be manually sortable
 user choice to diff 1 class or diff all
 missing cards hover
 better sorting algorithm for completion
