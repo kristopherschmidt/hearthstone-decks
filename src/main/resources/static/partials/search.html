@@ -40,8 +40,9 @@
 				<label class="col-sm-2 control-label">Classes</label>
 				<div class="col-lg-10">
 					<label class="checkbox-inline"> <input type="checkbox"
-						value="Druid" ng-model="classFilter.Druid"
-						ng-change="filterByClass('Druid')">Druid
+						ng-model="playerTypeDruid">Druid
+					</label> <label class="checkbox-inline"> <input type="checkbox"
+						ng-model="playerTypeMage">Mage
 					</label>
 				</div>
 			</div>
@@ -67,20 +68,50 @@
 
 	<div class="panel-body">
 
-		<table class="table table-condensed table-bordered table-striped">
+		<table class="table table-condensed table-bordered table-striped"
+			ng-controller="TableSortController">
 			<thead>
 				<tr>
 					<th class="col-sm-4">Deck Name</th>
-					<th class="col-sm-1">Required Dust</th>
-					<th class="col-sm-1">Full Dust Value</th>
-					<th class=col-sm-1>Percent Complete</th>
-					<th class="col-sm-1">Ranking Metric</th>
-					<th class="col-sm-4">Missing Cards</th>
+					<th class="col-sm-1"><a href="#/"
+						ng-click='sortType = "requiredDust"; sortReverse = !sortReverse'>Required
+							Dust</a> <span ng-show='sortType == "requiredDust" && !sortReverse'
+						class="fa fa-caret-up"></span> <span
+						ng-show='sortType == "requiredDust" && sortReverse'
+						class="fa fa-caret-down"></span></th>
+					<th class="col-sm-1"><a href="#/"
+						ng-click='sortType = "fullDustValue"; sortReverse = !sortReverse'>Full
+							Dust Value</a> <span
+						ng-show='sortType == "fullDustValue" && !sortReverse'
+						class="fa fa-caret-up"></span> <span
+						ng-show='sortType == "fullDustValue" && sortReverse'
+						class="fa fa-caret-down"></span></th>
+					<th class="col-sm-1"><a href="#/"
+						ng-click='sortType = "percentComplete"; sortReverse = !sortReverse'>Percent
+							Complete</a><span
+						ng-show='sortType == "percentComplete" && !sortReverse'
+						class="fa fa-caret-up"></span> <span
+						ng-show='sortType == "percentComplete" && sortReverse'
+						class="fa fa-caret-down"></span></th>
+					<th class="col-sm-1"><a href="#/"
+						ng-click='sortType = "rankingMetric"; sortReverse = !sortReverse'>Ranking
+							Metric</a><span ng-show='sortType == "rankingMetric" && !sortReverse'
+						class="fa fa-caret-up"></span> <span
+						ng-show='sortType == "rankingMetric" && sortReverse'
+						class="fa fa-caret-down"></span></th>
+					<th class="col-sm-4"><a href="#/"
+						ng-click='sortType = "numMissingCards"; sortReverse = !sortReverse'>Missing
+							Cards</a> <span
+						ng-show='sortType == "numMissingCards" && !sortReverse'
+						class="fa fa-caret-up"></span><span
+						ng-show='sortType
+						== "numMissingCards" && sortReverse'
+						class="fa fa-caret-down"></span></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr
-					ng-repeat="deckDiff in diffs | orderBy:['-rankingMetric'] | filter:diffFilter">
+					ng-repeat="deckDiff in diffs | orderBy:sortType:sortReverse | filter:diffFilter">
 					<td><a href="{{ deckDiff.desiredDeck.url }}" target="_blank">{{
 							deckDiff.desiredDeck.name }}</a></td>
 					<td>{{ deckDiff.requiredDust }}</td>

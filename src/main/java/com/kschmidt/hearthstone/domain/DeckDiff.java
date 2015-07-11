@@ -41,17 +41,19 @@ public class DeckDiff {
 		return missingCards;
 	}
 
+	public int getNumMissingCards() {
+		return missingCards.getNumCards();
+	}
+
 	public double getPercentComplete() {
 		return (getFullDustValue() - getRequiredDust())
 				/ (double) getFullDustValue() * 100;
 	}
-	
+
 	/**
-	public double getRankingMetric() {
-		double dustWeight = getFullDustValue();
-		return dustWeight * getPercentComplete() / 100;
-	}
-	*/
+	 * public double getRankingMetric() { double dustWeight =
+	 * getFullDustValue(); return dustWeight * getPercentComplete() / 100; }
+	 */
 
 	public double getRankingMetric() {
 		double dustWeight = getFullDustValue();

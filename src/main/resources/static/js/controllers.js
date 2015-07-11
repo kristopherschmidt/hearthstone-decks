@@ -33,7 +33,8 @@ hearthstoneApp.controller('IndexController', [
 				$http.get('/api/diffanalyzer', {
 					params : {
 						collection : $scope.collection,
-						cards : searchCardsParam
+						cards : searchCardsParam,
+						playerClasses : $scope.playerClasses
 					}
 				}).success(function(data) {
 					$scope.diffanalyzer = data;
@@ -69,6 +70,7 @@ hearthstoneApp.controller('IndexController', [
 			$scope.collection = "";
 			$scope.searchCards = [];
 			$scope.diffFilter = "";
+			//$scope.playerClasses = [ "Mage" ];
 			$scope.diff();
 
 		} ]);
@@ -90,3 +92,9 @@ hearthstoneApp.controller('DeckLoadController', [ '$scope', '$http',
 			$scope.loading = false;
 
 		} ]);
+
+hearthstoneApp.controller('TableSortController', [ '$scope', function($scope) {
+	$scope.sortType = 'requiredDust';
+	$scope.sortReverse = false;
+
+} ]);

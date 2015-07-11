@@ -1,6 +1,8 @@
 
 User stories:
 
+show # of results by each class
+already completed decks
 filter by max dust required
 add filtering by percent complete
 add question marks / help markers to explain certain pages & functions
