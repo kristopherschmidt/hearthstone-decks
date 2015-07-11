@@ -30,7 +30,9 @@ public class DeckDiffResource {
 	public DiffAnalyzer diffAnalyzer(
 			@RequestParam(required = false, value = "collection") String collectionName,
 			@RequestParam(required = false, value = "cards") List<String> cardNames,
-			@RequestParam(required = false, value = "playerClasses") List<String> playerClasses)
+			@RequestParam(required = false, value = "playerClasses") List<String> playerClasses,
+			@RequestParam(required = false, value = "maxRequiredDust") Integer maxRequiredDust,
+			@RequestParam(required = false, value = "minRequiredDust") Integer minRequiredDust)
 			throws IOException {
 		if (Strings.isNullOrEmpty(collectionName)) {
 			collectionName = null;
@@ -43,7 +45,15 @@ public class DeckDiffResource {
 		}
 		List<Deck> decks = mongoDeckRepository.find(collectionName, cardNames,
 				playerClasses);
-		return new DiffAnalyzer(DeckDiff.diffDecks(userDeck, decks));
+		DiffAnalyzer analyzer = new DiffAnalyzer(DeckDiff.diffDecks(userDeck,
+				decks));
+		if (maxRequiredDust != null) {
+			analyzer.filterByMaxRequiredDust(maxRequiredDust);
+		}
+		if (minRequiredDust != null) {
+			analyzer.filterByMinRequiredDust(minRequiredDust);
+		}
+		return analyzer;
 	}
 
 }

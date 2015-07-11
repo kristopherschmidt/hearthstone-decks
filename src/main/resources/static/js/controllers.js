@@ -40,7 +40,9 @@ hearthstoneApp.controller('IndexController', [
 					params : {
 						collection : $scope.collection,
 						cards : searchCardsParam,
-						playerClasses : playerClassParam
+						playerClasses : playerClassParam,
+						maxRequiredDust : $scope.maxRequiredDust,
+						minRequiredDust : $scope.minRequiredDust
 					}
 				}).success(function(data) {
 					$scope.diffanalyzer = data;

@@ -1,7 +1,7 @@
 
 User stories:
 
-show # of results by each class
+
 already completed decks
 filter by max dust required
 add filtering by percent complete
@@ -22,8 +22,8 @@ missing cards hover
 better sorting algorithm for completion
 add support for hearthhead
 auto workaround spelling errors in excel sheet
-
 eliminate sucky decks - low cost, by date, etc (already eliminated decks specific to mode, season)
+show # of results by each class (LOW)
 
 
 Tech debt:
@@ -31,6 +31,8 @@ Tech debt:
 
 break out app.js from controller.js
 make services out of rest calls
+break out templates for different components
+break out controller functions? decouple components with messaging.
 webjars
 REST exception handling
 refactor ioexception to dataaccessexception

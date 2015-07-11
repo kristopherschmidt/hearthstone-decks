@@ -16,10 +16,28 @@ public class DiffAnalyzer {
 			.getLogger(DiffAnalyzer.class);
 
 	private List<DeckDiff> diffs;
+	private int maxRequiredDust = Integer.MAX_VALUE;
+	private int minRequiredDust = 0;
 	private double percentComplete = 0;
 
 	public DiffAnalyzer(List<DeckDiff> diffs) {
 		this.diffs = diffs;
+	}
+
+	public void filterByMaxRequiredDust(int maxRequiredDust) {
+		if (maxRequiredDust < 0) {
+			throw new IllegalArgumentException("maxRequiredDust: "
+					+ maxRequiredDust + " must be non-negative");
+		}
+		this.maxRequiredDust = maxRequiredDust;
+	}
+
+	public void filterByMinRequiredDust(int minRequiredDust) {
+		if (minRequiredDust < 0) {
+			throw new IllegalArgumentException("minRequiredDust: "
+					+ minRequiredDust + " must be non-negative");
+		}
+		this.minRequiredDust = minRequiredDust;
 	}
 
 	public void filterByPercentComplete(double percentComplete) {
@@ -58,10 +76,13 @@ public class DiffAnalyzer {
 	List<DeckDiff> getFilteredDiffs() {
 		List<DeckDiff> filteredDiffs = new ArrayList<DeckDiff>();
 		for (DeckDiff diff : diffs) {
-
-			if (diff.getPercentComplete() >= percentComplete) {
+			int requiredDust = diff.getRequiredDust();
+			if (diff.getPercentComplete() >= percentComplete
+					&& requiredDust <= maxRequiredDust
+					&& requiredDust >= minRequiredDust) {
 				filteredDiffs.add(diff);
 			}
+
 		}
 		return filteredDiffs;
 	}

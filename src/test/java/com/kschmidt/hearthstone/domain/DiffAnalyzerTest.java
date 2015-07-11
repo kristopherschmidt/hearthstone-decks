@@ -19,7 +19,6 @@ public class DiffAnalyzerTest {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(DiffAnalyzerTest.class);
 
-	private DiffAnalyzer analyzer;
 	private List<DeckDiff> diffs;
 	private DeckDiff diff1;
 	private DeckDiff diff2;
@@ -37,17 +36,12 @@ public class DiffAnalyzerTest {
 				.withDesiredCard("a", Rarity.Common, 2)
 				.withDesiredCard("c", Rarity.Epic, 1).build();
 		diffs = Arrays.asList(new DeckDiff[] { diff1, diff2, diff3 });
-		analyzer = new DiffAnalyzer(diffs);
-		
-		System.out.println(diff1.getRequiredDust());
-		System.out.println(diff2.getRequiredDust());
-		System.out.println(diff3.getRequiredDust());
 	}
 
 	@Test
 	public void testGetAllMissingCards() {
+		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
 		Deck missingCards = analyzer.getAllMissingCards();
-		LOG.debug(missingCards.toString());
 		assertThat(missingCards.getCards().size(), equalTo(3));
 		assertThat(missingCards.getNumCards(), equalTo(6));
 
@@ -69,6 +63,7 @@ public class DiffAnalyzerTest {
 
 	@Test
 	public void testSortByNumCards() {
+		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
 		List<DeckCard> missing = analyzer.getAllMissingCards().sortByNumCards();
 		assertThat(missing.get(0).getCardName(), equalTo("a"));
 		assertThat(missing.get(1).getCardName(), equalTo("b"));
@@ -77,6 +72,7 @@ public class DiffAnalyzerTest {
 
 	@Test
 	public void testSortByDustValue() {
+		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
 		List<DeckCard> missing = analyzer.getAllMissingCards()
 				.sortByDustValue();
 		assertThat(missing.get(0).getCardName(), equalTo("c"));
@@ -86,6 +82,7 @@ public class DiffAnalyzerTest {
 
 	@Test
 	public void testFilterByPercentComplete() {
+		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
 		analyzer.filterByPercentComplete(50);
 		List<DeckDiff> diffs = analyzer.getFilteredDiffs();
 		assertThat(diffs.size(), equalTo(1));
@@ -110,11 +107,50 @@ public class DiffAnalyzerTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testFilterByPercentCompleteFailsForPercentageLessThanZero() {
+		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
 		analyzer.filterByPercentComplete(-1);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testFilterByPercentCompleteFailsForPercentageGreaterThanOneHundred() {
+		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
 		analyzer.filterByPercentComplete(101);
+	}
+
+	@Test
+	public void testFilterByMaxDustRequired() {
+		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
+		analyzer.filterByMaxRequiredDust(250);
+		Assert.assertTrue(diff1.getRequiredDust() <= 250);
+		Assert.assertTrue(diff2.getRequiredDust() <= 250);
+		Assert.assertTrue(diff3.getRequiredDust() > 250);
+		List<DeckDiff> diffs = analyzer.getFilteredDiffs();
+		assertThat(diffs.size(), equalTo(2));
+		Assert.assertSame(diff1, diffs.get(0));
+		Assert.assertSame(diff2, diffs.get(1));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testFilterByMaxDustRequiredFailsForMaxDustLessThanZero() {
+		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
+		analyzer.filterByMaxRequiredDust(-1);
+	}
+
+	@Test
+	public void testFilterByMinDustRequired() {
+		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
+		analyzer.filterByMinRequiredDust(250);
+		Assert.assertTrue(diff1.getRequiredDust() <= 250);
+		Assert.assertTrue(diff2.getRequiredDust() <= 250);
+		Assert.assertTrue(diff3.getRequiredDust() > 250);
+		List<DeckDiff> diffs = analyzer.getFilteredDiffs();
+		assertThat(diffs.size(), equalTo(1));
+		Assert.assertSame(diff3, diffs.get(0));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testFilterByMinDustRequiredFailsForMaxDustLessThanZero() {
+		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
+		analyzer.filterByMinRequiredDust(-1);
 	}
 }
