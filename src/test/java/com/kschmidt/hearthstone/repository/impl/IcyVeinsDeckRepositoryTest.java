@@ -2,6 +2,7 @@ package com.kschmidt.hearthstone.repository.impl;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -71,14 +72,14 @@ public class IcyVeinsDeckRepositoryTest {
 	public void testGetDeckList() throws IOException {
 		List<String> deckUrls = icyVeins
 				.getDeckUrls("http://www.icy-veins.com/hearthstone/druid-decks");
-		assertThat(deckUrls.size(), equalTo(42));
+		assertThat(deckUrls.size(), greaterThan(0));
 	}
 
 	@Test
 	public void testGetDecks() throws IOException {
 		List<Deck> decks = icyVeins
 				.getDecks("http://www.icy-veins.com/hearthstone/druid-decks");
-		assertThat(decks.size(), equalTo(21));
+		assertThat(decks.size(), greaterThan(0));
 		for (Deck deck : decks) {
 			assertThat(deck.getNumCards(), equalTo(30));
 		}
