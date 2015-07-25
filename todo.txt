@@ -1,6 +1,8 @@
 
 User stories:
 
+use local storage?
+play with sockets - show status while loading decks from web
 date decks, allow filters by date
 strategy menu, e.g. good decks with most minions 2 or less
 view your own deck (EPIC) - show pretty images, allow editing, stats, etc etc
@@ -9,7 +11,6 @@ make mobile (+test!)
 allow automatic download of user deck, or easier upload + storage
 implement ability to delete and refresh a single collection rather than all
 search decks with user's legendaries (max #)
-user choice to diff 1 class or diff all
 missing cards hover
 better sorting algorithm for completion
 add support for hearthhead
@@ -24,7 +25,7 @@ filter top 5 cards by rare, epic, legend, all
 
 Tech debt:
 
-
+make reloading threadsafe
 break out app.js from controller.js
 make services out of rest calls
 break out templates for different components

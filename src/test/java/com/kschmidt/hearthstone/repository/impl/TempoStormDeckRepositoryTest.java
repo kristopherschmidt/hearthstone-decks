@@ -68,6 +68,13 @@ public class TempoStormDeckRepositoryTest {
 		List<String> deckSlugs = tempoStorm
 				.getDeckSlugs("https://tempostorm.com/decks");
 		Assert.assertFalse(deckSlugs.isEmpty());
+		LOG.debug("num slugs: "+deckSlugs.size());
+	}
+
+	@Test
+	public void testCorrectCardNames() throws IOException {
+		Deck deck = tempoStorm.getDeck("reynads-pirates");
+		Assert.assertTrue(deck.findCard("Ship's Cannon").isPresent());
 	}
 
 	@Ignore

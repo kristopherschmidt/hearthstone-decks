@@ -40,6 +40,7 @@ public class TempoStormDeckRepository implements WebDeckRepository {
 		this.cardRepository = cardRepository;
 		cardNameCorrections = new HashMap<String, String>();
 		cardNameCorrections.put("Staemwheedle Sniper", "Steamwheedle Sniper");
+		cardNameCorrections.put("Ship Cannon", "Ship's Cannon");
 		unknownCards = new ArrayList<String>();
 		unknownCards.add("Hemit Nesingwary");
 		restTemplate = new RestTemplate();
@@ -109,7 +110,7 @@ public class TempoStormDeckRepository implements WebDeckRepository {
 	List<String> getDeckSlugs(String url) throws JsonParseException,
 			JsonMappingException, IOException {
 		List<String> slugs = new ArrayList<String>();
-		String body = "{\"klass\":\"all\",\"page\":1,\"perpage\":100,\"search\":\"\",\"age\":\"90\",\"order\":\"high\"}";
+		String body = "{\"klass\":\"all\",\"page\":1,\"perpage\":200,\"search\":\"\",\"age\":\"120\",\"order\":\"high\"}";
 		HttpEntity<String> entity = new HttpEntity<String>(body, headers);
 		ResponseEntity<String> result = restTemplate.exchange(url,
 				HttpMethod.POST, entity, String.class);
