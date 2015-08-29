@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -54,13 +55,17 @@ public class JSONCardRepository implements CardRepository {
 
 	@Override
 	public Card findCard(final String cardName) {
-		return Iterables.find(cards, new Predicate<Card>() {
-			@Override
-			public boolean apply(Card card) {
-				return Objects.equal(card.getName().toLowerCase(),
-						cardName.toLowerCase());
-			}
-		});
+		try {
+			return Iterables.find(cards, new Predicate<Card>() {
+				@Override
+				public boolean apply(Card card) {
+					return Objects.equal(card.getName().toLowerCase(),
+							cardName.toLowerCase());
+				}
+			});
+		} catch (NoSuchElementException ex) {
+			throw new NoSuchElementException("Could not find card: " + cardName);
+		}
 	}
 
 }

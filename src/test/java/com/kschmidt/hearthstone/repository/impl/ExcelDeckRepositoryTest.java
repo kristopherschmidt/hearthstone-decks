@@ -27,10 +27,19 @@ public class ExcelDeckRepositoryTest {
 	private Deck deck;
 
 	@Test
-	public void testGetDeck() throws IOException, InvalidFormatException {
+	public void testGetDeckPreTGT() throws IOException, InvalidFormatException {
+		assertGetDeck("HearthstoneMasterCollectionPreTGT.xlsx");
+	}
+	
+	@Test
+	public void testGetDeckPostTGT() throws IOException, InvalidFormatException {
+		assertGetDeck("HearthstoneMasterCollection.xlsx");
+	}
+	
+	private void assertGetDeck(String excelDeckFilename) throws IOException, InvalidFormatException {
 		ExcelDeckRepository masterCollection = new ExcelDeckRepository(
 				new JSONCardRepository("AllSets.json"));
-		deck = masterCollection.getDeck("HearthstoneMasterCollection.xlsx");
+		deck = masterCollection.getDeck(excelDeckFilename);
 
 		// check for a card that shouldn't be present
 		Optional<DeckCard> card = deck.findCard("Millhouse Manastorm");

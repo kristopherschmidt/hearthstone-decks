@@ -122,7 +122,7 @@
 		<ol class="list-group">
 			<a href="#/" class="list-group-item"
 				ng-click="filterByCard(deckCard.card)"
-				ng-repeat="deckCard in allMissingCards | orderBy: '-dustValue' | limitTo:5">
+				ng-repeat="deckCard in allMissingCards | orderBy: '-dustValue' | limitTo:10">
 				{{ deckCard.cardName }} ({{ deckCard.numCards }})</a>
 		</ol>
 

@@ -42,6 +42,7 @@ public class MongoDeckLoaderTest {
 	@Ignore
 	@Test
 	public void testRefreshAll() throws IOException {
+		loader.deleteAll();
 		loader.refreshAll();
 		List<Deck> decks = mongoDeckRepository.findAll();
 		assertTrue(!decks.isEmpty());
