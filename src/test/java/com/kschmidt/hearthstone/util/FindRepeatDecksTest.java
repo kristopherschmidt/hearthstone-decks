@@ -18,6 +18,7 @@ import com.kschmidt.hearthstone.repository.MongoDeckRepository;
 @SpringApplicationConfiguration(classes = App.class)
 public class FindRepeatDecksTest {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory
 			.getLogger(FindRepeatDecksTest.class);
 

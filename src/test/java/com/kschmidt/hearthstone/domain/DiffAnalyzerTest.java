@@ -16,6 +16,7 @@ import com.google.common.base.Optional;
 
 public class DiffAnalyzerTest {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory
 			.getLogger(DiffAnalyzerTest.class);
 

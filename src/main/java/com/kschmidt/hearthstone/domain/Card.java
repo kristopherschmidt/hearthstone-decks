@@ -13,16 +13,17 @@ public class Card {
 	private String name;
 	private PlayerClass playerClass;
 	private Rarity rarity;
+	private String cardSet;
 
 	public Card() {
 
 	}
 
-	public Card(String id, String name, String rarity) {
-		this(id, name, rarity, null);
+	public Card(String id, String name, String rarityString) {
+		this(id, name, rarityString, "Classic", null);
 	}
 
-	public Card(String id, String name, String rarityString,
+	public Card(String id, String name, String rarityString, String cardSet,
 			String playerClassString) {
 		if (Strings.isNullOrEmpty(id)) {
 			throw new IllegalArgumentException("Card is missing id (name = "
@@ -52,6 +53,15 @@ public class Card {
 						+ "' for card: " + name, ex);
 			}
 		}
+		if (Strings.isNullOrEmpty(cardSet)) {
+			throw new IllegalArgumentException("Unknown card set: '" + cardSet
+					+ "' for card: " + name);
+		}
+		this.cardSet = cardSet;
+	}
+
+	public String getCardSet() {
+		return cardSet;
 	}
 
 	public int getDustValue() {
