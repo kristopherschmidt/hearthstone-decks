@@ -32,7 +32,8 @@ public class DeckDiffResource {
 			@RequestParam(required = false, value = "cards") List<String> cardNames,
 			@RequestParam(required = false, value = "playerClasses") List<String> playerClasses,
 			@RequestParam(required = false, value = "maxRequiredDust") Integer maxRequiredDust,
-			@RequestParam(required = false, value = "minRequiredDust") Integer minRequiredDust)
+			@RequestParam(required = false, value = "minRequiredDust") Integer minRequiredDust,
+			@RequestParam(required = false, value = "cardSet") String cardSet)
 			throws IOException {
 		if (Strings.isNullOrEmpty(collectionName)) {
 			collectionName = null;
@@ -52,6 +53,9 @@ public class DeckDiffResource {
 		}
 		if (minRequiredDust != null) {
 			analyzer.filterByMinRequiredDust(minRequiredDust);
+		}
+		if (!Strings.isNullOrEmpty(cardSet)) {
+			analyzer.filterByCardSet(cardSet);
 		}
 		return analyzer;
 	}

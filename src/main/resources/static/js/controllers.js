@@ -42,7 +42,8 @@ hearthstoneApp.controller('IndexController', [
 						cards : searchCardsParam,
 						playerClasses : playerClassParam,
 						maxRequiredDust : $scope.maxRequiredDust,
-						minRequiredDust : $scope.minRequiredDust
+						minRequiredDust : $scope.minRequiredDust,
+						cardSet : $scope.cardSet
 					}
 				}).success(function(data) {
 					$scope.diffanalyzer = data;

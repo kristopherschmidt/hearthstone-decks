@@ -111,6 +111,15 @@ public class Deck {
 		});
 	}
 
+	public boolean hasCardsFromSet(String cardSet) {
+		for (DeckCard deckCard : cards) {
+			if (cardSet.equals(deckCard.getCardSet())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public String toString() {
 		return MoreObjects.toStringHelper(getClass()).add("name", name)
 				.add("cards", cards).toString();

@@ -12,6 +12,13 @@ public class DeckDiffBuilder {
 		return this;
 	}
 
+	public DeckDiffBuilder withDesiredCard(String name, Rarity rarity,
+			int quantity, PlayerClass playerClass, String cardSet) {
+		desiredDeck.add(new DeckCard(new Card(name + "id", name, rarity.name(),
+				cardSet, playerClass.name()), quantity));
+		return this;
+	}
+
 	public DeckDiffBuilder withUserCard(String name, Rarity rarity, int quantity) {
 		userDeck.add(new DeckCard(new Card(name + "id", name, rarity.name()),
 				quantity));

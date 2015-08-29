@@ -69,6 +69,10 @@ public class DeckDiff {
 		return missingCards.getDustValue();
 	}
 
+	public boolean hasCardsFromSet(String cardSet) {
+		return desiredDeck.hasCardsFromSet(cardSet);
+	}
+
 	public boolean isMissingCards() {
 		return !missingCards.getCards().isEmpty();
 	}

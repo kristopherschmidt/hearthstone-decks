@@ -33,9 +33,11 @@ public class DiffAnalyzerTest {
 		diff2 = new DeckDiffBuilder().withUserCard("a", Rarity.Common, 1)
 				.withDesiredCard("b", Rarity.Rare, 2)
 				.withDesiredCard("a", Rarity.Common, 2).build();
-		diff3 = new DeckDiffBuilder().withUserCard("a", Rarity.Common, 1)
+		diff3 = new DeckDiffBuilder()
+				.withUserCard("a", Rarity.Common, 1)
 				.withDesiredCard("a", Rarity.Common, 2)
-				.withDesiredCard("c", Rarity.Epic, 1).build();
+				.withDesiredCard("c", Rarity.Epic, 1, PlayerClass.Neutral,
+						"The Grand Tournament").build();
 		diffs = Arrays.asList(new DeckDiff[] { diff1, diff2, diff3 });
 	}
 
@@ -153,5 +155,14 @@ public class DiffAnalyzerTest {
 	public void testFilterByMinDustRequiredFailsForMaxDustLessThanZero() {
 		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
 		analyzer.filterByMinRequiredDust(-1);
+	}
+	
+	@Test
+	public void testFilterByCardSet() {
+		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
+		analyzer.filterByCardSet("The Grand Tournament");
+		List<DeckDiff> diffs = analyzer.getFilteredDiffs();
+		assertThat(diffs.size(), equalTo(1));
+		Assert.assertSame(diff3, diffs.get(0));
 	}
 }

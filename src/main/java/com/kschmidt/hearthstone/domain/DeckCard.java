@@ -22,6 +22,10 @@ public class DeckCard {
 		return card.getName();
 	}
 
+	public String getCardSet() {
+		return card.getCardSet();
+	}
+
 	public int getDustValue() {
 		return card.getDustValue() * numCards;
 	}

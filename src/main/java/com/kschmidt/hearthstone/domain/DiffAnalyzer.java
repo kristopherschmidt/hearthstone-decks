@@ -9,12 +9,15 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Strings;
+
 public class DiffAnalyzer {
 
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory
 			.getLogger(DiffAnalyzer.class);
 
+	private String cardSet;
 	private List<DeckDiff> diffs;
 	private int maxRequiredDust = Integer.MAX_VALUE;
 	private int minRequiredDust = 0;
@@ -22,6 +25,10 @@ public class DiffAnalyzer {
 
 	public DiffAnalyzer(List<DeckDiff> diffs) {
 		this.diffs = diffs;
+	}
+
+	public void filterByCardSet(String cardSet) {
+		this.cardSet = cardSet;
 	}
 
 	public void filterByMaxRequiredDust(int maxRequiredDust) {
@@ -79,10 +86,11 @@ public class DiffAnalyzer {
 			int requiredDust = diff.getRequiredDust();
 			if (diff.getPercentComplete() >= percentComplete
 					&& requiredDust <= maxRequiredDust
-					&& requiredDust >= minRequiredDust) {
+					&& requiredDust >= minRequiredDust
+					&& (Strings.isNullOrEmpty(cardSet) || diff
+							.hasCardsFromSet(cardSet))) {
 				filteredDiffs.add(diff);
 			}
-
 		}
 		return filteredDiffs;
 	}
