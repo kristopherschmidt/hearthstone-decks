@@ -10,6 +10,7 @@ import org.jsoup.nodes.Document;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +61,21 @@ public class HearthpwnRepositoryTest {
 		Deck deck = hearthpwn
 				.getDeck("http://www.hearthpwn.com/decks/308694-reynads-op-dragon-priest");
 		assertThat(deck.getNumCards(), equalTo(30));
+	}
+
+	@Ignore
+	@Test
+	public void testGetDecks() throws IOException {
+		List<Deck> decks = hearthpwn
+				.getDecks("http://www.hearthpwn.com/decks?filter-build=24&filter-class=64&sort=-rating");
+		assertThat(decks.size(), equalTo(25));
+	}
+
+	@Ignore
+	@Test
+	public void testGetAllDecks() throws IOException {
+		List<Deck> decks = hearthpwn.getAllDecks();
+		LOG.debug(decks.toString());
 	}
 
 }

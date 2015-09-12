@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.repository.impl.ExcelDeckRepository;
+import com.kschmidt.hearthstone.repository.impl.HearthpwnRepository;
 import com.kschmidt.hearthstone.repository.impl.HearthstoneTopDeckRepository;
 import com.kschmidt.hearthstone.repository.impl.IcyVeinsDeckRepository;
 import com.kschmidt.hearthstone.repository.impl.JSONCardRepository;
@@ -42,6 +43,12 @@ public class RepositoryConfiguration {
 	public TempoStormDeckRepository tempoStormDeckRepository()
 			throws JsonParseException, JsonMappingException, IOException {
 		return new TempoStormDeckRepository(jsonCardRepository());
+	}
+
+	@Bean
+	public HearthpwnRepository hearthpwnRepository() throws JsonParseException,
+			JsonMappingException, IOException {
+		return new HearthpwnRepository(jsonCardRepository());
 	}
 
 	@Bean

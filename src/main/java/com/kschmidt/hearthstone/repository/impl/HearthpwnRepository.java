@@ -39,6 +39,69 @@ public class HearthpwnRepository implements WebDeckRepository {
 		this.cardRepository = cardRepository;
 	}
 
+	@Override
+	public Deck getDeck(String url) throws IOException {
+		Document doc = getDocument(url);
+		String deckTitle = doc
+				.select("header.deck-detail section.deck-info h2.deck-title")
+				.get(0).text();
+		Deck deck = new Deck(deckTitle);
+		deck.setUrl(url);
+
+		Elements cardElements = doc
+				.select("aside.infobox table.listing-cards-tabular tr td.col-name");
+		for (Element cardElement : cardElements) {
+			Pattern p = Pattern.compile("(.*)× (\\d)$");
+			Matcher m = p.matcher(cardElement.text());
+			if (m.matches()) {
+				Card card = cardRepository.findCard(m.group(1));
+				DeckCard deckCard = new DeckCard(card, Integer.parseInt(m
+						.group(2)));
+				deck.add(deckCard);
+			} else {
+				throw new IllegalStateException("Text: '" + cardElement.text()
+						+ "' did not parse as a card");
+			}
+		}
+		return deck;
+	}
+
+	@Override
+	public List<Deck> getDecks(String deckListUrl) throws IOException {
+		LOG.info("Hearthpwn fetching decks from: " + deckListUrl);
+		List<Deck> decks = new ArrayList<Deck>();
+		for (String deckUrl : getDeckUrls(deckListUrl)) {
+			decks.add(getDeck(deckUrl));
+		}
+		if (decks.isEmpty()) {
+			throw new IllegalArgumentException("No decks found at: "
+					+ deckListUrl);
+		}
+		LOG.info("fetched: " + decks.size() + " decks");
+		return decks;
+	}
+
+	/**
+	 * Filter only decks post-TGT, 1st page of results for now, sorted by
+	 * popularity
+	 */
+	@Override
+	public List<Deck> getAllDecks() throws IOException {
+		// sample URL for Druid. Filter-build is for TGT. Class is for druid.
+		// http://www.hearthpwn.com/decks?filter-build=24&filter-class=100&sort=-rating
+		List<Deck> decks = new ArrayList<Deck>();
+		String deckListUrlPrefix = "http://www.hearthpwn.com/decks?filter-build=24&filter-class=";
+		String deckListUrlPostfix = "&sort=-rating";
+		String[] classes = new String[] { "4", "8", "16", "32", "64", "128",
+				"256", "512", "1024" };
+		for (int i = 0; i < classes.length; ++i) {
+			String deckListUrl = deckListUrlPrefix + classes[i]
+					+ deckListUrlPostfix;
+			decks.addAll(getDecks(deckListUrl));
+		}
+		return decks;
+	}
+
 	/**
 	 * Return relative URLs for decks at the given location. Absolute URLs
 	 * cannot be returned because Jsoup has no context.
@@ -85,45 +148,6 @@ public class HearthpwnRepository implements WebDeckRepository {
 		Document doc = Jsoup.parse(result.toString());
 		doc.setBaseUri(BASE_URI);
 		return doc;
-	}
-
-	@Override
-	public Deck getDeck(String url) throws IOException {
-		Document doc = getDocument(url);
-		String deckTitle = doc
-				.select("header.deck-detail section.deck-info h2.deck-title")
-				.get(0).text();
-		Deck deck = new Deck(deckTitle);
-		deck.setUrl(url);
-
-		Elements cardElements = doc
-				.select("aside.infobox table.listing-cards-tabular tr td.col-name");
-		for (Element cardElement : cardElements) {
-			Pattern p = Pattern.compile("(.*)× (\\d)$");
-			Matcher m = p.matcher(cardElement.text());
-			if (m.matches()) {
-				Card card = cardRepository.findCard(m.group(1));
-				DeckCard deckCard = new DeckCard(card, Integer.parseInt(m
-						.group(2)));
-				deck.add(deckCard);
-			} else {
-				throw new IllegalStateException("Text: '" + cardElement.text()
-						+ "' did not parse as a card");
-			}
-		}
-		return deck;
-	}
-
-	@Override
-	public List<Deck> getDecks(String url) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Deck> getAllDecks() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
