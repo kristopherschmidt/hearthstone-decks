@@ -51,7 +51,7 @@ public class IntegrationTest {
 	public void testDiffAgainstLegendaryDragonRamp() throws Exception {
 		diffAgainst(
 				"http://www.icy-veins.com/hearthstone/legendary-dragon-ramp-druid-brm-deck",
-				2000, 8160, PlayerClass.Druid);
+				400, 8160, PlayerClass.Druid);
 	}
 
 	@Test

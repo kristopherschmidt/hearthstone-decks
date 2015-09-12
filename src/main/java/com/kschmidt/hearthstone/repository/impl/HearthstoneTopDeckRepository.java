@@ -33,14 +33,15 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 
 	public Deck getDeck(String url) throws IOException {
 		Document doc = Jsoup.connect(url).get();
-		String deckName = doc.select("div#center div.headbar div").first()
-				.text();
+		String deckName = doc
+				.select("div.panel-primary div.panel-heading h3.panel-title")
+				.get(2).text();
 		Deck deck = new Deck(deckName);
 		deck.setCollection("hearthstoneTopDeckRepository");
 		deck.setUrl(url);
-		Element deckCardListTable = doc.select(
-				"div#contentfr table :has(div.cardname)").get(0);
-		Elements cardElements = deckCardListTable.select("div.cardname span");
+		//Element deckCardListTable = doc.select(
+		//		"div#contentfr table :has(div.cardname)").get(0);
+		Elements cardElements = doc.select("div.cardname span");
 		Pattern p = Pattern.compile("(\\d) (.*?)");
 		for (int i = 0; i < cardElements.size(); ++i) {
 			Element cardElement = cardElements.get(i);
@@ -64,8 +65,8 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 
 	public List<Deck> getAllDecks() throws IOException {
 		List<Deck> decks = new ArrayList<Deck>();
-		String deckListUrlPrefix = "http://www.hearthstonetopdeck.com/metagame.php?m=";
-		String deckListUrlPostfix = "&t=0&filter=current";
+		String deckListUrlPrefix = "http://www.hearthstonetopdeck.com/metagame/";
+		String deckListUrlPostfix = "/0/current";
 		String[] classes = new String[] { "Druid", "Hunter", "Mage", "Paladin",
 				"Priest", "Rogue", "Shaman", "Warlock", "Warrior" };
 		for (int i = 0; i < classes.length; ++i) {
@@ -95,7 +96,7 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 		List<String> urls = new ArrayList<String>();
 		Document doc = Jsoup.connect(deckListUrl).get();
 		Elements deckRows = doc
-				.select("div#contentfr table tr:has(td.tdstyle1,td.tdstyle2)");
+				.select("div.panel-body table tr:has(td.tdstyle1,td.tdstyle2)");
 		for (Element deckRow : deckRows) {
 			Element link = deckRow.select("a").first();
 			urls.add(link.attr("abs:href"));
