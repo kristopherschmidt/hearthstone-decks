@@ -41,6 +41,7 @@ public class TempoStormDeckRepository implements WebDeckRepository {
 		cardNameCorrections = new HashMap<String, String>();
 		cardNameCorrections.put("Staemwheedle Sniper", "Steamwheedle Sniper");
 		cardNameCorrections.put("Ship Cannon", "Ship's Cannon");
+		cardNameCorrections.put("Bouncing Blades", "Bouncing Blade");
 		unknownCards = new ArrayList<String>();
 		unknownCards.add("Hemit Nesingwary");
 		restTemplate = new RestTemplate();
