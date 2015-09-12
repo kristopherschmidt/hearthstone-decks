@@ -46,12 +46,12 @@ public class HearthstoneTopDeckRepositoryTest {
 	@Test
 	public void testGetDeck() throws Exception {
 		Deck deck = topDeck
-				.getDeck("http://www.hearthstonetopdeck.com/deck.php?d=4577&filter=current");
+				.getDeck("http://www.hearthstonetopdeck.com/deck/4577/current/handlock-falcon");
 		assertThat(deck.getNumCards(), equalTo(30));
 		assertThat(deck.getName(), equalTo("#1 - HandLock - Falcon"));
 		assertThat(
 				deck.getUrl(),
-				equalTo("http://www.hearthstonetopdeck.com/deck.php?d=4577&filter=current"));
+				equalTo("http://www.hearthstonetopdeck.com/deck/4577/current/handlock-falcon"));
 		assertThat(deck.getCollection(), equalTo("hearthstoneTopDeckRepository"));
 
 		Optional<DeckCard> card = deck.findCard("Loatheb");
@@ -66,7 +66,7 @@ public class HearthstoneTopDeckRepositoryTest {
 	@Test
 	public void testGetDeckList() throws IOException {
 		List<String> deckUrls = topDeck
-				.getDeckUrls("http://www.hearthstonetopdeck.com/metagame.php?m=Mage&t=0&filter=current");
+				.getDeckUrls("http://www.hearthstonetopdeck.com/metagame/Mage/0/current");
 		Assert.assertFalse(deckUrls.isEmpty());
 		Assert.assertTrue(deckUrls.get(0).startsWith(
 				"http://www.hearthstonetopdeck.com"));
@@ -75,7 +75,7 @@ public class HearthstoneTopDeckRepositoryTest {
 	@Test
 	public void testGetDecks() throws IOException {
 		List<Deck> decks = topDeck
-				.getDecks("http://www.hearthstonetopdeck.com/metagame.php?m=Mage&t=0&filter=current");
+				.getDecks("http://www.hearthstonetopdeck.com/metagame/Mage/0/current");
 		Assert.assertFalse(decks.isEmpty());
 		for (Deck deck : decks) {
 			assertThat(deck.getNumCards(), equalTo(30));
