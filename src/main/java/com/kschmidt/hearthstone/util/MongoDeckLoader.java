@@ -36,7 +36,7 @@ public class MongoDeckLoader {
 	 * Refresh decks in the given collection. Will delete all existing decks in
 	 * the collection if the web load is successful.
 	 */
-	public void refresh(String collectionName) throws IOException {
+	public synchronized void refresh(String collectionName) throws IOException {
 		LOG.info("refreshing collection: " + collectionName + " into db");
 		WebDeckRepository repo = webDeckRepositories.get(collectionName);
 		List<Deck> decks = repo.getAllDecks();

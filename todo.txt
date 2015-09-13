@@ -1,9 +1,6 @@
 
 User stories:
 
-implement ability to delete and refresh a single collection rather than all
-consider deck loading strategy in general - when to remove, when to dedupe etc.
-play with sockets - show status while loading decks from web
 pull in ratings from web.
 date decks, allow filters by date, don't load older decks
 strategy menu, e.g. good decks with most minions 2 or less
@@ -18,8 +15,8 @@ add support for hearthhead
 show # of results by each class (LOW)
 add filtering by percent complete (LOW)
 add question marks / help markers to explain certain pages & functions
-copy db when loading new decks
 filter top 5 cards by rare, epic, legend, all
+play with sockets - show status while loading decks from web
 use local storage?
 
 

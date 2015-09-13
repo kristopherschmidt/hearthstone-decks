@@ -85,7 +85,7 @@ hearthstoneApp.controller('DeckLoadController', [ '$scope', '$http',
 				$scope.loading = true;
 				console.log("reloadDecks");
 				$scope.loading = true;
-				$http.get('/api/decks/efresh', {
+				$http.get('/api/decks/refresh', {
 					params: {
 						collection: $scope.collection
 					}
