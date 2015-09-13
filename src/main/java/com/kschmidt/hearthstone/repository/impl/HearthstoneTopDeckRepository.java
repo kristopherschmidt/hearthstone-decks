@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,6 +25,7 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(HearthstoneTopDeckRepository.class);
+	private static final int TIMEOUT_MILLIS = 10000;
 
 	private CardRepository cardRepository;
 
@@ -32,7 +34,9 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 	}
 
 	public Deck getDeck(String url) throws IOException {
-		Document doc = Jsoup.connect(url).get();
+		Connection conn = Jsoup.connect(url);
+		conn.timeout(TIMEOUT_MILLIS);
+		Document doc = conn.get();
 		String deckName = doc
 				.select("div.panel-primary div.panel-heading h3.panel-title")
 				.get(2).text();

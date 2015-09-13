@@ -35,7 +35,9 @@ public class MongoDeckLoader {
 	public void refreshAll() throws IOException {
 		deleteAll();
 		for (String collectionName : webDeckRepositories.keySet()) {
-			load(collectionName);
+			if (!"hearthstoneTopDeckRepository".equals(collectionName)) {
+				load(collectionName);
+			}
 		}
 		deleteRepeats(mongoDeckRepository.findAll());
 	}

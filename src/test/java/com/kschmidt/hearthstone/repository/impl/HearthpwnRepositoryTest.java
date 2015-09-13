@@ -61,6 +61,7 @@ public class HearthpwnRepositoryTest {
 		Deck deck = hearthpwn
 				.getDeck("http://www.hearthpwn.com/decks/308694-reynads-op-dragon-priest");
 		assertThat(deck.getNumCards(), equalTo(30));
+		assertThat(deck.getCollection(), equalTo("hearthpwnRepository"));
 	}
 
 	@Ignore

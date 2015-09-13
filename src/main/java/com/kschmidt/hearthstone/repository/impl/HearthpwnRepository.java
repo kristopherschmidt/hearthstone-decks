@@ -47,20 +47,21 @@ public class HearthpwnRepository implements WebDeckRepository {
 				.get(0).text();
 		Deck deck = new Deck(deckTitle);
 		deck.setUrl(url);
-
+		deck.setCollection("hearthpwnRepository");
 		Elements cardElements = doc
 				.select("aside.infobox table.listing-cards-tabular tr td.col-name");
 		for (Element cardElement : cardElements) {
-			Pattern p = Pattern.compile("(.*)× (\\d)$");
+			String cardName = cardElement.select("b a").get(0).text();
+			Card card = cardRepository.findCard(cardName);
+			Pattern p = Pattern.compile(".* (\\d)$");
 			Matcher m = p.matcher(cardElement.text());
 			if (m.matches()) {
-				Card card = cardRepository.findCard(m.group(1));
 				DeckCard deckCard = new DeckCard(card, Integer.parseInt(m
-						.group(2)));
+						.group(1)));
 				deck.add(deckCard);
 			} else {
 				throw new IllegalStateException("Text: '" + cardElement.text()
-						+ "' did not parse as a card");
+						+ "' did not parse as a card from: " + url);
 			}
 		}
 		return deck;
