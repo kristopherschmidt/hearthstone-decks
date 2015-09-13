@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.kschmidt.hearthstone.App;
@@ -22,6 +23,7 @@ import com.kschmidt.hearthstone.repository.MongoDeckRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = App.class)
+@ActiveProfiles("integrationtest")
 public class MongoDeckRepositoryTest {
 
 	@Autowired

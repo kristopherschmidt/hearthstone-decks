@@ -31,6 +31,10 @@ public class MongoDeckLoader {
 	Map<String, WebDeckRepository> webDeckRepositories;
 
 	private Set<String> alreadyDiffed = new HashSet<String>();
+	
+	public void refresh(String collectionName) {
+		throw new UnsupportedOperationException();	
+	}
 
 	public void refreshAll() throws IOException {
 		deleteAll();

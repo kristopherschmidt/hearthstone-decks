@@ -1,30 +1,31 @@
 
 User stories:
 
-use local storage?
+implement ability to delete and refresh a single collection rather than all
+consider deck loading strategy in general - when to remove, when to dedupe etc.
 play with sockets - show status while loading decks from web
-date decks, allow filters by date
+pull in ratings from web.
+date decks, allow filters by date, don't load older decks
 strategy menu, e.g. good decks with most minions 2 or less
-view your own deck (EPIC) - show pretty images, allow editing, stats, etc etc
-put more stuff on leftnav...anything! (e.g. site links)
+view your own deck (epic) - show pretty images, allow editing, stats, etc etc
+put more options on leftnav
 make mobile (+test!)
 allow automatic download of user deck, or easier upload + storage
-implement ability to delete and refresh a single collection rather than all
 search decks with user's legendaries (max #)
 missing cards hover
 better sorting algorithm for completion
 add support for hearthhead
-auto workaround spelling errors in excel sheet
-eliminate sucky decks - low cost, by date, etc (already eliminated decks specific to mode, season)
 show # of results by each class (LOW)
 add filtering by percent complete (LOW)
 add question marks / help markers to explain certain pages & functions
 copy db when loading new decks
 filter top 5 cards by rare, epic, legend, all
+use local storage?
 
 
 Tech debt:
 
+setup separate mongodb instance for integration tests; populate w dbunit etc
 make reloading threadsafe
 break out app.js from controller.js
 make services out of rest calls
