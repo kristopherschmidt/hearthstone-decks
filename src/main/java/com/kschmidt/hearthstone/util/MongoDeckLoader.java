@@ -31,22 +31,34 @@ public class MongoDeckLoader {
 	Map<String, WebDeckRepository> webDeckRepositories;
 
 	private Set<String> alreadyDiffed = new HashSet<String>();
-	
-	public void refresh(String collectionName) {
-		throw new UnsupportedOperationException();	
+
+	/**
+	 * Refresh decks in the given collection. Will delete all existing decks in
+	 * the collection if the web load is successful.
+	 */
+	public void refresh(String collectionName) throws IOException {
+		LOG.info("refreshing collection: " + collectionName + " into db");
+		WebDeckRepository repo = webDeckRepositories.get(collectionName);
+		List<Deck> decks = repo.getAllDecks();
+		deleteByCollection(collectionName);
+		mongoDeckRepository.save(decks);
+		dedupeAll();
+		LOG.info("Refreshed decks for collection: " + collectionName);
 	}
 
 	public void refreshAll() throws IOException {
-		deleteAll();
 		for (String collectionName : webDeckRepositories.keySet()) {
 			if (!"hearthstoneTopDeckRepository".equals(collectionName)) {
-				load(collectionName);
+				refresh(collectionName);
 			}
 		}
+	}
+
+	public void dedupeAll() throws IOException {
 		deleteRepeats(mongoDeckRepository.findAll());
 	}
 
-	public void deleteRepeats(List<Deck> decks) throws IOException {
+	void deleteRepeats(List<Deck> decks) throws IOException {
 		LOG.info("deleting repeats from db");
 		int compareCount = 0;
 		int duplicateCount = 0;
@@ -86,17 +98,10 @@ public class MongoDeckLoader {
 		return true;
 	}
 
-	void deleteAll() {
-		LOG.info("deleting all deck collections from db");
-		mongoDeckRepository.deleteAll();
-	}
-
-	private void load(String collectionName) throws IOException {
-		LOG.info("loading collection: " + collectionName + " into db");
-		WebDeckRepository repo = webDeckRepositories.get(collectionName);
-		List<Deck> decks = repo.getAllDecks();
-		mongoDeckRepository.save(decks);
-		LOG.info("Loaded decks for collection: " + collectionName);
+	void deleteByCollection(String collectionName) {
+		List<Deck> decksInCollection = mongoDeckRepository
+				.findByCollection(collectionName);
+		mongoDeckRepository.delete(decksInCollection);
 	}
 
 }

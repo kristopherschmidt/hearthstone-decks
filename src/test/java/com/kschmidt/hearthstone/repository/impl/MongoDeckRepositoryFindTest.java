@@ -24,7 +24,7 @@ import com.kschmidt.hearthstone.repository.MongoDeckRepository;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = App.class)
 @ActiveProfiles("integrationtest")
-public class MongoDeckRepositoryTest {
+public class MongoDeckRepositoryFindTest {
 
 	@Autowired
 	private MongoDeckRepository mongoDeckRepository;
