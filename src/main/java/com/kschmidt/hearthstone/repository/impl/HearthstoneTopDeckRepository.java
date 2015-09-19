@@ -2,6 +2,7 @@ package com.kschmidt.hearthstone.repository.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,6 +24,10 @@ import com.kschmidt.hearthstone.repository.WebDeckRepository;
 
 public class HearthstoneTopDeckRepository implements WebDeckRepository {
 
+	private static final List<String> DECK_BLACKLIST = Arrays
+			.asList(new String[] {
+					"http://www.hearthstonetopdeck.com/deck/4818/current/hunter-midrange-kucha",
+					"http://www.hearthstonetopdeck.com/deck/4820/current/oil-dog" });
 	private static final Logger LOG = LoggerFactory
 			.getLogger(HearthstoneTopDeckRepository.class);
 	private static final int TIMEOUT_MILLIS = 10000;
@@ -43,8 +48,8 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 		Deck deck = new Deck(deckName);
 		deck.setCollection("hearthstoneTopDeckRepository");
 		deck.setUrl(url);
-		//Element deckCardListTable = doc.select(
-		//		"div#contentfr table :has(div.cardname)").get(0);
+		// Element deckCardListTable = doc.select(
+		// "div#contentfr table :has(div.cardname)").get(0);
 		Elements cardElements = doc.select("div.cardname span");
 		Pattern p = Pattern.compile("(\\d) (.*?)");
 		for (int i = 0; i < cardElements.size(); ++i) {
@@ -105,6 +110,7 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 			Element link = deckRow.select("a").first();
 			urls.add(link.attr("abs:href"));
 		}
+		urls.removeAll(DECK_BLACKLIST);
 		return urls;
 	}
 

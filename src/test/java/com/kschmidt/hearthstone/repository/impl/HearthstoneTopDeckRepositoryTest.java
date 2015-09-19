@@ -52,7 +52,8 @@ public class HearthstoneTopDeckRepositoryTest {
 		assertThat(
 				deck.getUrl(),
 				equalTo("http://www.hearthstonetopdeck.com/deck/4577/current/handlock-falcon"));
-		assertThat(deck.getCollection(), equalTo("hearthstoneTopDeckRepository"));
+		assertThat(deck.getCollection(),
+				equalTo("hearthstoneTopDeckRepository"));
 
 		Optional<DeckCard> card = deck.findCard("Loatheb");
 		assertTrue(card.isPresent());
@@ -80,6 +81,14 @@ public class HearthstoneTopDeckRepositoryTest {
 		for (Deck deck : decks) {
 			assertThat(deck.getNumCards(), equalTo(30));
 		}
+	}
+
+	@Test
+	public void testDeckBlacklist() throws IOException {
+		List<String> urls = topDeck
+				.getDeckUrls("http://www.hearthstonetopdeck.com/metagame/Hunter/0/current");
+		assertFalse(urls
+				.contains("http://www.hearthstonetopdeck.com/deck/4818/current/hunter-midrange-kucha"));
 	}
 
 	@Ignore
