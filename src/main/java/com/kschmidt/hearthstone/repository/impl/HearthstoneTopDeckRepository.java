@@ -1,6 +1,8 @@
 package com.kschmidt.hearthstone.repository.impl;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,15 +41,16 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 	}
 
 	public Deck getDeck(String url) throws IOException {
+
 		Connection conn = Jsoup.connect(url);
 		conn.timeout(TIMEOUT_MILLIS);
 		Document doc = conn.get();
-		String deckName = doc
-				.select("div.panel-primary div.panel-heading h3.panel-title")
-				.get(2).text();
-		Deck deck = new Deck(deckName);
+
+		Deck deck = new Deck(getDeckName(doc));
 		deck.setCollection("hearthstoneTopDeckRepository");
 		deck.setUrl(url);
+		deck.setLastUpdated(getLastUpdated(doc, url));
+
 		// Element deckCardListTable = doc.select(
 		// "div#contentfr table :has(div.cardname)").get(0);
 		Elements cardElements = doc.select("div.cardname span");
@@ -70,6 +73,27 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 					+ url);
 		}
 		return deck;
+	}
+
+	private LocalDate getLastUpdated(Document doc, String url) {
+		String text = doc.select("#subinfo tr").get(1).text();
+		Pattern p = Pattern.compile("Updated:.(.*)Patch.*");
+		Matcher m = p.matcher(text);
+		if (m.matches()) {
+			String dateString = m.group(1).trim();
+			DateTimeFormatter formatter = DateTimeFormatter
+					.ofPattern("uuuu/MM/d");
+			LocalDate date = LocalDate.parse(dateString, formatter);
+			return date;
+		} else {
+			throw new IllegalStateException("Text: " + text
+					+ " could not parse a date, from url: " + url);
+		}
+	}
+
+	private String getDeckName(Document doc) {
+		return doc.select("div.panel-primary div.panel-heading h3.panel-title")
+				.get(2).text();
 	}
 
 	public List<Deck> getAllDecks() throws IOException {

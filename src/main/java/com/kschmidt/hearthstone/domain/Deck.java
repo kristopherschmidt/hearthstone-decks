@@ -70,9 +70,13 @@ public class Deck {
 	}
 
 	public void setLastUpdated(LocalDate lastUpdatedLocalDate) {
-		Instant instant = lastUpdatedLocalDate.atStartOfDay()
-				.atZone(ZoneId.systemDefault()).toInstant();
-		this.lastUpdatedDate = Date.from(instant);
+		if (lastUpdatedLocalDate != null) {
+			Instant instant = lastUpdatedLocalDate.atStartOfDay()
+					.atZone(ZoneId.systemDefault()).toInstant();
+			this.lastUpdatedDate = Date.from(instant);
+		} else {
+			this.lastUpdatedDate = null;
+		}
 	}
 
 	public String getName() {

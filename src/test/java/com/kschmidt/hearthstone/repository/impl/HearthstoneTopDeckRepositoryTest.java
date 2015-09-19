@@ -11,7 +11,6 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,7 +90,6 @@ public class HearthstoneTopDeckRepositoryTest {
 				.contains("http://www.hearthstonetopdeck.com/deck/4818/current/hunter-midrange-kucha"));
 	}
 
-	@Ignore
 	@Test
 	public void testGetAllDecks() throws Exception {
 		List<Deck> decks = topDeck.getAllDecks();
