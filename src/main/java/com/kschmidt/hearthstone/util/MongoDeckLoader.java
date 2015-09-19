@@ -48,9 +48,7 @@ public class MongoDeckLoader {
 
 	public void refreshAll() throws IOException {
 		for (String collectionName : webDeckRepositories.keySet()) {
-			if (!"hearthstoneTopDeckRepository".equals(collectionName)) {
-				refresh(collectionName);
-			}
+			refresh(collectionName);
 		}
 	}
 
@@ -72,8 +70,9 @@ public class MongoDeckLoader {
 					if (sameCards(deck1, deck2)) {
 						LOG.info("Same cards: " + deck1.getName() + ", "
 								+ deck2.getName());
+						deleteDupe(deck1, deck2);
 						duplicateCount++;
-						mongoDeckRepository.delete(deck2.getId());
+
 					}
 				}
 			}
@@ -96,6 +95,15 @@ public class MongoDeckLoader {
 			}
 		}
 		return true;
+	}
+
+	private void deleteDupe(Deck deck1, Deck deck2) {
+		// keep the deck with the higher rating
+		if (deck2.getRating() > deck1.getRating()) {
+			mongoDeckRepository.delete(deck1.getId());
+		} else {
+			mongoDeckRepository.delete(deck2.getId());
+		}
 	}
 
 	void deleteByCollection(String collectionName) {

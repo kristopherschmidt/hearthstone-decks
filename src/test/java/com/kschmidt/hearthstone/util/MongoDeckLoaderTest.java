@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.kschmidt.hearthstone.App;
@@ -23,6 +24,7 @@ import com.kschmidt.hearthstone.repository.MongoDeckRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = App.class)
+@ActiveProfiles("integrationtest")
 public class MongoDeckLoaderTest {
 
 	@SuppressWarnings("unused")
@@ -61,16 +63,15 @@ public class MongoDeckLoaderTest {
 				mongoDeckRepository.findByCollection("icyVeinsDeckRepository")
 						.size());
 	}
-	
+
 	@Test
 	public void testRefreshCollection() throws IOException {
 		int tempoStormSize = mongoDeckRepository.findByCollection(
 				"tempoStormDeckRepository").size();
 		loader.refresh("icyVeinsDeckRepository");
 
-		Assert.assertEquals(tempoStormSize,
-				mongoDeckRepository.findByCollection("tempoStormDeckRepository")
-						.size());
+		Assert.assertEquals(tempoStormSize, mongoDeckRepository
+				.findByCollection("tempoStormDeckRepository").size());
 	}
 
 	@Ignore

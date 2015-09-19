@@ -5,6 +5,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.chrono.ChronoLocalDate;
 import java.util.List;
 
 import org.jsoup.nodes.Document;
@@ -64,6 +67,9 @@ public class HearthpwnRepositoryTest {
 		assertThat(deck.getNumCards(), equalTo(30));
 		assertThat(deck.getCollection(), equalTo("hearthpwnRepository"));
 		assertThat(deck.getRating(), greaterThan(700));
+		assertThat(deck.getLastUpdated(),
+				greaterThan((ChronoLocalDate) LocalDate.of(2015, Month.AUGUST,
+						26)));
 	}
 
 	@Ignore

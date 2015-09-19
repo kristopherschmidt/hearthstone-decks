@@ -3,6 +3,9 @@ package com.kschmidt.hearthstone.repository.impl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -42,12 +45,22 @@ public class HearthpwnRepository implements WebDeckRepository {
 	@Override
 	public Deck getDeck(String url) throws IOException {
 		Document doc = getDocument(url);
-		String deckTitle = doc
-				.select("header.deck-detail section.deck-info h2.deck-title")
-				.get(0).text();
-		Deck deck = new Deck(deckTitle);
+		Deck deck = new Deck(getDeckTitle(doc));
 		deck.setUrl(url);
 		deck.setCollection("hearthpwnRepository");
+		deck.addAll(getCards(doc, url));
+		deck.setRating(getRating(doc));
+		deck.setLastUpdated(getLastUpdated(doc));
+		return deck;
+	}
+
+	private String getDeckTitle(Document doc) {
+		return doc.select("header.deck-detail section.deck-info h2.deck-title")
+				.get(0).text();
+	}
+
+	private List<DeckCard> getCards(Document doc, String url) {
+		List<DeckCard> deckCards = new ArrayList<DeckCard>();
 		Elements cardElements = doc
 				.select("aside.infobox table.listing-cards-tabular tr td.col-name");
 		for (Element cardElement : cardElements) {
@@ -58,16 +71,27 @@ public class HearthpwnRepository implements WebDeckRepository {
 			if (m.matches()) {
 				DeckCard deckCard = new DeckCard(card, Integer.parseInt(m
 						.group(1)));
-				deck.add(deckCard);
+				deckCards.add(deckCard);
 			} else {
 				throw new IllegalStateException("Text: '" + cardElement.text()
 						+ "' did not parse as a card from: " + url);
 			}
 		}
+		return deckCards;
+	}
+
+	private int getRating(Document doc) {
 		String ratingString = doc.select(".deck-actions .rating-sum").get(0)
 				.text();
-		deck.setRating(Integer.parseInt(ratingString));
-		return deck;
+		return Integer.parseInt(ratingString);
+	}
+
+	private LocalDate getLastUpdated(Document doc) {
+		Element e = doc.select(".deck-detail .standard-datetime").first();
+		String epochSecondsString = e.attr("data-epoch");
+		Instant instant = Instant.ofEpochSecond(Long
+				.parseLong(epochSecondsString));
+		return instant.atZone(ZoneId.systemDefault()).toLocalDate();
 	}
 
 	@Override

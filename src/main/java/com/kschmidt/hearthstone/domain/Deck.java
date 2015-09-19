@@ -1,7 +1,11 @@
 package com.kschmidt.hearthstone.domain;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -24,6 +28,9 @@ public class Deck {
 
 	private List<DeckCard> cards = new ArrayList<DeckCard>();
 	private String collection;
+
+	private Date lastUpdatedDate;
+
 	private String name;
 	private PlayerClass playerClass;
 	private int rating;
@@ -55,6 +62,17 @@ public class Deck {
 
 	public String getId() {
 		return id;
+	}
+
+	public LocalDate getLastUpdated() {
+		return lastUpdatedDate == null ? null : lastUpdatedDate.toInstant()
+				.atZone(ZoneId.systemDefault()).toLocalDate();
+	}
+
+	public void setLastUpdated(LocalDate lastUpdatedLocalDate) {
+		Instant instant = lastUpdatedLocalDate.atStartOfDay()
+				.atZone(ZoneId.systemDefault()).toInstant();
+		this.lastUpdatedDate = Date.from(instant);
 	}
 
 	public String getName() {
@@ -108,6 +126,12 @@ public class Deck {
 			// Either the player class is the same as the card class,
 			// or the player class is null and the card class is neutral,
 			// so we can't determine the class (wait for the next card)
+		}
+	}
+
+	public void addAll(List<DeckCard> deckCards) {
+		for (DeckCard deckCard : deckCards) {
+			add(deckCard);
 		}
 	}
 

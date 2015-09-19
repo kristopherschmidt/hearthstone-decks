@@ -20,6 +20,8 @@ public interface MongoDeckRepository extends MongoRepository<Deck, String> {
 
 	@Query(value = "{ $or : [ { $where: '?0 == null' } , { collection : ?0 } ] }")
 	List<Deck> findByCollection(String collectionName);
+	
+	Deck findByUrl(String url);
 
 	@Query(value = "{ $and : [ "
 			+ "{ $or : [ { $where: '?0 == null' }, { collection : ?0 } ] }, "
