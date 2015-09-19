@@ -66,6 +66,7 @@ public class TempoStormDeckRepository implements WebDeckRepository {
 
 		Map<String, Object> data = mapper.readValue(json, Map.class);
 		Map<String, Object> deckMap = (Map<String, Object>) data.get("deck");
+		deck.setRating(getRating(deckMap));
 		List<Map<String, Object>> cards = (List<Map<String, Object>>) deckMap
 				.get("cards");
 		for (Map<String, Object> cardMap : cards) {
@@ -136,6 +137,17 @@ public class TempoStormDeckRepository implements WebDeckRepository {
 		} else {
 			return cardName;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	int getRating(Map<String, Object> deckMap) {
+		Integer rating = 0;
+		List<Map<String, Integer>> votes = (List<Map<String, Integer>>) deckMap
+				.get("votes");
+		for (Map<String, Integer> vote : votes) {
+			rating += ((Integer) vote.get("direction"));
+		}
+		return rating;
 	}
 
 }

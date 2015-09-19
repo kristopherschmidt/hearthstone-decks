@@ -26,6 +26,7 @@ public class Deck {
 	private String collection;
 	private String name;
 	private PlayerClass playerClass;
+	private int rating;
 	private String url;
 
 	public Deck(String name) {
@@ -70,6 +71,14 @@ public class Deck {
 
 	public PlayerClass getPlayerClass() {
 		return playerClass != null ? playerClass : PlayerClass.Neutral;
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 
 	public int getSize() {

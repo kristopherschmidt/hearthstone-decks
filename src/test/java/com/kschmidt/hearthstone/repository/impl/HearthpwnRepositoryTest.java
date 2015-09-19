@@ -2,6 +2,7 @@ package com.kschmidt.hearthstone.repository.impl;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 
 import java.io.IOException;
 import java.util.List;
@@ -62,6 +63,7 @@ public class HearthpwnRepositoryTest {
 				.getDeck("http://www.hearthpwn.com/decks/308694-reynads-op-dragon-priest");
 		assertThat(deck.getNumCards(), equalTo(30));
 		assertThat(deck.getCollection(), equalTo("hearthpwnRepository"));
+		assertThat(deck.getRating(), greaterThan(700));
 	}
 
 	@Ignore

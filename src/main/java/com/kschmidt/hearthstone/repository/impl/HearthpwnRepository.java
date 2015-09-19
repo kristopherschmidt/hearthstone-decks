@@ -64,6 +64,9 @@ public class HearthpwnRepository implements WebDeckRepository {
 						+ "' did not parse as a card from: " + url);
 			}
 		}
+		String ratingString = doc.select(".deck-actions .rating-sum").get(0)
+				.text();
+		deck.setRating(Integer.parseInt(ratingString));
 		return deck;
 	}
 
