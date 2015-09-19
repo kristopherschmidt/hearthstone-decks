@@ -7,6 +7,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.chrono.ChronoLocalDate;
 import java.util.List;
 
 import org.junit.Before;
@@ -57,6 +60,11 @@ public class IcyVeinsDeckRepositoryTest {
 				deck.getUrl(),
 				equalTo("http://www.icy-veins.com/hearthstone/legendary-druid-fast-brm-deck"));
 		assertThat(deck.getCollection(), equalTo("icyVeinsDeckRepository"));
+		assertThat(deck.getLastUpdated(),
+				greaterThan((ChronoLocalDate) LocalDate
+						.of(2015, Month.APRIL, 6)));
+
+		// test a card
 		Optional<DeckCard> card = deck.findCard("Loatheb");
 		assertTrue(card.isPresent());
 		assertThat(card.get().getCardName(), equalTo("Loatheb"));

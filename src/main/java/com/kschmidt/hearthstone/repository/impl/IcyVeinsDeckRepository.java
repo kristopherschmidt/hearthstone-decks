@@ -1,6 +1,8 @@
 package com.kschmidt.hearthstone.repository.impl;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -36,6 +38,9 @@ public class IcyVeinsDeckRepository implements WebDeckRepository {
 		deck.setCollection("icyVeinsDeckRepository");
 		deck.setUrl(url);
 		Document doc = Jsoup.connect(url).get();
+
+		deck.setLastUpdated(getLastUpdated(doc, url));
+
 		Element deckCardListTable = doc.select("table.deck_card_list").get(0);
 		Elements cardElements = deckCardListTable.select("td ul li");
 		Pattern p = Pattern.compile("(\\d)x *(.*?)( (GvG|BrM|Naxx|TGT))?");
@@ -53,6 +58,22 @@ public class IcyVeinsDeckRepository implements WebDeckRepository {
 			}
 		}
 		return deck;
+	}
+
+	private LocalDate getLastUpdated(Document doc, String url) {
+		String updatedText = doc.select(".article_author_text").get(0).text();
+		Pattern p = Pattern.compile("Last updated.*on (.*)");
+		Matcher m = p.matcher(updatedText);
+		if (m.matches()) {
+			String dateString = m.group(1);
+			DateTimeFormatter formatter = DateTimeFormatter
+					.ofPattern("d MMM. uuuu");
+			LocalDate date = LocalDate.parse(dateString, formatter);
+			return date;
+		} else {
+			throw new IllegalStateException("Text: " + updatedText
+					+ " could not parse a date, from url: " + url);
+		}
 	}
 
 	public List<Deck> getAllDecks() throws IOException {
