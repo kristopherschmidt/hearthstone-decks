@@ -1,5 +1,6 @@
 package com.kschmidt.hearthstone.domain;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,10 @@ public class DeckDiff {
 		return desiredDeck.getDustValue();
 	}
 
+	public LocalDate getLastUpdated() {
+		return desiredDeck.getLastUpdated();
+	}
+
 	public Deck getMissingCards() {
 		return missingCards;
 	}
@@ -60,6 +65,10 @@ public class DeckDiff {
 		double percentWeight = 1 - Math.sqrt(1 - getPercentComplete() / 100
 				* getPercentComplete() / 100);
 		return dustWeight * percentWeight;
+	}
+
+	public int getRating() {
+		return desiredDeck.getRating();
 	}
 
 	/**

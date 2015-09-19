@@ -1,8 +1,7 @@
 
 User stories:
 
-pull in ratings from web.
-date decks, allow filters by date, don't load older decks
+allow the minimum date filter to be specified in search UI (currently hardcoded as default)
 strategy menu, e.g. good decks with most minions 2 or less
 view your own deck (epic) - show pretty images, allow editing, stats, etc etc
 put more options on leftnav

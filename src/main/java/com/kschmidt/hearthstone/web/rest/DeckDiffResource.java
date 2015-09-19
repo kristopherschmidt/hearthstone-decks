@@ -1,8 +1,6 @@
 package com.kschmidt.hearthstone.web.rest;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +48,7 @@ public class DeckDiffResource {
 		List<Deck> decks = mongoDeckRepository.find(collectionName, cardNames,
 				playerClasses);
 		DiffAnalyzer analyzer = new DiffAnalyzer(DeckDiff.diffDecks(userDeck,
-				filterByDate(decks, minDateString)));
+				decks));
 		if (maxRequiredDust != null) {
 			analyzer.filterByMaxRequiredDust(maxRequiredDust);
 		}
@@ -60,19 +58,8 @@ public class DeckDiffResource {
 		if (!Strings.isNullOrEmpty(cardSet)) {
 			analyzer.filterByCardSet(cardSet);
 		}
+		analyzer.filterByDate(minDateString);
 		return analyzer;
-	}
-
-	private List<Deck> filterByDate(List<Deck> decks, String minDateString) {
-		List<Deck> filteredDecks = new ArrayList<Deck>();
-		LocalDate minDate = LocalDate.parse(minDateString,
-				DateTimeFormatter.BASIC_ISO_DATE);
-		for (Deck deck : decks) {
-			if (deck.getLastUpdated().isAfter(minDate)) {
-				filteredDecks.add(deck);
-			}
-		}
-		return filteredDecks;
 	}
 
 }

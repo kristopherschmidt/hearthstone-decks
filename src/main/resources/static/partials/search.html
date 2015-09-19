@@ -128,7 +128,7 @@
 
 	<div class="panel-body">
 
-		<div class="panel-content">Top 5 missing cards (click to
+		<div class="panel-content">Top 10 missing cards (click to
 			filter):</div>
 
 		<ol class="list-group">
@@ -166,12 +166,18 @@
 						ng-show='sortType == "percentComplete" && sortReverse'
 						class="fa fa-caret-down"></span></th>
 					<th class="col-sm-1"><a href="#/"
+						ng-click='sortType = "rating"; sortReverse = !sortReverse'>Rating</a>
+						<span ng-show='sortType == "rating" && !sortReverse'
+						class="fa fa-caret-up"></span> <span
+						ng-show='sortType == "rating" && sortReverse'
+						class="fa fa-caret-down"></span></th>
+					<th class="col-sm-1"><a href="#/"
 						ng-click='sortType = "rankingMetric"; sortReverse = !sortReverse'>Ranking
 							Metric</a><span ng-show='sortType == "rankingMetric" && !sortReverse'
 						class="fa fa-caret-up"></span> <span
 						ng-show='sortType == "rankingMetric" && sortReverse'
 						class="fa fa-caret-down"></span></th>
-					<th class="col-sm-4"><a href="#/"
+					<th class="col-sm-3"><a href="#/"
 						ng-click='sortType = "numMissingCards"; sortReverse = !sortReverse'>Missing
 							Cards</a> <span
 						ng-show='sortType == "numMissingCards" && !sortReverse'
@@ -189,6 +195,7 @@
 					<td>{{ deckDiff.requiredDust }}</td>
 					<td>{{ deckDiff.fullDustValue }}</td>
 					<td>{{ deckDiff.percentComplete | number : 0 }}%</td>
+					<td>{{ deckDiff.rating | number : 0 }}</td>
 					<td>{{ deckDiff.rankingMetric | number : 0 }}</td>
 					<td>
 

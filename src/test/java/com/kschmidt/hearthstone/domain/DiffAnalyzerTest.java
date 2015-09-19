@@ -3,6 +3,8 @@ package com.kschmidt.hearthstone.domain;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 
@@ -156,7 +158,7 @@ public class DiffAnalyzerTest {
 		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
 		analyzer.filterByMinRequiredDust(-1);
 	}
-	
+
 	@Test
 	public void testFilterByCardSet() {
 		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
@@ -164,5 +166,21 @@ public class DiffAnalyzerTest {
 		List<DeckDiff> diffs = analyzer.getFilteredDiffs();
 		assertThat(diffs.size(), equalTo(1));
 		Assert.assertSame(diff3, diffs.get(0));
+	}
+
+	@Test
+	public void testFilterByDate() {
+		diff1.getDesiredDeck().setLastUpdated(
+				LocalDate.of(2015, Month.AUGUST, 1));
+		diff2.getDesiredDeck().setLastUpdated(
+				LocalDate.of(2015, Month.JANUARY, 1));
+		diff3.getDesiredDeck().setLastUpdated(
+				LocalDate.of(2015, Month.SEPTEMBER, 1));
+		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
+		analyzer.filterByDate("20150601");
+		List<DeckDiff> diffs = analyzer.getFilteredDiffs();
+		assertThat(diffs.size(), equalTo(2));
+		Assert.assertSame(diff1, diffs.get(0));
+		Assert.assertSame(diff3, diffs.get(1));
 	}
 }

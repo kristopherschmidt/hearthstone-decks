@@ -1,7 +1,10 @@
 package com.kschmidt.hearthstone.domain;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +12,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 
 public class DiffAnalyzer {
@@ -19,6 +23,7 @@ public class DiffAnalyzer {
 
 	private String cardSet;
 	private List<DeckDiff> diffs;
+	private LocalDate minDate;
 	private int maxRequiredDust = Integer.MAX_VALUE;
 	private int minRequiredDust = 0;
 	private double percentComplete = 0;
@@ -29,6 +34,15 @@ public class DiffAnalyzer {
 
 	public void filterByCardSet(String cardSet) {
 		this.cardSet = cardSet;
+	}
+
+	/**
+	 * @param minDateString
+	 *            in the format 20150824
+	 */
+	public void filterByDate(String minDateString) {
+		minDate = LocalDate.parse(minDateString,
+				DateTimeFormatter.BASIC_ISO_DATE);
 	}
 
 	public void filterByMaxRequiredDust(int maxRequiredDust) {
@@ -80,6 +94,28 @@ public class DiffAnalyzer {
 		return deck;
 	}
 
+	public List<CardRating> getCardRatings() {
+		List<CardRating> cardRatings = new ArrayList<CardRating>();
+		for (DeckCard deckCard : getAllMissingCards().getCards()) {
+			int ratingTotal = 0;
+			for (DeckDiff diff : getFilteredDiffs()) {
+				Optional<DeckCard> missingCard = diff.getMissingCards()
+						.findCard(deckCard.getCardName());
+				if (missingCard.isPresent()) {
+					ratingTotal += diff.getDesiredDeck().getRating();
+				}
+			}
+			cardRatings.add(new CardRating(deckCard.getCard(), ratingTotal));
+		}
+		cardRatings.sort(new Comparator<CardRating>() {
+			public int compare(CardRating cardRating1, CardRating cardRating2) {
+				return Integer.compare(cardRating2.getRatingTotal(),
+						cardRating1.getRatingTotal());
+			}
+		});
+		return cardRatings;
+	}
+
 	List<DeckDiff> getFilteredDiffs() {
 		List<DeckDiff> filteredDiffs = new ArrayList<DeckDiff>();
 		for (DeckDiff diff : diffs) {
@@ -88,11 +124,31 @@ public class DiffAnalyzer {
 					&& requiredDust <= maxRequiredDust
 					&& requiredDust >= minRequiredDust
 					&& (Strings.isNullOrEmpty(cardSet) || diff
-							.hasCardsFromSet(cardSet))) {
+							.hasCardsFromSet(cardSet))
+					&& (minDate == null || diff.getDesiredDeck()
+							.getLastUpdated().isAfter(minDate))) {
 				filteredDiffs.add(diff);
 			}
 		}
 		return filteredDiffs;
+	}
+
+	public static class CardRating {
+		private Card card;
+		private int ratingTotal;
+
+		public CardRating(Card card, int ratingTotal) {
+			this.card = card;
+			this.ratingTotal = ratingTotal;
+		}
+
+		public int getRatingTotal() {
+			return ratingTotal;
+		}
+
+		public String toString() {
+			return card.getName() + "(" + ratingTotal + ")";
+		}
 	}
 
 }

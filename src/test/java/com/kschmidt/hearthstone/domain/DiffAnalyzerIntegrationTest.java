@@ -33,11 +33,15 @@ public class DiffAnalyzerIntegrationTest {
 				mongoDeckRepository.findAll());
 		LOG.debug(diffs.toString());
 		DiffAnalyzer analyzer = new DiffAnalyzer(diffs);
-		analyzer.filterByPercentComplete(0);
-		Deck allMissing = analyzer.getAllMissingCards();
+		// analyzer.filterByPercentComplete(90);
+		analyzer.filterByMaxRequiredDust(3200);
+		analyzer.filterByCardSet("The Grand Tournament");
+		analyzer.filterByDate("20150824");
 
-		LOG.info(allMissing.sortByDustValue().toString());
-		LOG.info(allMissing.sortByNumCards().toString());
+		//Deck allMissing = analyzer.getAllMissingCards();
+		// LOG.info(allMissing.sortByDustValue().toString());
+		// LOG.info(allMissing.sortByNumCards().toString());
+		LOG.info(analyzer.getCardRatings().toString());
 	}
 
 }
