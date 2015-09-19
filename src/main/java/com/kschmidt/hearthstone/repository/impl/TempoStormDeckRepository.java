@@ -1,6 +1,9 @@
 package com.kschmidt.hearthstone.repository.impl;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,7 +69,10 @@ public class TempoStormDeckRepository implements WebDeckRepository {
 
 		Map<String, Object> data = mapper.readValue(json, Map.class);
 		Map<String, Object> deckMap = (Map<String, Object>) data.get("deck");
+
 		deck.setRating(getRating(deckMap));
+		deck.setLastUpdated(getLastUpdated(deckMap));
+
 		List<Map<String, Object>> cards = (List<Map<String, Object>>) deckMap
 				.get("cards");
 		for (Map<String, Object> cardMap : cards) {
@@ -148,6 +154,14 @@ public class TempoStormDeckRepository implements WebDeckRepository {
 			rating += ((Integer) vote.get("direction"));
 		}
 		return rating;
+	}
+
+	private LocalDate getLastUpdated(Map<String, Object> deckMap) {
+		// createdDate=2015-04-25T19:30:40.311Z
+		String dateString = (String) deckMap.get("createdDate");
+		DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT
+				.withZone(ZoneId.systemDefault());
+		return LocalDate.parse(dateString, formatter);
 	}
 
 }

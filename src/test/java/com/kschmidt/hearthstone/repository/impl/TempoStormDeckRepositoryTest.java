@@ -4,9 +4,15 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
+import java.time.chrono.ChronoLocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -78,6 +84,9 @@ public class TempoStormDeckRepositoryTest {
 				equalTo("https://tempostorm.com/hearthstone/decks/seventythree-aggro-flamewaker-mage"));
 		assertThat(deck.getCollection(), equalTo("tempoStormDeckRepository"));
 		assertThat(deck.getRating(), greaterThan(1));
+		assertThat(deck.getLastUpdated(),
+				greaterThan((ChronoLocalDate) LocalDate.of(2015, Month.APRIL,
+						24)));
 
 		Optional<DeckCard> card = deck.findCard("Clockwork Gnome");
 		assertTrue(card.isPresent());
@@ -86,6 +95,13 @@ public class TempoStormDeckRepositoryTest {
 
 		card = deck.findCard("Rampage");
 		assertFalse(card.isPresent());
+	}
+
+	@Test
+	public void testDateTimeFormatter() {
+		LocalDate localDate = LocalDate.parse("2014-05-14T06:18:48.649Z",
+				DateTimeFormatter.ISO_INSTANT.withZone(ZoneId.systemDefault()));
+		assertNotNull(localDate);
 	}
 
 	@Test
@@ -116,7 +132,6 @@ public class TempoStormDeckRepositoryTest {
 		}
 	}
 
-	@Ignore
 	@Test
 	public void testGetAllDecks() throws IOException {
 		List<Deck> decks = tempoStorm.getAllDecks();
