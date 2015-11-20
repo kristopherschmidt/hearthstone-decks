@@ -132,6 +132,7 @@ public class TempoStormDeckRepositoryTest {
 		}
 	}
 
+	@Ignore
 	@Test
 	public void testGetAllDecks() throws IOException {
 		List<Deck> decks = tempoStorm.getAllDecks();

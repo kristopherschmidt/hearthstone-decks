@@ -112,6 +112,7 @@
 						ng-change="diff()">
 						<option value="">All</option>
 						<option value="The Grand Tournament">The Grand Tournament</option>
+						<option value="The Grand Tournament">League Of Explorers</option>
 					</select>
 				</div>
 			</div>
@@ -128,13 +129,13 @@
 
 	<div class="panel-body">
 
-		<div class="panel-content">Top 10 missing cards (click to
+		<div class="panel-content">Top 10a missing cards (click to
 			filter):</div>
 
 		<ol class="list-group">
 			<a href="#/" class="list-group-item"
 				ng-click="filterByCard(deckCard.card)"
-				ng-repeat="deckCard in allMissingCards | orderBy: '-dustValue' | limitTo:10">
+				ng-repeat="deckCard in allMissingCards | orderBy: '-numCards' | limitTo:10">
 				{{ deckCard.cardName }} ({{ deckCard.numCards }})</a>
 		</ol>
 

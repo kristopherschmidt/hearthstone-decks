@@ -1,6 +1,11 @@
 package com.kschmidt.hearthstone.domain;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,9 +67,23 @@ public class DeckDiff {
 
 	public double getRankingMetric() {
 		double dustWeight = getFullDustValue();
-		double percentWeight = 1 - Math.sqrt(1 - getPercentComplete() / 100
-				* getPercentComplete() / 100);
-		return dustWeight * percentWeight;
+		// int daysSinceTGTLaunch = Period.between(LocalDate.of(2015,
+		// Month.JULY, 24), LocalDate.now()).getDays();
+		long daysFromTGTLaunchToLastUpdate = Duration.between(
+				LocalDateTime.of(2015, Month.AUGUST, 24, 0, 0).toInstant(
+						ZoneOffset.UTC),
+				LocalDateTime.of(getLastUpdated(), LocalTime.MIDNIGHT)
+						.toInstant(ZoneOffset.UTC)).toDays();
+
+		long daysFromTGTLaunchToNow = Duration.between(
+				LocalDateTime.of(2015, Month.AUGUST, 24, 0, 0).toInstant(
+						ZoneOffset.UTC),
+				LocalDateTime.now().toInstant(ZoneOffset.UTC)).toDays();
+
+		double recencyMetric = (double) daysFromTGTLaunchToLastUpdate
+				/ (double) daysFromTGTLaunchToNow;
+
+		return recencyMetric * getPercentComplete() / 100 * getRating();
 	}
 
 	public int getRating() {

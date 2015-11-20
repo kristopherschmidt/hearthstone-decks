@@ -86,7 +86,7 @@ public class IcyVeinsDeckRepositoryTest {
 	@Test
 	public void testGetDecks() throws IOException {
 		List<Deck> decks = icyVeins
-				.getDecks("http://www.icy-veins.com/hearthstone/druid-decks");
+				.getDecks("http://www.icy-veins.com/hearthstone/mage-decks");
 		assertThat(decks.size(), greaterThan(0));
 		for (Deck deck : decks) {
 			assertThat(deck.getNumCards(), equalTo(30));

@@ -25,66 +25,60 @@ import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.repository.CardRepository;
 
 public class HearthpwnRepositoryTest {
-
-	private static final Logger LOG = LoggerFactory
-			.getLogger(HearthpwnRepositoryTest.class);
-
+	
+	private static final Logger LOG = LoggerFactory.getLogger(HearthpwnRepositoryTest.class);
+	
 	private static CardRepository cardRepository;
-
+	
 	private HearthpwnRepository hearthpwn;
-
+	
 	@BeforeClass
-	public static void setUpClass() throws JsonParseException,
-			JsonMappingException, IOException {
+	public static void setUpClass() throws JsonParseException, JsonMappingException, IOException {
 		cardRepository = new JSONCardRepository("AllSets.json");
 	}
-
+	
 	@Before
-	public void setUp() throws JsonParseException, JsonMappingException,
-			IOException {
+	public void setUp() throws JsonParseException, JsonMappingException, IOException {
 		hearthpwn = new HearthpwnRepository(cardRepository);
 	}
-
+	
 	@Test
 	public void testGetDocument() throws IOException {
 		Document doc = hearthpwn
-				.getDocument("http://www.hearthpwn.com/decks?filter-build=24&filter-class=64&sort=-rating");
+		        .getDocument("http://www.hearthpwn.com/decks?filter-build=26&filter-deck-tag=1&filter-class=64&sort=-rating");
 		Assert.assertNotNull(doc);
 	}
-
+	
 	@Test
 	public void testGetDeckUrls() throws IOException {
 		List<String> urls = hearthpwn
-				.getDeckUrls("http://www.hearthpwn.com/decks?filter-build=24&filter-class=64&sort=-rating");
+		        .getDeckUrls("http://www.hearthpwn.com/decks?filter-build=26&filter-deck-tag=1&filter-class=64&sort=-rating");
 		Assert.assertFalse(urls.isEmpty());
 		LOG.debug(urls.toString());
 	}
-
+	
 	@Test
 	public void testGetDeck() throws IOException {
-		Deck deck = hearthpwn
-				.getDeck("http://www.hearthpwn.com/decks/308694-reynads-op-dragon-priest");
+		Deck deck = hearthpwn.getDeck("http://www.hearthpwn.com/decks/308694-reynads-op-dragon-priest");
 		assertThat(deck.getNumCards(), equalTo(30));
 		assertThat(deck.getCollection(), equalTo("hearthpwnRepository"));
 		assertThat(deck.getRating(), greaterThan(700));
-		assertThat(deck.getLastUpdated(),
-				greaterThan((ChronoLocalDate) LocalDate.of(2015, Month.AUGUST,
-						26)));
+		assertThat(deck.getLastUpdated(), greaterThan((ChronoLocalDate) LocalDate.of(2015, Month.AUGUST, 26)));
 	}
-
+	
 	@Ignore
 	@Test
 	public void testGetDecks() throws IOException {
 		List<Deck> decks = hearthpwn
-				.getDecks("http://www.hearthpwn.com/decks?filter-build=24&filter-class=64&sort=-rating");
+		        .getDecks("http://www.hearthpwn.com/decks?filter-unreleased-cards=f&filter-build=26&filter-deck-tag=1&filter-class=64&sort=-rating");
 		assertThat(decks.size(), equalTo(25));
 	}
-
+	
 	@Ignore
 	@Test
 	public void testGetAllDecks() throws IOException {
 		List<Deck> decks = hearthpwn.getAllDecks();
 		LOG.debug(decks.toString());
 	}
-
+	
 }

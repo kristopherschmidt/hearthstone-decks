@@ -39,5 +39,11 @@ public class JSONCardRepositoryTest {
 		assertThat(card.getRarity(), equalTo(Rarity.Common));
 		assertThat(card.getPlayerClass(), equalTo(PlayerClass.Mage));
 		assertThat(card.getCardSet(), equalTo("Basic"));
+		
+		card = cardRepository.findCard("Reno Jackson");
+		assertNotNull(card);
+		assertThat(card.getRarity(), equalTo(Rarity.Legendary));
+		assertThat(card.getPlayerClass(), equalTo(PlayerClass.Neutral));
+		assertThat(card.getCardSet(), equalTo("League of Explorers"));
 	}
 }
