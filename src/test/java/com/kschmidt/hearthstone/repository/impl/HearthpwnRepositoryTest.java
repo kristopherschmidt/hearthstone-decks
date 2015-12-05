@@ -74,11 +74,11 @@ public class HearthpwnRepositoryTest {
 		assertThat(decks.size(), equalTo(25));
 	}
 	
-	@Ignore
 	@Test
 	public void testGetAllDecks() throws IOException {
 		List<Deck> decks = hearthpwn.getAllDecks();
 		LOG.debug(decks.toString());
+		assertThat(decks.size(), greaterThan(200));
 	}
 	
 }
