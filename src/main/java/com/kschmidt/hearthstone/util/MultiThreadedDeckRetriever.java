@@ -8,10 +8,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.repository.WebDeckRepository;
 
 public class MultiThreadedDeckRetriever {
+
+	private static final Logger LOG = LoggerFactory.getLogger(MultiThreadedDeckRetriever.class);
 
 	public List<Deck> getDecks(List<String> deckUrls, final WebDeckRepository deckRepository) {
 		List<Deck> decks = new ArrayList<Deck>();
@@ -38,8 +43,8 @@ public class MultiThreadedDeckRetriever {
 				throw new RuntimeException(e.getCause());
 			}
 		}
+		LOG.info("fetched: " + decks.size() + " decks from: " + deckRepository);
 		return decks;
-
 	}
 
 }

@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,16 +29,14 @@ import com.kschmidt.hearthstone.repository.CardRepository;
 public class IcyVeinsDeckRepositoryTest {
 
 	@SuppressWarnings("unused")
-	private static final Logger LOG = LoggerFactory
-			.getLogger(IcyVeinsDeckRepositoryTest.class);
+	private static final Logger LOG = LoggerFactory.getLogger(IcyVeinsDeckRepositoryTest.class);
 
 	private static CardRepository cardRepository;
 
 	private IcyVeinsDeckRepository icyVeins;
 
 	@BeforeClass
-	public static void setUpClass() throws JsonParseException,
-			JsonMappingException, IOException {
+	public static void setUpClass() throws JsonParseException, JsonMappingException, IOException {
 		cardRepository = new JSONCardRepository("AllSets.json");
 	}
 
@@ -50,19 +47,12 @@ public class IcyVeinsDeckRepositoryTest {
 
 	@Test
 	public void testGetDeck() throws Exception {
-		Deck deck = icyVeins
-				.getDeck("http://www.icy-veins.com/hearthstone/legendary-druid-fast-brm-deck");
+		Deck deck = icyVeins.getDeck("http://www.icy-veins.com/hearthstone/legendary-druid-fast-brm-deck");
 		assertThat(deck.getNumCards(), equalTo(30));
-		assertThat(
-				deck.getName(),
-				equalTo("http://www.icy-veins.com/hearthstone/legendary-druid-fast-brm-deck"));
-		assertThat(
-				deck.getUrl(),
-				equalTo("http://www.icy-veins.com/hearthstone/legendary-druid-fast-brm-deck"));
+		assertThat(deck.getName(), equalTo("http://www.icy-veins.com/hearthstone/legendary-druid-fast-brm-deck"));
+		assertThat(deck.getUrl(), equalTo("http://www.icy-veins.com/hearthstone/legendary-druid-fast-brm-deck"));
 		assertThat(deck.getCollection(), equalTo("icyVeinsDeckRepository"));
-		assertThat(deck.getLastUpdated(),
-				greaterThan((ChronoLocalDate) LocalDate
-						.of(2015, Month.APRIL, 6)));
+		assertThat(deck.getLastUpdated(), greaterThan((ChronoLocalDate) LocalDate.of(2015, Month.APRIL, 6)));
 
 		// test a card
 		Optional<DeckCard> card = deck.findCard("Loatheb");
@@ -78,23 +68,19 @@ public class IcyVeinsDeckRepositoryTest {
 
 	@Test
 	public void testGetDeckList() throws IOException {
-		List<String> deckUrls = icyVeins
-				.getDeckUrls("http://www.icy-veins.com/hearthstone/druid-decks");
+		List<String> deckUrls = icyVeins.getDeckUrls("http://www.icy-veins.com/hearthstone/druid-decks");
 		assertThat(deckUrls.size(), greaterThan(0));
 	}
 
 	@Test
 	public void testGetDecks() throws IOException {
-		List<Deck> decks = icyVeins
-				.getDecks("http://www.icy-veins.com/hearthstone/mage-decks");
+		List<Deck> decks = icyVeins.getDecks("http://www.icy-veins.com/hearthstone/mage-decks");
 		assertThat(decks.size(), greaterThan(0));
 		for (Deck deck : decks) {
 			assertThat(deck.getNumCards(), equalTo(30));
 		}
 	}
 
-	/** this test runs a long time. */
-	@Ignore
 	@Test
 	public void testGetAllDecks() throws IOException {
 		icyVeins.getAllDecks();

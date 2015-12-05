@@ -21,6 +21,7 @@ import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.domain.DeckCard;
 import com.kschmidt.hearthstone.repository.CardRepository;
 import com.kschmidt.hearthstone.repository.WebDeckRepository;
+import com.kschmidt.hearthstone.util.MultiThreadedDeckRetriever;
 
 public class IcyVeinsDeckRepository implements WebDeckRepository {
 
@@ -93,16 +94,17 @@ public class IcyVeinsDeckRepository implements WebDeckRepository {
 	@Cacheable("decks")
 	public List<Deck> getDecks(String deckListUrl) throws IOException {
 		LOG.info("IcyVeins fetching decks from: " + deckListUrl);
-		List<Deck> decks = new ArrayList<Deck>();
+		
+		List<String> deckUrls = new ArrayList<String>();
 		for (String deckUrl : getDeckUrls(deckListUrl)) {
 			if (deckUrl.startsWith("/basic-") || deckUrl.contains("/season-")
 					|| deckUrl.endsWith("-mode")) {
 				continue;
 			}
-			decks.add(getDeck(deckUrl));
+			deckUrls.add(deckUrl);
 		}
-		LOG.info("fetched: " + decks.size() + " decks");
-		return decks;
+		
+		return new MultiThreadedDeckRetriever().getDecks(deckUrls, this);
 	}
 
 	List<String> getDeckUrls(String deckListUrl) throws IOException {
