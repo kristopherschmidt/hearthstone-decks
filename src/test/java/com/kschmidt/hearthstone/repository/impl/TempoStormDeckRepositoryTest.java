@@ -21,7 +21,6 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,16 +34,14 @@ import com.kschmidt.hearthstone.repository.CardRepository;
 
 public class TempoStormDeckRepositoryTest {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(TempoStormDeckRepositoryTest.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TempoStormDeckRepositoryTest.class);
 
 	private static CardRepository cardRepository;
 
 	private TempoStormDeckRepository tempoStorm;
 
 	@BeforeClass
-	public static void setUpClass() throws JsonParseException,
-			JsonMappingException, IOException {
+	public static void setUpClass() throws JsonParseException, JsonMappingException, IOException {
 		cardRepository = new JSONCardRepository("AllSets.json");
 	}
 
@@ -77,16 +74,12 @@ public class TempoStormDeckRepositoryTest {
 	public void testGetDeckFromSlug() throws IOException {
 		Deck deck = tempoStorm.getDeck("seventythree-aggro-flamewaker-mage");
 		assertThat(deck.getNumCards(), equalTo(30));
-		assertThat(deck.getName(),
-				equalTo("seventythree-aggro-flamewaker-mage"));
-		assertThat(
-				deck.getUrl(),
+		assertThat(deck.getName(), equalTo("seventythree-aggro-flamewaker-mage"));
+		assertThat(deck.getUrl(),
 				equalTo("https://tempostorm.com/hearthstone/decks/seventythree-aggro-flamewaker-mage"));
 		assertThat(deck.getCollection(), equalTo("tempoStormDeckRepository"));
 		assertThat(deck.getRating(), greaterThan(1));
-		assertThat(deck.getLastUpdated(),
-				greaterThan((ChronoLocalDate) LocalDate.of(2015, Month.APRIL,
-						24)));
+		assertThat(deck.getLastUpdated(), greaterThan((ChronoLocalDate) LocalDate.of(2015, Month.APRIL, 24)));
 
 		Optional<DeckCard> card = deck.findCard("Clockwork Gnome");
 		assertTrue(card.isPresent());
@@ -106,8 +99,7 @@ public class TempoStormDeckRepositoryTest {
 
 	@Test
 	public void testGetDeckSlugs() throws IOException {
-		List<String> deckSlugs = tempoStorm
-				.getDeckSlugs("https://tempostorm.com/decks");
+		List<String> deckSlugs = tempoStorm.getDeckSlugs("https://tempostorm.com/decks");
 		Assert.assertFalse(deckSlugs.isEmpty());
 		LOG.debug("num slugs: " + deckSlugs.size());
 	}
@@ -118,7 +110,6 @@ public class TempoStormDeckRepositoryTest {
 		Assert.assertTrue(deck.findCard("Ship's Cannon").isPresent());
 	}
 
-	@Ignore
 	@Test
 	public void testGetDecks() throws IOException {
 		List<Deck> decks = tempoStorm.getDecks("https://tempostorm.com/decks");
@@ -132,7 +123,6 @@ public class TempoStormDeckRepositoryTest {
 		}
 	}
 
-	@Ignore
 	@Test
 	public void testGetAllDecks() throws IOException {
 		List<Deck> decks = tempoStorm.getAllDecks();

@@ -26,11 +26,11 @@ import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.domain.DeckCard;
 import com.kschmidt.hearthstone.repository.CardRepository;
 import com.kschmidt.hearthstone.repository.WebDeckRepository;
+import com.kschmidt.hearthstone.util.MultiThreadedDeckRetriever;
 
 public class TempoStormDeckRepository implements WebDeckRepository {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(TempoStormDeckRepository.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TempoStormDeckRepository.class);
 
 	private Map<String, String> cardNameCorrections;
 	private CardRepository cardRepository;
@@ -53,6 +53,7 @@ public class TempoStormDeckRepository implements WebDeckRepository {
 		mapper = new ObjectMapper();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Deck getDeck(String slug) throws IOException {
 		LOG.info("TempoStorm fetching deck with slug: " + slug);
@@ -62,8 +63,7 @@ public class TempoStormDeckRepository implements WebDeckRepository {
 
 		String body = "{\"slug\":\"" + slug + "\" }";
 		HttpEntity<String> entity = new HttpEntity<String>(body, headers);
-		ResponseEntity<String> result = restTemplate.exchange(
-				"https://tempostorm.com/deck", HttpMethod.POST, entity,
+		ResponseEntity<String> result = restTemplate.exchange("https://tempostorm.com/deck", HttpMethod.POST, entity,
 				String.class);
 		String json = result.getBody();
 
@@ -73,13 +73,11 @@ public class TempoStormDeckRepository implements WebDeckRepository {
 		deck.setRating(getRating(deckMap));
 		deck.setLastUpdated(getLastUpdated(deckMap));
 
-		List<Map<String, Object>> cards = (List<Map<String, Object>>) deckMap
-				.get("cards");
+		List<Map<String, Object>> cards = (List<Map<String, Object>>) deckMap.get("cards");
 		for (Map<String, Object> cardMap : cards) {
 			String cardName = getCardName(cardMap);
 			try {
-				deck.add(new DeckCard(cardRepository.findCard(cardName),
-						(Integer) cardMap.get("qty")));
+				deck.add(new DeckCard(cardRepository.findCard(cardName), (Integer) cardMap.get("qty")));
 			} catch (NoSuchElementException ex) {
 				if (!unknownCards.contains(cardName)) {
 					LOG.error("Card not found: " + cardName, ex);
@@ -92,41 +90,29 @@ public class TempoStormDeckRepository implements WebDeckRepository {
 		return deck;
 	}
 
+	@Override
 	public List<Deck> getAllDecks() throws IOException {
 		return getDecks("https://tempostorm.com/decks");
 	}
 
+	@Override
 	@Cacheable("decks")
 	public List<Deck> getDecks(String serviceUrl) throws IOException {
 		LOG.info("TempoStorm fetching all decks from: " + serviceUrl);
-		List<Deck> decks = new ArrayList<Deck>();
-		for (String deckSlug : getDeckSlugs(serviceUrl)) {
-			Deck deck = getDeck(deckSlug);
-			if (deck != null) {
-				decks.add(deck);
-			}
-		}
-		if (decks.isEmpty()) {
-			throw new IllegalArgumentException("No decks found at: "
-					+ serviceUrl);
-		}
-		LOG.info("TempoStorm fetched a total of: " + decks.size() + " decks");
-		return decks;
+		List<String> deckSlugs = getDeckSlugs(serviceUrl);
+		return new MultiThreadedDeckRetriever().getDecks(deckSlugs, this);
 	}
 
 	@SuppressWarnings("unchecked")
-	List<String> getDeckSlugs(String url) throws JsonParseException,
-			JsonMappingException, IOException {
+	List<String> getDeckSlugs(String url) throws JsonParseException, JsonMappingException, IOException {
 		List<String> slugs = new ArrayList<String>();
 		String body = "{\"klass\":\"all\",\"page\":1,\"perpage\":100,\"search\":\"\",\"age\":\"60\",\"order\":\"high\"}";
 		HttpEntity<String> entity = new HttpEntity<String>(body, headers);
-		ResponseEntity<String> result = restTemplate.exchange(url,
-				HttpMethod.POST, entity, String.class);
+		ResponseEntity<String> result = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 		String json = result.getBody();
 
 		Map<String, Object> data = mapper.readValue(json, Map.class);
-		List<Map<String, Object>> decks = (List<Map<String, Object>>) data
-				.get("decks");
+		List<Map<String, Object>> decks = (List<Map<String, Object>>) data.get("decks");
 		for (Map<String, Object> deck : decks) {
 			slugs.add((String) deck.get("slug"));
 		}
@@ -135,8 +121,7 @@ public class TempoStormDeckRepository implements WebDeckRepository {
 
 	@SuppressWarnings("unchecked")
 	private String getCardName(Map<String, Object> cardMap) {
-		Map<String, Object> cardInternal = (Map<String, Object>) cardMap
-				.get("card");
+		Map<String, Object> cardInternal = (Map<String, Object>) cardMap.get("card");
 		String cardName = (String) cardInternal.get("name");
 		if (cardNameCorrections.containsKey(cardName)) {
 			return cardNameCorrections.get(cardName);
@@ -148,8 +133,7 @@ public class TempoStormDeckRepository implements WebDeckRepository {
 	@SuppressWarnings("unchecked")
 	int getRating(Map<String, Object> deckMap) {
 		Integer rating = 0;
-		List<Map<String, Integer>> votes = (List<Map<String, Integer>>) deckMap
-				.get("votes");
+		List<Map<String, Integer>> votes = (List<Map<String, Integer>>) deckMap.get("votes");
 		for (Map<String, Integer> vote : votes) {
 			rating += ((Integer) vote.get("direction"));
 		}
@@ -159,8 +143,7 @@ public class TempoStormDeckRepository implements WebDeckRepository {
 	private LocalDate getLastUpdated(Map<String, Object> deckMap) {
 		// createdDate=2015-04-25T19:30:40.311Z
 		String dateString = (String) deckMap.get("createdDate");
-		DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT
-				.withZone(ZoneId.systemDefault());
+		DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT.withZone(ZoneId.systemDefault());
 		return LocalDate.parse(dateString, formatter);
 	}
 

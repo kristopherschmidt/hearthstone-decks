@@ -32,7 +32,10 @@ public class MultiThreadedDeckRetriever {
 		try {
 			List<Future<Deck>> results = taskExecutor.invokeAll(deckRetrievalTasks);
 			for (Future<Deck> result : results) {
-				decks.add(result.get());
+				Deck deck = result.get();
+				if (deck != null) {
+					decks.add(deck);
+				}
 			}
 		} catch (InterruptedException e1) {
 			throw new RuntimeException("Deck retrieval was interrupted", e1);
