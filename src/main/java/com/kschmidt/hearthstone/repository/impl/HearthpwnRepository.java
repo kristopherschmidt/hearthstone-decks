@@ -11,11 +11,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,6 +32,7 @@ import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.domain.DeckCard;
 import com.kschmidt.hearthstone.repository.CardRepository;
 import com.kschmidt.hearthstone.repository.WebDeckRepository;
+import com.kschmidt.hearthstone.util.MultiThreadedDeckRetriever;
 
 public class HearthpwnRepository implements WebDeckRepository {
 
@@ -55,7 +51,7 @@ public class HearthpwnRepository implements WebDeckRepository {
 
 	@Override
 	public Deck getDeck(String url) throws IOException {
-		LOG.info("Hearthpwn getDeck: "+url);
+		LOG.info("Hearthpwn getDeck: " + url);
 		Document doc = getDocument(url);
 		Deck deck = new Deck(getDeckTitle(doc));
 		deck.setUrl(url);
@@ -104,36 +100,17 @@ public class HearthpwnRepository implements WebDeckRepository {
 	@Override
 	public List<Deck> getDecks(String deckListUrl) throws IOException {
 		LOG.info("Hearthpwn fetching decks from: " + deckListUrl);
-		List<Deck> decks = new ArrayList<Deck>();
-		List<Callable<Deck>> deckRetrievalTasks = new ArrayList<Callable<Deck>>();
-		for (final String deckUrl : getDeckUrls(deckListUrl)) {
-			deckRetrievalTasks.add(new Callable<Deck>() {
-				public Deck call() throws Exception {
-					return getDeck(deckUrl);
-				}
-			});
-		}
-		ExecutorService taskExecutor = Executors.newFixedThreadPool(10);
-		try {
-			List<Future<Deck>> results = taskExecutor.invokeAll(deckRetrievalTasks);
-			for (Future<Deck> result : results) {
-				decks.add(result.get());
-			}
-		} catch (InterruptedException e1) {
-			LOG.error("Deck retrieval was interrupted", e1);
-		} catch (ExecutionException e) {
-			if (e.getCause() instanceof RuntimeException) {
-				throw (RuntimeException) e.getCause();
-			} else {
-				throw new RuntimeException(e.getCause());
-			}
-		}
-
+		List<Deck> decks = getDecks(getDeckUrls(deckListUrl));
 		if (decks.isEmpty()) {
 			throw new IllegalArgumentException("No decks found at: " + deckListUrl);
 		}
 		LOG.info("fetched: " + decks.size() + " decks");
 		return decks;
+	}
+
+	private List<Deck> getDecks(List<String> deckUrls) {
+		MultiThreadedDeckRetriever deckRetriever = new MultiThreadedDeckRetriever();
+		return deckRetriever.getDecks(deckUrls, this);
 	}
 
 	/**
