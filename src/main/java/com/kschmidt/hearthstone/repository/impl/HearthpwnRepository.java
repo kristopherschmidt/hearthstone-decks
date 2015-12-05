@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -56,7 +55,7 @@ public class HearthpwnRepository implements WebDeckRepository {
 
 	@Override
 	public Deck getDeck(String url) throws IOException {
-		LOG.info("HearthpwnRepository.getDeck("+url+")");
+		LOG.info("Hearthpwn getDeck: "+url);
 		Document doc = getDocument(url);
 		Deck deck = new Deck(getDeckTitle(doc));
 		deck.setUrl(url);
@@ -106,9 +105,30 @@ public class HearthpwnRepository implements WebDeckRepository {
 	public List<Deck> getDecks(String deckListUrl) throws IOException {
 		LOG.info("Hearthpwn fetching decks from: " + deckListUrl);
 		List<Deck> decks = new ArrayList<Deck>();
-		for (String deckUrl : getDeckUrls(deckListUrl)) {
-			decks.add(getDeck(deckUrl));
+		List<Callable<Deck>> deckRetrievalTasks = new ArrayList<Callable<Deck>>();
+		for (final String deckUrl : getDeckUrls(deckListUrl)) {
+			deckRetrievalTasks.add(new Callable<Deck>() {
+				public Deck call() throws Exception {
+					return getDeck(deckUrl);
+				}
+			});
 		}
+		ExecutorService taskExecutor = Executors.newFixedThreadPool(10);
+		try {
+			List<Future<Deck>> results = taskExecutor.invokeAll(deckRetrievalTasks);
+			for (Future<Deck> result : results) {
+				decks.add(result.get());
+			}
+		} catch (InterruptedException e1) {
+			LOG.error("Deck retrieval was interrupted", e1);
+		} catch (ExecutionException e) {
+			if (e.getCause() instanceof RuntimeException) {
+				throw (RuntimeException) e.getCause();
+			} else {
+				throw new RuntimeException(e.getCause());
+			}
+		}
+
 		if (decks.isEmpty()) {
 			throw new IllegalArgumentException("No decks found at: " + deckListUrl);
 		}
@@ -124,38 +144,14 @@ public class HearthpwnRepository implements WebDeckRepository {
 	public List<Deck> getAllDecks() throws IOException {
 		// sample URL for Druid. Filter-build is for TGT. Class is for druid.
 		// http://www.hearthpwn.com/decks?filter-build=24&filter-class=100&sort=-rating
-
+		List<Deck> decks = new ArrayList<Deck>();
 		String deckListUrlPrefix = "http://www.hearthpwn.com/decks?filter-unreleased-cards=f&filter-build=26&filter-deck-tag=1&filter-class=";
 		String deckListUrlPostfix = "&sort=-rating";
 		String[] classes = new String[] { "4", "8", "16", "32", "64", "128", "256", "512", "1024" };
-
-		List<Deck> decks = Collections.synchronizedList(new ArrayList<Deck>());
-		List<Callable<List<Deck>>> deckRetrieveTasks = new ArrayList<Callable<List<Deck>>>();
 		for (int i = 0; i < classes.length; ++i) {
-			final String deckListUrl = deckListUrlPrefix + classes[i] + deckListUrlPostfix;
-			deckRetrieveTasks.add(new Callable<List<Deck>>() {
-				public List<Deck> call() throws IOException {
-					return getDecks(deckListUrl);
-				}
-			});
+			String deckListUrl = deckListUrlPrefix + classes[i] + deckListUrlPostfix;
+			decks.addAll(getDecks(deckListUrl));
 		}
-		LOG.info(deckRetrieveTasks.toString());
-		ExecutorService taskExecutor = Executors.newFixedThreadPool(9);
-		try {
-			List<Future<List<Deck>>> results = taskExecutor.invokeAll(deckRetrieveTasks);
-			for (Future<List<Deck>> result : results) {
-				decks.addAll(result.get());
-			}
-		} catch (InterruptedException e1) {
-			LOG.error("Deck retrieval was interrupted", e1);
-		} catch (ExecutionException e) {
-			if (e.getCause() instanceof RuntimeException) {
-				throw (RuntimeException) e.getCause();
-			} else {
-				throw new RuntimeException(e.getCause());
-			}
-		}
-
 		return decks;
 	}
 
