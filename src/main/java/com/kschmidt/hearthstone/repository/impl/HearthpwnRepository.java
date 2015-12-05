@@ -34,20 +34,20 @@ import com.kschmidt.hearthstone.repository.CardRepository;
 import com.kschmidt.hearthstone.repository.WebDeckRepository;
 
 public class HearthpwnRepository implements WebDeckRepository {
-	
+
 	private static final String BASE_URI = "http://www.hearthpwn.com";
-	
-	private static final Set<String> BLACKLIST_URLS = new HashSet(
-	        Arrays.asList("http://www.hearthpwn.com/decks/369529-fuck-you-reno-jackson"));
-	
+
+	private static final Set<String> BLACKLIST_URLS = new HashSet<String>(
+			Arrays.asList("http://www.hearthpwn.com/decks/369529-fuck-you-reno-jackson"));
+
 	private static final Logger LOG = LoggerFactory.getLogger(HearthpwnRepository.class);
-	
+
 	private CardRepository cardRepository;
-	
+
 	public HearthpwnRepository(CardRepository cardRepository) {
 		this.cardRepository = cardRepository;
 	}
-	
+
 	@Override
 	public Deck getDeck(String url) throws IOException {
 		Document doc = getDocument(url);
@@ -59,11 +59,11 @@ public class HearthpwnRepository implements WebDeckRepository {
 		deck.setLastUpdated(getLastUpdated(doc));
 		return deck;
 	}
-	
+
 	private String getDeckTitle(Document doc) {
 		return doc.select("header.deck-detail section.deck-info h2.deck-title").get(0).text();
 	}
-	
+
 	private List<DeckCard> getCards(Document doc, String url) {
 		List<DeckCard> deckCards = new ArrayList<DeckCard>();
 		Elements cardElements = doc.select("aside.infobox table.listing-cards-tabular tr td.col-name");
@@ -76,24 +76,25 @@ public class HearthpwnRepository implements WebDeckRepository {
 				DeckCard deckCard = new DeckCard(card, Integer.parseInt(m.group(1)));
 				deckCards.add(deckCard);
 			} else {
-				throw new IllegalStateException("Text: '" + cardElement.text() + "' did not parse as a card from: " + url);
+				throw new IllegalStateException(
+						"Text: '" + cardElement.text() + "' did not parse as a card from: " + url);
 			}
 		}
 		return deckCards;
 	}
-	
+
 	private int getRating(Document doc) {
 		String ratingString = doc.select(".deck-actions .rating-sum").get(0).text();
 		return Integer.parseInt(ratingString);
 	}
-	
+
 	private LocalDate getLastUpdated(Document doc) {
 		Element e = doc.select(".deck-detail .standard-datetime").first();
 		String epochSecondsString = e.attr("data-epoch");
 		Instant instant = Instant.ofEpochSecond(Long.parseLong(epochSecondsString));
 		return instant.atZone(ZoneId.systemDefault()).toLocalDate();
 	}
-	
+
 	@Override
 	public List<Deck> getDecks(String deckListUrl) throws IOException {
 		LOG.info("Hearthpwn fetching decks from: " + deckListUrl);
@@ -107,9 +108,10 @@ public class HearthpwnRepository implements WebDeckRepository {
 		LOG.info("fetched: " + decks.size() + " decks");
 		return decks;
 	}
-	
+
 	/**
-	 * Filter only decks post-TGT, 1st page of results for now, sorted by popularity
+	 * Filter only decks post-TGT, 1st page of results for now, sorted by
+	 * popularity
 	 */
 	@Override
 	public List<Deck> getAllDecks() throws IOException {
@@ -125,10 +127,10 @@ public class HearthpwnRepository implements WebDeckRepository {
 		}
 		return decks;
 	}
-	
+
 	/**
-	 * Return relative URLs for decks at the given location. Absolute URLs cannot be returned
-	 * because Jsoup has no context.
+	 * Return relative URLs for decks at the given location. Absolute URLs
+	 * cannot be returned because Jsoup has no context.
 	 */
 	List<String> getDeckUrls(String deckListUrl) throws IOException {
 		List<String> deckUrls = new ArrayList<String>();
@@ -143,17 +145,20 @@ public class HearthpwnRepository implements WebDeckRepository {
 		}
 		return deckUrls;
 	}
-	
+
 	/**
-	 * Hearthpwn does a cookie check, redirecting from the original url to a cookie setter to an
-	 * authentication service and finally back to the original url where the cookie must be passed.
-	 * Jsoup does not handle this by default so use httpclient instead and pass the result to jsoup.
+	 * Hearthpwn does a cookie check, redirecting from the original url to a
+	 * cookie setter to an authentication service and finally back to the
+	 * original url where the cookie must be passed. Jsoup does not handle this
+	 * by default so use httpclient instead and pass the result to jsoup.
 	 * 
-	 * @param url the url to fetch, which should be relative to www.hearthpwn.com
+	 * @param url
+	 *            the url to fetch, which should be relative to
+	 *            www.hearthpwn.com
 	 */
 	Document getDocument(String url) throws ClientProtocolException, IOException {
 		HttpClient client = HttpClientBuilder.create()
-		        .setDefaultRequestConfig(RequestConfig.custom().setCircularRedirectsAllowed(true).build()).build();
+				.setDefaultRequestConfig(RequestConfig.custom().setCircularRedirectsAllowed(true).build()).build();
 		HttpGet request = new HttpGet(url);
 		HttpResponse response = client.execute(request);
 		BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
@@ -166,5 +171,5 @@ public class HearthpwnRepository implements WebDeckRepository {
 		doc.setBaseUri(BASE_URI);
 		return doc;
 	}
-	
+
 }

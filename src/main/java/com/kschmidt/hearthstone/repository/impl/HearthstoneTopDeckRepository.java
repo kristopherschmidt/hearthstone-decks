@@ -27,11 +27,10 @@ import com.kschmidt.hearthstone.repository.WebDeckRepository;
 public class HearthstoneTopDeckRepository implements WebDeckRepository {
 
 	private static final List<String> DECK_BLACKLIST = Arrays
-			.asList(new String[] {
-					"http://www.hearthstonetopdeck.com/deck/4818/current/hunter-midrange-kucha",
-					"http://www.hearthstonetopdeck.com/deck/4820/current/oil-dog" });
-	private static final Logger LOG = LoggerFactory
-			.getLogger(HearthstoneTopDeckRepository.class);
+			.asList(new String[] { "http://www.hearthstonetopdeck.com/deck/4818/current/hunter-midrange-kucha",
+					"http://www.hearthstonetopdeck.com/deck/4820/current/oil-dog",
+					"http://www.hearthstonetopdeck.com/deck/5019/current/druid-aggro-akawonder" });
+	private static final Logger LOG = LoggerFactory.getLogger(HearthstoneTopDeckRepository.class);
 	private static final int TIMEOUT_MILLIS = 10000;
 
 	private CardRepository cardRepository;
@@ -60,17 +59,14 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 			Matcher m = p.matcher(cardElement.text());
 			if (m.matches()) {
 				Card card = cardRepository.findCard(m.group(2));
-				DeckCard deckCard = new DeckCard(card, Integer.parseInt(m
-						.group(1)));
+				DeckCard deckCard = new DeckCard(card, Integer.parseInt(m.group(1)));
 				deck.add(deckCard);
 			} else {
-				throw new IllegalStateException("Text: '" + cardElement.text()
-						+ "' did not parse as a card");
+				throw new IllegalStateException("Text: '" + cardElement.text() + "' did not parse as a card");
 			}
 		}
 		if (deck.getNumCards() != 30) {
-			throw new IllegalArgumentException("Did not find 30 cards at: "
-					+ url);
+			throw new IllegalArgumentException("Did not find 30 cards at: " + url);
 		}
 		return deck;
 	}
@@ -81,30 +77,26 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 		Matcher m = p.matcher(text);
 		if (m.matches()) {
 			String dateString = m.group(1).trim();
-			DateTimeFormatter formatter = DateTimeFormatter
-					.ofPattern("uuuu/MM/d");
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu/MM/d");
 			LocalDate date = LocalDate.parse(dateString, formatter);
 			return date;
 		} else {
-			throw new IllegalStateException("Text: " + text
-					+ " could not parse a date, from url: " + url);
+			throw new IllegalStateException("Text: " + text + " could not parse a date, from url: " + url);
 		}
 	}
 
 	private String getDeckName(Document doc) {
-		return doc.select("div.panel-primary div.panel-heading h3.panel-title")
-				.get(2).text();
+		return doc.select("div.panel-primary div.panel-heading h3.panel-title").get(2).text();
 	}
 
 	public List<Deck> getAllDecks() throws IOException {
 		List<Deck> decks = new ArrayList<Deck>();
 		String deckListUrlPrefix = "http://www.hearthstonetopdeck.com/metagame/";
 		String deckListUrlPostfix = "/0/current";
-		String[] classes = new String[] { "Druid", "Hunter", "Mage", "Paladin",
-				"Priest", "Rogue", "Shaman", "Warlock", "Warrior" };
+		String[] classes = new String[] { "Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock",
+				"Warrior" };
 		for (int i = 0; i < classes.length; ++i) {
-			String deckListUrl = deckListUrlPrefix + classes[i]
-					+ deckListUrlPostfix;
+			String deckListUrl = deckListUrlPrefix + classes[i] + deckListUrlPostfix;
 			decks.addAll(getDecks(deckListUrl));
 		}
 		return decks;
@@ -118,8 +110,7 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 			decks.add(getDeck(deckUrl));
 		}
 		if (decks.isEmpty()) {
-			throw new IllegalArgumentException("No decks found at: "
-					+ deckListUrl);
+			throw new IllegalArgumentException("No decks found at: " + deckListUrl);
 		}
 		LOG.info("fetched: " + decks.size() + " decks");
 		return decks;
@@ -128,8 +119,7 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 	List<String> getDeckUrls(String deckListUrl) throws IOException {
 		List<String> urls = new ArrayList<String>();
 		Document doc = Jsoup.connect(deckListUrl).get();
-		Elements deckRows = doc
-				.select("div.panel-body table tr:has(td.tdstyle1,td.tdstyle2)");
+		Elements deckRows = doc.select("div.panel-body table tr:has(td.tdstyle1,td.tdstyle2)");
 		for (Element deckRow : deckRows) {
 			Element link = deckRow.select("a").first();
 			urls.add(link.attr("abs:href"));

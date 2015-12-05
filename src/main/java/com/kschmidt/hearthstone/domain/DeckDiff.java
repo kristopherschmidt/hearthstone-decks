@@ -66,7 +66,7 @@ public class DeckDiff {
 	 */
 
 	public double getRankingMetric() {
-		double dustWeight = getFullDustValue();
+		//double dustWeight = getFullDustValue();
 		// int daysSinceTGTLaunch = Period.between(LocalDate.of(2015,
 		// Month.JULY, 24), LocalDate.now()).getDays();
 		long daysFromTGTLaunchToLastUpdate = Duration.between(
