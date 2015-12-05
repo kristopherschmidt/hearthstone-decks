@@ -31,10 +31,8 @@ import com.kschmidt.hearthstone.domain.Card;
 import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.domain.DeckCard;
 import com.kschmidt.hearthstone.repository.CardRepository;
-import com.kschmidt.hearthstone.repository.WebDeckRepository;
-import com.kschmidt.hearthstone.util.MultiThreadedDeckRetriever;
 
-public class HearthpwnRepository implements WebDeckRepository {
+public class HearthpwnRepository extends AbstractWebDeckRepository {
 
 	private static final String BASE_URI = "http://www.hearthpwn.com";
 
@@ -97,22 +95,6 @@ public class HearthpwnRepository implements WebDeckRepository {
 		return instant.atZone(ZoneId.systemDefault()).toLocalDate();
 	}
 
-	@Override
-	public List<Deck> getDecks(String deckListUrl) throws IOException {
-		LOG.info("Hearthpwn fetching decks from: " + deckListUrl);
-		List<Deck> decks = getDecks(getDeckUrls(deckListUrl));
-		if (decks.isEmpty()) {
-			throw new IllegalArgumentException("No decks found at: " + deckListUrl);
-		}
-		LOG.info("fetched: " + decks.size() + " decks");
-		return decks;
-	}
-
-	private List<Deck> getDecks(List<String> deckUrls) {
-		MultiThreadedDeckRetriever deckRetriever = new MultiThreadedDeckRetriever();
-		return deckRetriever.getDecks(deckUrls, this);
-	}
-
 	/**
 	 * Filter only decks post-TGT, 1st page of results for now, sorted by
 	 * popularity
@@ -136,7 +118,7 @@ public class HearthpwnRepository implements WebDeckRepository {
 	 * Return relative URLs for decks at the given location. Absolute URLs
 	 * cannot be returned because Jsoup has no context.
 	 */
-	List<String> getDeckUrls(String deckListUrl) throws IOException {
+	public List<String> getDeckUrls(String deckListUrl) throws IOException {
 		List<String> deckUrls = new ArrayList<String>();
 		Document doc = getDocument(deckListUrl);
 		// LOG.debug(doc.toString());

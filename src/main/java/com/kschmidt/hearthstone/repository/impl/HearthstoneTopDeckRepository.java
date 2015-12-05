@@ -16,21 +16,19 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.Cacheable;
 
 import com.kschmidt.hearthstone.domain.Card;
 import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.domain.DeckCard;
 import com.kschmidt.hearthstone.repository.CardRepository;
-import com.kschmidt.hearthstone.repository.WebDeckRepository;
-import com.kschmidt.hearthstone.util.MultiThreadedDeckRetriever;
 
-public class HearthstoneTopDeckRepository implements WebDeckRepository {
+public class HearthstoneTopDeckRepository extends AbstractWebDeckRepository {
 
 	private static final List<String> DECK_BLACKLIST = Arrays
 			.asList(new String[] { "http://www.hearthstonetopdeck.com/deck/4818/current/hunter-midrange-kucha",
 					"http://www.hearthstonetopdeck.com/deck/4820/current/oil-dog",
 					"http://www.hearthstonetopdeck.com/deck/5019/current/druid-aggro-akawonder" });
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(HearthstoneTopDeckRepository.class);
 	private static final int TIMEOUT_MILLIS = 10000;
 
@@ -103,14 +101,7 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 		return decks;
 	}
 
-	@Cacheable("decks")
-	public List<Deck> getDecks(String deckListUrl) throws IOException {
-		LOG.info("HearthstoneTopDeck fetching decks from: " + deckListUrl);
-		List<String> deckUrls = getDeckUrls(deckListUrl);
-		return new MultiThreadedDeckRetriever().getDecks(deckUrls, this);
-	}
-
-	List<String> getDeckUrls(String deckListUrl) throws IOException {
+	public List<String> getDeckUrls(String deckListUrl) throws IOException {
 		List<String> urls = new ArrayList<String>();
 		Document doc = Jsoup.connect(deckListUrl).get();
 		Elements deckRows = doc.select("div.panel-body table tr:has(td.tdstyle1,td.tdstyle2)");
@@ -120,6 +111,10 @@ public class HearthstoneTopDeckRepository implements WebDeckRepository {
 		}
 		urls.removeAll(DECK_BLACKLIST);
 		return urls;
+	}
+
+	public String toString() {
+		return "HearthstoneTopDeckRepository";
 	}
 
 }

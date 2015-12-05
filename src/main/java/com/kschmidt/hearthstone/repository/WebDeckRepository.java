@@ -9,6 +9,8 @@ public interface WebDeckRepository {
 
 	public Deck getDeck(String url) throws IOException;
 
+	public List<String> getDeckUrls(String deckListUrl) throws IOException;
+
 	public List<Deck> getDecks(String url) throws IOException;
 
 	public List<Deck> getAllDecks() throws IOException;

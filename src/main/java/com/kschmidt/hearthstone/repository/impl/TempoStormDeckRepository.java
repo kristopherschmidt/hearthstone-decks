@@ -12,7 +12,6 @@ import java.util.NoSuchElementException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -25,10 +24,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kschmidt.hearthstone.domain.Deck;
 import com.kschmidt.hearthstone.domain.DeckCard;
 import com.kschmidt.hearthstone.repository.CardRepository;
-import com.kschmidt.hearthstone.repository.WebDeckRepository;
-import com.kschmidt.hearthstone.util.MultiThreadedDeckRetriever;
 
-public class TempoStormDeckRepository implements WebDeckRepository {
+public class TempoStormDeckRepository extends AbstractWebDeckRepository {
 
 	private static final Logger LOG = LoggerFactory.getLogger(TempoStormDeckRepository.class);
 
@@ -95,20 +92,12 @@ public class TempoStormDeckRepository implements WebDeckRepository {
 		return getDecks("https://tempostorm.com/decks");
 	}
 
-	@Override
-	@Cacheable("decks")
-	public List<Deck> getDecks(String serviceUrl) throws IOException {
-		LOG.info("TempoStorm fetching all decks from: " + serviceUrl);
-		List<String> deckSlugs = getDeckSlugs(serviceUrl);
-		return new MultiThreadedDeckRetriever().getDecks(deckSlugs, this);
-	}
-
 	@SuppressWarnings("unchecked")
-	List<String> getDeckSlugs(String url) throws JsonParseException, JsonMappingException, IOException {
+	public List<String> getDeckUrls(String slugListUrl) throws JsonParseException, JsonMappingException, IOException {
 		List<String> slugs = new ArrayList<String>();
 		String body = "{\"klass\":\"all\",\"page\":1,\"perpage\":100,\"search\":\"\",\"age\":\"60\",\"order\":\"high\"}";
 		HttpEntity<String> entity = new HttpEntity<String>(body, headers);
-		ResponseEntity<String> result = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+		ResponseEntity<String> result = restTemplate.exchange(slugListUrl, HttpMethod.POST, entity, String.class);
 		String json = result.getBody();
 
 		Map<String, Object> data = mapper.readValue(json, Map.class);

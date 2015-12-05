@@ -99,7 +99,7 @@ public class TempoStormDeckRepositoryTest {
 
 	@Test
 	public void testGetDeckSlugs() throws IOException {
-		List<String> deckSlugs = tempoStorm.getDeckSlugs("https://tempostorm.com/decks");
+		List<String> deckSlugs = tempoStorm.getDeckUrls("https://tempostorm.com/decks");
 		Assert.assertFalse(deckSlugs.isEmpty());
 		LOG.debug("num slugs: " + deckSlugs.size());
 	}
