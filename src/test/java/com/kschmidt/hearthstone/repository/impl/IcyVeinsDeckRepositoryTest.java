@@ -65,6 +65,11 @@ public class IcyVeinsDeckRepositoryTest {
 		card = deck.findCard("Rampage");
 		assertFalse(card.isPresent());
 	}
+	
+	@Test
+	public void testTemp() throws IOException {
+		icyVeins.getDeck("http://www.icy-veins.com/hearthstone/priest-midrange-loe-deck");
+	}
 
 	@Test
 	public void testGetDeckList() throws IOException {

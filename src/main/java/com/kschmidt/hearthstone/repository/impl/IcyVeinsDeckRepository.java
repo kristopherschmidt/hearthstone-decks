@@ -56,12 +56,15 @@ public class IcyVeinsDeckRepository extends AbstractWebDeckRepository {
 	}
 
 	private LocalDate getLastUpdated(Document doc, String url) {
-		String updatedText = doc.select(".article_author_text").get(0).text();
-		Pattern p = Pattern.compile("Last updated.*on (.*)");
+		String updatedText = doc.select(".page_author").get(0).text();
+		Pattern p = Pattern.compile("Last updated (on )?(.*) at.*");
 		Matcher m = p.matcher(updatedText);
 		if (m.matches()) {
-			String dateString = m.group(1);
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM. uuuu");
+			String dateString = m.group(2);
+			if ("Yesterday".equals(dateString)) {
+				return LocalDate.now().minusDays(1);
+			}
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d, uuuu");
 			LocalDate date = LocalDate.parse(dateString, formatter);
 			return date;
 		} else {
