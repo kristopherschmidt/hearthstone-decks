@@ -13,10 +13,7 @@ import java.time.Month;
 import java.time.ZoneId;
 import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -54,20 +51,6 @@ public class TempoStormDeckRepositoryTest {
 	public void testRating() throws IOException {
 		Deck deck = tempoStorm.getDeck("avatar-nicks-new-age-legend-zoolock");
 		assertThat(deck.getRating(), greaterThan(40));
-	}
-
-	@SuppressWarnings("unchecked")
-	@Test
-	public void testRatingNegativeVotes() {
-		Map<String, Object> deckMap = new HashMap<String, Object>();
-		Map<String, Integer> vote1 = new HashMap<String, Integer>();
-		vote1.put("direction", 1);
-		Map<String, Integer> vote2 = new HashMap<String, Integer>();
-		vote2.put("direction", -1);
-		Map<String, Integer> vote3 = new HashMap<String, Integer>();
-		vote3.put("direction", 1);
-		deckMap.put("votes", Arrays.asList(vote1, vote2, vote3));
-		assertThat(tempoStorm.getRating(deckMap), equalTo(1));
 	}
 
 	@Test
@@ -111,28 +94,11 @@ public class TempoStormDeckRepositoryTest {
 	}
 
 	@Test
-	public void testGetDecks() throws IOException {
-		List<Deck> decks = tempoStorm.getDecks("https://tempostorm.com/decks");
-		Assert.assertFalse(decks.isEmpty());
-		for (Deck deck : decks) {
-			assertThat(deck.getNumCards(), equalTo(30));
-		}
-		LOG.debug("Num decks found: " + decks.size());
-		for (Deck deck : decks) {
-			LOG.debug(deck.getName());
-		}
-	}
-
-	@Test
 	public void testGetAllDecks() throws IOException {
 		List<Deck> decks = tempoStorm.getAllDecks();
 		Assert.assertFalse(decks.isEmpty());
 		for (Deck deck : decks) {
 			assertThat(deck.getNumCards(), equalTo(30));
-		}
-		LOG.debug("Num decks found: " + decks.size());
-		for (Deck deck : decks) {
-			LOG.debug(deck.getName());
 		}
 	}
 }

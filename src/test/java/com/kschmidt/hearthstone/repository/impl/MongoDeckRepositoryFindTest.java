@@ -80,6 +80,7 @@ public class MongoDeckRepositoryFindTest {
 		}
 	}
 
+	@Ignore
 	@Test
 	public void testFindByCardNamesInWithQuote() {
 		List<Deck> decks = mongoDeckRepository

@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -44,6 +43,7 @@ public class TempoStormDeckRepository extends AbstractWebDeckRepository {
 		cardNameCorrections.put("Staemwheedle Sniper", "Steamwheedle Sniper");
 		cardNameCorrections.put("Ship Cannon", "Ship's Cannon");
 		cardNameCorrections.put("Bouncing Blades", "Bouncing Blade");
+		cardNameCorrections.put("Ancestors Call", "Ancestor's Call");
 		unknownCards = new ArrayList<String>();
 		unknownCards.add("Hemit Nesingwary");
 		restTemplate = new RestTemplate();
@@ -59,8 +59,6 @@ public class TempoStormDeckRepository extends AbstractWebDeckRepository {
 		Deck deck = new Deck(slug);
 		deck.setCollection("tempoStormDeckRepository");
 		deck.setUrl("https://tempostorm.com/hearthstone/decks/" + slug);
-
-		String body = "{\"slug\":\"" + slug + "\" }";
 
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://tempostorm.com/api/decks/findOne")
 				.queryParam("filter", "{\"where\":{\"slug\":\"" + slug
@@ -102,22 +100,35 @@ public class TempoStormDeckRepository extends AbstractWebDeckRepository {
 
 	@Override
 	public List<Deck> getAllDecks() throws IOException {
-		return getDecks("https://tempostorm.com/decks");
+		return getDecks("https://tempostorm.com/api/decks");
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<String> getDeckUrls(String slugListUrl) throws JsonParseException, JsonMappingException, IOException {
 		List<String> slugs = new ArrayList<String>();
-		String body = "{\"klass\":\"all\",\"page\":1,\"perpage\":100,\"search\":\"\",\"age\":\"60\",\"order\":\"high\"}";
-		HttpEntity<String> entity = new HttpEntity<String>(body, headers);
-		ResponseEntity<String> result = restTemplate.exchange(slugListUrl, HttpMethod.POST, entity, String.class);
+
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://tempostorm.com/api/decks")
+				.queryParam("filter",
+						"{\"where\":{\"isFeatured\":false,\"isPublic\":true," + "" + "\"playerClass\":{\"inq\":"
+								+ "[\"Hunter\",\"Druid\",\"Mage\",\"Paladin\",\"Priest\",\"Rogue\",\"Shaman\",\"Warlock\",\"Warrior\"]}},"
+								+ "\"fields\":{\"name\":true,\"description\":true,\"slug\":true,\"heroName\":true,\"authorId\":true,"
+								+ "\"voteScore\":true,\"playerClass\":true,\"dust\":true,\"createdDate\":true,\"premium\":true},"
+								+ "\"include\":[\"author\"],\"order\":\"createdDate DESC\",\"skip\":0,\"limit\":104}");
+
+		HttpEntity<?> entity = new HttpEntity<>(headers);
+		URI uri = builder.build().encode().toUri();
+		HttpEntity<String> result = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
 		String json = result.getBody();
 
-		Map<String, Object> data = mapper.readValue(json, Map.class);
-		List<Map<String, Object>> decks = (List<Map<String, Object>>) data.get("decks");
-		for (Map<String, Object> deck : decks) {
+		List<Map<String, Object>> data = mapper.readValue(json, List.class);
+		for (Map<String, Object> deck : data) {
 			slugs.add((String) deck.get("slug"));
 		}
+		
+		slugs.remove("freezish-mage");
+		slugs.remove("zoo-1");
+		slugs.remove("tako-pandaria");
+		slugs.remove("reno-shaman-test");
 		return slugs;
 	}
 
@@ -133,7 +144,7 @@ public class TempoStormDeckRepository extends AbstractWebDeckRepository {
 	}
 
 	int getRating(Map<String, Object> data) {
-		return (Integer)data.get("voteScore");
+		return (Integer) data.get("voteScore");
 	}
 
 	private LocalDate getLastUpdated(Map<String, Object> deckMap) {
