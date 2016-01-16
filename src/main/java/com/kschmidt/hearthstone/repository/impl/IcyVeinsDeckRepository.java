@@ -61,6 +61,9 @@ public class IcyVeinsDeckRepository extends AbstractWebDeckRepository {
 		Matcher m = p.matcher(updatedText);
 		if (m.matches()) {
 			String dateString = m.group(2);
+			if ("Today".equals(dateString)) {
+				return LocalDate.now();
+			}
 			if ("Yesterday".equals(dateString)) {
 				return LocalDate.now().minusDays(1);
 			}

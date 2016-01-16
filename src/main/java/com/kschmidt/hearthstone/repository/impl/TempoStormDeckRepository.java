@@ -1,6 +1,7 @@
 package com.kschmidt.hearthstone.repository.impl;
 
 import java.io.IOException;
+import java.net.URI;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -59,22 +61,33 @@ public class TempoStormDeckRepository extends AbstractWebDeckRepository {
 		deck.setUrl("https://tempostorm.com/hearthstone/decks/" + slug);
 
 		String body = "{\"slug\":\"" + slug + "\" }";
-		HttpEntity<String> entity = new HttpEntity<String>(body, headers);
-		ResponseEntity<String> result = restTemplate.exchange("https://tempostorm.com/deck", HttpMethod.POST, entity,
-				String.class);
+
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://tempostorm.com/api/decks/findOne")
+				.queryParam("filter", "{\"where\":{\"slug\":\"" + slug
+						+ "\"},\"fields\":{\"id\":true,\"createdDate\":true,\"name\":true,\"description\":true,"
+						+ "\"playerClass\":true,\"premium\":true,\"slug\":true,\"dust\":true,\"heroName\":true," + ""
+						+ "\"authorId\":true,\"deckType\":true,\"viewCount\":true,\"isPublic\":true,\"votes\":true,"
+						+ "\"voteScore\":true,\"chapters\":true,\"youtubeId\":true,\"gameModeType\":true,\"isActive\":true},"
+						+ "\"include\":[{\"relation\":\"cards\",\"scope\":{\"include\":[\"card\"]}},"
+						+ "{\"relation\":\"comments\",\"scope\":{\"include\":[\"author\"]}},"
+						+ "{\"relation\":\"author\",\"scope\":{\"fields\":[\"id\",\"email\",\"username\",\"social\",\"subscription\"]}},"
+						+ "{\"relation\":\"matchups\"}]}");
+
+		HttpEntity<?> entity = new HttpEntity<>(headers);
+		URI uri = builder.build().encode().toUri();
+		HttpEntity<String> result = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
 		String json = result.getBody();
 
 		Map<String, Object> data = mapper.readValue(json, Map.class);
-		Map<String, Object> deckMap = (Map<String, Object>) data.get("deck");
 
-		deck.setRating(getRating(deckMap));
-		deck.setLastUpdated(getLastUpdated(deckMap));
+		deck.setRating(getRating(data));
+		deck.setLastUpdated(getLastUpdated(data));
 
-		List<Map<String, Object>> cards = (List<Map<String, Object>>) deckMap.get("cards");
+		List<Map<String, Object>> cards = (List<Map<String, Object>>) data.get("cards");
 		for (Map<String, Object> cardMap : cards) {
 			String cardName = getCardName(cardMap);
 			try {
-				deck.add(new DeckCard(cardRepository.findCard(cardName), (Integer) cardMap.get("qty")));
+				deck.add(new DeckCard(cardRepository.findCard(cardName), (Integer) cardMap.get("cardQuantity")));
 			} catch (NoSuchElementException ex) {
 				if (!unknownCards.contains(cardName)) {
 					LOG.error("Card not found: " + cardName, ex);
@@ -119,14 +132,8 @@ public class TempoStormDeckRepository extends AbstractWebDeckRepository {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	int getRating(Map<String, Object> deckMap) {
-		Integer rating = 0;
-		List<Map<String, Integer>> votes = (List<Map<String, Integer>>) deckMap.get("votes");
-		for (Map<String, Integer> vote : votes) {
-			rating += ((Integer) vote.get("direction"));
-		}
-		return rating;
+	int getRating(Map<String, Object> data) {
+		return (Integer)data.get("voteScore");
 	}
 
 	private LocalDate getLastUpdated(Map<String, Object> deckMap) {
