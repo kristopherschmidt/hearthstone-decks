@@ -24,7 +24,12 @@ public class MultiThreadedDeckRetriever {
 		for (final String deckUrl : deckUrls) {
 			deckRetrievalTasks.add(new Callable<Deck>() {
 				public Deck call() throws Exception {
-					return deckRepository.getDeck(deckUrl);
+					try {
+						return deckRepository.getDeck(deckUrl);
+					} catch(Exception ex) {
+						LOG.error(ex.toString(), ex);
+						return null;
+					}
 				}
 			});
 		}
