@@ -1,12 +1,32 @@
-var HomeLink = React.createClass({
+var SidebarLink = React.createClass({
 	render: function() {
 		return (
 				<li className="active">
 					<a className="" href={this.props.link}>
 						<i className={this.props.icon}></i> 
-						<span>{this.props.text}</span>
+						<span>{this.props.children}</span>
 					</a>
 				</li>
+		);
+	}
+});
+
+var SubMenu = React.createClass({
+	handleClick : function(event) {
+		alert("hi");
+	},
+	render : function() {
+		return (
+			<li className="sub-menu">
+				<a href="javascript:;" className="" onClick={this.handleClick}> 
+					<i className={this.props.icon}></i>
+					<span>{this.props.children}</span>
+					<span className="menu-arrow arrow_carrot-right"></span>
+				</a>
+				<ul className="sub">
+					<li><a className="" href="#/admin/load">Load Decks</a></li>
+				</ul>
+			</li>
 		);
 	}
 });
@@ -21,15 +41,11 @@ var Sidebar = React.createClass({
 
 				<ul className="sidebar-menu">
 					
-					<HomeLink text="Home3" icon="icon_house_alt" link="/index3.html" />
+					<SidebarLink icon="icon_house_alt" link="/index_react.html">Home</SidebarLink>
 
-					<li className="sub-menu"><a href="javascript:;" className=""> <i
-							className="icon_tools"></i> <span>Admin</span> <span
-							className="menu-arrow arrow_carrot-right"></span>
-					</a>
-						<ul className="sub">
-							<li><a className="" href="#/admin/load">Load Decks</a></li>
-						</ul></li>
+					<SubMenu icon="icon_tools">Admin3</SubMenu>
+
+					
 					<li className="sub-menu"><a href="javascript:;" className=""> <i
 							className="icon_archive_alt"></i> <span>Collections</span> <span
 							className="menu-arrow arrow_carrot-right"></span>
