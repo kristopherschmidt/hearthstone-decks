@@ -49,7 +49,6 @@ var SubMenu = React.createClass({
 		this.setState({ open : !this.state.open });
 	},
 	render : function() {
-		var menuItemData = [ { link : "#/admin/load", text : "Load Decks" } ];
 		return (
 			<li className="sub-menu">
 				<a href="javascript:;" className="" onClick={this.handleClick}> 
@@ -57,7 +56,7 @@ var SubMenu = React.createClass({
 					<span>{this.props.children}</span>
 					<span className={ "menu-arrow " + (this.state.open ? "arrow_carrot-down" : "arrow_carrot-right") }></span>
 				</a>
-				<SubMenuList visible={this.state.open} menuItemData={menuItemData}></SubMenuList>
+				<SubMenuList visible={this.state.open} menuItemData={this.props.menuItemData}></SubMenuList>
 			</li>
 		);
 	}
@@ -65,6 +64,14 @@ var SubMenu = React.createClass({
 
 var Sidebar = React.createClass({
 	render: function() {
+		var adminMenuItemData = [ { link : "#/admin/load", text : "Load Decks" } ];
+		var collectionMenuItemData = [ 
+			{ text : "HearthPwn", link : "http://hearthpwn.com" },
+			{ text : "Hearthstone Top Deck", link : "http://hearthstonetopdeck.com" },
+			{ text : "IcyVeins", link : "http://www.icy-veins.com/hearthstone" },
+			{ text : "Tempo Storm", link : "https://tempostorm.com/hearthstone/decks"}
+		];
+
 		return (
 
 		<aside>
@@ -75,24 +82,9 @@ var Sidebar = React.createClass({
 					
 					<SidebarLink icon="icon_house_alt" link="/index_react.html">Home</SidebarLink>
 
-					<SubMenu icon="icon_tools">Admin</SubMenu>
+					<SubMenu icon="icon_tools" menuItemData={adminMenuItemData}>Admin</SubMenu>
+					<SubMenu icon="icon_archive_alt" menuItemData={collectionMenuItemData}>Collections</SubMenu>
 
-					
-					<li className="sub-menu"><a href="javascript:;" className=""> <i
-							className="icon_archive_alt"></i> <span>Collections</span> <span
-							className="menu-arrow arrow_carrot-right"></span>
-					</a>
-						<ul className="sub">
-							<li><a className="" href="http://hearthpwn.com"
-								target="_blank">Hearthpwn</a></li>
-							<li><a className="" href="http://hearthstonetopdeck.com"
-								target="_blank">Hearthstone Top Deck</a></li>
-							<li><a className="" href="http://www.icy-veins.com/hearthstone"
-								target="_blank">IcyVeins</a></li>
-							<li><a className=""
-								href="https://tempostorm.com/hearthstone/decks" target="_blank">Tempo
-									Storm</a></li>
-						</ul></li>
 				</ul>
 
 			</div>
