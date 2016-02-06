@@ -14,17 +14,30 @@ var SidebarLink = React.createClass({
 var SubMenuItem = React.createClass({
 	render : function() {
 		return (
-			<ul className="sub" style={ { display : this.props.visible ? "block" : "none" } }>
+			<ul className="sub">
 				<li><a className="" href={this.props.link}>{this.props.children}</a></li>
 			</ul>
 		);
-	}
+	},
+	slideUp : function() {
+		$(React.findDOMNode(this)).slideUp();
+	},
+	slideDown : function() {
+		$(React.findDOMNode(this)).slideDown();
+	},
+	componentDidUpdate: function() {
+        if (this.props.visible) {
+        	this.slideDown();
+        } else {
+        	this.slideUp();
+        }
+    }
 });
 
 var SubMenu = React.createClass({
 	getInitialState : function() {
 		return {
-			open : true
+			open : false
 		}
 	},
 	handleClick : function(event) {
@@ -56,7 +69,7 @@ var Sidebar = React.createClass({
 					
 					<SidebarLink icon="icon_house_alt" link="/index_react.html">Home</SidebarLink>
 
-					<SubMenu icon="icon_tools">Admin3</SubMenu>
+					<SubMenu icon="icon_tools">Admin</SubMenu>
 
 					
 					<li className="sub-menu"><a href="javascript:;" className=""> <i
