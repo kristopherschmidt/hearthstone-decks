@@ -11,9 +11,24 @@ var SidebarLink = React.createClass({
 	}
 });
 
+var SubMenuItem = React.createClass({
+	render : function() {
+		return (
+			<ul className="sub" style={ { display : this.props.visible ? "block" : "none" } }>
+				<li><a className="" href={this.props.link}>{this.props.children}</a></li>
+			</ul>
+		);
+	}
+});
+
 var SubMenu = React.createClass({
+	getInitialState : function() {
+		return {
+			open : true
+		}
+	},
 	handleClick : function(event) {
-		alert("hi");
+		this.setState({ open : !this.state.open });
 	},
 	render : function() {
 		return (
@@ -21,11 +36,9 @@ var SubMenu = React.createClass({
 				<a href="javascript:;" className="" onClick={this.handleClick}> 
 					<i className={this.props.icon}></i>
 					<span>{this.props.children}</span>
-					<span className="menu-arrow arrow_carrot-right"></span>
+					<span className={ "menu-arrow " + (this.state.open ? "arrow_carrot-down" : "arrow_carrot-right") }></span>
 				</a>
-				<ul className="sub">
-					<li><a className="" href="#/admin/load">Load Decks</a></li>
-				</ul>
+				<SubMenuItem link="#/admin/load" visible={this.state.open}>Load Decks</SubMenuItem>
 			</li>
 		);
 	}
