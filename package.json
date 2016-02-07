@@ -9,10 +9,12 @@
     "babel-preset-react": "^6.3.13"
   },
   "devDependencies": {
-    "grunt": "^0.4.5"
+    "grunt": "^0.4.5",
+     "browserify": "latest",
+     "watchify": "latest"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch-js": "watchify src\\main\\resources\\static\\react\\hearthstonereactapp.js -t [ babelify --presets react es2015 ] --outfile src\\main\\resources\\static\\react\\bundle.js"
   },
   "repository": {
     "type": "git",
