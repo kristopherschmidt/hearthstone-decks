@@ -1,1 +1,0 @@
-browserify src\main\resources\static\react\hearthstonereactapp.js -t [ babelify --presets react es2015 ] --outfile src\main\resources\static\react\bundle.js

@@ -18,8 +18,8 @@
     "watchify": "latest"
   },
   "scripts": {
-    "watch-js": "watchify src\\main\\resources\\static\\react\\hearthstonereactapp.js -t [ babelify --presets react es2015 ] --outfile src\\main\\resources\\static\\react\\bundle.js --debug",
-    "build-js": "browserify src\\main\\resources\\static\\react\\hearthstonereactapp.js -t [ babelify --presets react es2015 ] --outfile src\\main\\resources\\static\\react\\bundle.js --debug"
+    "watch-js": "watchify src\\main\\resources\\static\\react\\app.js -t [ babelify --presets react es2015 ] --outfile src\\main\\resources\\static\\react\\bundle.js --debug",
+    "build-js": "browserify src\\main\\resources\\static\\react\\app.js -t [ babelify --presets react es2015 ] --outfile src\\main\\resources\\static\\react\\bundle.js --debug"
   },
   "repository": {
     "type": "git",

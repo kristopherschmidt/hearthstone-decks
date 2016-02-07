@@ -1,6 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Sidebar = require('./sidebar');
+var Sidebar = require('./components/sidebar');
 
 var adminMenuItemData = [ { link : "#/admin/load", text : "Load Decks" } ];
 var collectionMenuItemData = [ 
