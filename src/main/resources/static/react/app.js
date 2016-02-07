@@ -2,6 +2,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var Sidebar = require('./components/Sidebar.react');
 var SearchSection = require('./components/SearchSection.react');
+var WebAPIUtils = require('./utils/WebAPIUtils');
 
 var adminMenuItemData = [ { link : "#/admin/load", text : "Load Decks" } ];
 var collectionMenuItemData = [ 
@@ -13,6 +14,10 @@ var collectionMenuItemData = [
 var adminMenuData = { icon : 'icon_tools', text : "Admin", menuItemData : adminMenuItemData }
 var collectionMenuData = { icon : 'icon_archive_alt', text : "Collections", menuItemData : collectionMenuItemData }
 var menuData = [ adminMenuData, collectionMenuData ];
+
+
+var diffs = WebAPIUtils.getDiff();
+alert(diffs);
 
 ReactDOM.render(
 		<Sidebar homeLink="/index_react.html" menuData={menuData} />,
