@@ -15,7 +15,7 @@ var SubMenuList = React.createClass({
 	render : function() {
 		var menuItems = this.props.menuItemData.map(function(item) {
 			return (
-				<li><a className="" href={item.link}>{item.text}</a></li>
+				<li key={item.text}><a className="" href={item.link}>{item.text}</a></li>
 			);
 		});
 		return (
@@ -64,13 +64,12 @@ var SubMenu = React.createClass({
 
 var Sidebar = React.createClass({
 	render: function() {
-		var adminMenuItemData = [ { link : "#/admin/load", text : "Load Decks" } ];
-		var collectionMenuItemData = [ 
-			{ text : "HearthPwn", link : "http://hearthpwn.com" },
-			{ text : "Hearthstone Top Deck", link : "http://hearthstonetopdeck.com" },
-			{ text : "IcyVeins", link : "http://www.icy-veins.com/hearthstone" },
-			{ text : "Tempo Storm", link : "https://tempostorm.com/hearthstone/decks"}
-		];
+	
+		var menus = this.props.menuData.map(function(menuData) {
+			return (
+				<SubMenu key={menuData.text} icon={menuData.icon} menuItemData={menuData.menuItemData}>{menuData.text}</SubMenu>
+			);
+		});
 
 		return (
 
@@ -80,10 +79,9 @@ var Sidebar = React.createClass({
 
 				<ul className="sidebar-menu">
 					
-					<SidebarLink icon="icon_house_alt" link="/index_react.html">Home</SidebarLink>
+					<SidebarLink icon="icon_house_alt" link={this.props.homeLink}>Home</SidebarLink>
 
-					<SubMenu icon="icon_tools" menuItemData={adminMenuItemData}>Admin</SubMenu>
-					<SubMenu icon="icon_archive_alt" menuItemData={collectionMenuItemData}>Collections</SubMenu>
+					{ menus }
 
 				</ul>
 
@@ -94,7 +92,4 @@ var Sidebar = React.createClass({
   	}
 });
 
-ReactDOM.render(
-		<Sidebar />,
-		document.getElementById('sidebar-wrapper')
-);
+module.exports = Sidebar;
