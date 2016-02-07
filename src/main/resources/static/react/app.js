@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Sidebar = require('./components/sidebar');
+var Sidebar = require('./components/Sidebar.react');
+var SearchSection = require('./components/SearchSection.react');
 
 var adminMenuItemData = [ { link : "#/admin/load", text : "Load Decks" } ];
 var collectionMenuItemData = [ 
@@ -16,4 +17,8 @@ var menuData = [ adminMenuData, collectionMenuData ];
 ReactDOM.render(
 		<Sidebar homeLink="/index_react.html" menuData={menuData} />,
 		document.getElementById('sidebar-wrapper')
+);
+
+ReactDOM.render(
+	<SearchSection/>, document.getElementById('content')
 );
