@@ -1,11 +1,15 @@
 var React = require('react');
+var SearchResultsTable = require('./SearchResultsTable.react')
 
 var SearchSection = React.createClass({
+
 	render: function() {
+
 		return (
-			<h1>Hi</h1>
+			<SearchResultsTable data={this.props.data} />
 		);
 	}
+
 });
 
 module.exports = SearchSection;

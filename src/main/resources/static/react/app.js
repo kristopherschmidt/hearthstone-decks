@@ -16,8 +16,7 @@ var collectionMenuData = { icon : 'icon_archive_alt', text : "Collections", menu
 var menuData = [ adminMenuData, collectionMenuData ];
 
 
-var diffs = WebAPIUtils.getDiff();
-alert(diffs);
+var data = WebAPIUtils.getDiff();
 
 ReactDOM.render(
 		<Sidebar homeLink="/index_react.html" menuData={menuData} />,
@@ -25,5 +24,5 @@ ReactDOM.render(
 );
 
 ReactDOM.render(
-	<SearchSection/>, document.getElementById('content')
+	<SearchSection data={data} />, document.getElementById('content')
 );
