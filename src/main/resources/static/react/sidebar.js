@@ -1,3 +1,6 @@
+var React = require('react');
+var ReactDOM = require('react-dom');
+
 var SidebarLink = React.createClass({
 	render: function() {
 		return (
@@ -25,10 +28,10 @@ var SubMenuList = React.createClass({
 		);
 	},
 	slideUp : function() {
-		$(React.findDOMNode(this)).slideUp();
+		$(ReactDOM.findDOMNode(this)).slideUp();
 	},
 	slideDown : function() {
-		$(React.findDOMNode(this)).slideDown();
+		$(ReactDOM.findDOMNode(this)).slideDown();
 	},
 	componentDidUpdate: function() {
         if (this.props.visible) {
