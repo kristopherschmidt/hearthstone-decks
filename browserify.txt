@@ -1,0 +1,2 @@
+browserify src\main\resources\static\react\sidebar.js -t [ babelify --presets ["es2015", "react"] ] --outfile src\main\resources\static\react\bundle.js
+
