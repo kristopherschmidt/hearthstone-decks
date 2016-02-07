@@ -1,0 +1,1 @@
+watchify src\main\resources\static\react\sidebar.js -t [ babelify --presets react es2015 ] --outfile src\main\resources\static\react\bundle.js

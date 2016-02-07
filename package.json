@@ -1,0 +1,27 @@
+{
+  "name": "hearthstone-decks",
+  "version": "0.0.1",
+  "description": "Hearthstone Deck Helper",
+  "main": "index.js",
+  "dependencies": {
+    "babel-preset-es2015": "^6.3.13",
+    "babelify": "^7.2.0",
+    "babel-preset-react": "^6.3.13"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kristopherschmidt/hearthstone-decks.git"
+  },
+  "author": "Kristopher Schmidt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kristopherschmidt/hearthstone-decks/issues"
+  },
+  "homepage": "https://github.com/kristopherschmidt/hearthstone-decks#readme"
+}
