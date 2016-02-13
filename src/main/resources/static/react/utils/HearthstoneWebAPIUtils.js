@@ -1,10 +1,14 @@
-import HearthstoneDispatcher from '../dispatcher/HearthstoneDispatcher'
+import { receiveDiffResults } from '../actions/HearthstoneServerActionCreators';
 
 var diff = function() {
-	HearthstoneDispatcher.dispatch({
-		type: "DIFF_RESULTS",
-		diff : [ 'e', 'f' ]
-	});
+	  $.ajax({
+	      url: '/api/diffanalyzer',
+	      dataType: 'json',
+	      cache: false,
+	      success: function(data) {
+	        receiveDiffResults(data.allMissingCards.cards);
+	      }
+    	});
 }
 
 export { diff };

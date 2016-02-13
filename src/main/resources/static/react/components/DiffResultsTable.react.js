@@ -6,8 +6,8 @@ export default class DiffResultsTable extends Component {
 
 		var rows = this.props.data.map(function(diffRow) {
 			return (
-				<tr key={diffRow}>
-					<td>{diffRow}</td>
+				<tr key={diffRow.cardName}>
+					<td>{diffRow.cardName}</td>
 				</tr>
 			);
 		});
