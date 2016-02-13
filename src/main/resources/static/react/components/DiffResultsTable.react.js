@@ -1,8 +1,8 @@
-var React = require('react');
+import React, { Component } from 'react'
 
-var DiffResultsTable = React.createClass({
+export default class DiffResultsTable extends Component {
 
-	render: function() {
+	render() {
 
 		var rows = this.props.data.map(function(diffRow) {
 			return (
@@ -26,6 +26,4 @@ var DiffResultsTable = React.createClass({
 		);
 	}
 
-});
-
-module.exports = DiffResultsTable;
+}

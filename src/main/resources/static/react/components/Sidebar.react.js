@@ -1,8 +1,8 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 
-var SidebarLink = React.createClass({
-	render: function() {
+class SidebarLink extends Component {
+	render() {
 		return (
 				<li className="active">
 					<a className="" href={this.props.link}>
@@ -12,10 +12,11 @@ var SidebarLink = React.createClass({
 				</li>
 		);
 	}
-});
+}
 
-var SubMenuList = React.createClass({
-	render : function() {
+class SubMenuList extends Component {
+
+	render() {
 		var menuItems = this.props.menuItemData.map(function(item) {
 			return (
 				<li key={item.text}><a className="" href={item.link}>{item.text}</a></li>
@@ -26,35 +27,41 @@ var SubMenuList = React.createClass({
 				{ menuItems }
 			</ul>
 		);
-	},
-	slideUp : function() {
+	}
+
+	slideUp() {
 		$(ReactDOM.findDOMNode(this)).slideUp();
-	},
-	slideDown : function() {
+	}
+
+	slideDown() {
 		$(ReactDOM.findDOMNode(this)).slideDown();
-	},
-	componentDidUpdate: function() {
+	}
+
+	componentDidUpdate() {
         if (this.props.visible) {
         	this.slideDown();
         } else {
         	this.slideUp();
         }
     }
-});
+}
 
-var SubMenu = React.createClass({
-	getInitialState : function() {
-		return {
+class SubMenu extends Component {
+	constructor() {
+		super();
+		this.state = {
 			open : false
 		}
-	},
-	handleClick : function(event) {
+	}
+
+	handleClick(event) {
 		this.setState({ open : !this.state.open });
-	},
-	render : function() {
+	}
+
+	render() {
 		return (
 			<li className="sub-menu">
-				<a href="javascript:;" className="" onClick={this.handleClick}> 
+				<a href="javascript:;" className="" onClick={this.handleClick.bind(this)}> 
 					<i className={this.props.icon}></i>
 					<span>{this.props.children}</span>
 					<span className={ "menu-arrow " + (this.state.open ? "arrow_carrot-down" : "arrow_carrot-right") }></span>
@@ -63,10 +70,10 @@ var SubMenu = React.createClass({
 			</li>
 		);
 	}
-});
+}
 
-var Sidebar = React.createClass({
-	render: function() {
+class Sidebar extends Component {
+	render() {
 	
 		var menus = this.props.menuData.map(function(menuData) {
 			return (
@@ -93,6 +100,6 @@ var Sidebar = React.createClass({
 
 		    	);
   	}
-});
+}
 
-module.exports = Sidebar;
+export default Sidebar;

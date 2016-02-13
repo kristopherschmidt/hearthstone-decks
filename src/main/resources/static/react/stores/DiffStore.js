@@ -1,5 +1,5 @@
-var FluxStore = require('flux/utils').Store;
-var HearthstoneDispatcher = require('../dispatcher/HearthstoneDispatcher')
+import { Store as FluxStore} from 'flux/utils';
+import HearthstoneDispatcher from '../dispatcher/HearthstoneDispatcher'
 
 class DiffStore extends FluxStore {
 
@@ -30,4 +30,5 @@ class DiffStore extends FluxStore {
 
 }
 
-module.exports = new DiffStore(HearthstoneDispatcher);
+const instance = new DiffStore(HearthstoneDispatcher);
+export default instance;

@@ -1,33 +1,36 @@
-var React = require('react');
-var DiffStore = require('../stores/DiffStore');
-var DiffResultsTable = require('./DiffResultsTable.react')
 
-var DiffSection = React.createClass({
 
-	componentDidMount: function() {
-		DiffStore.addListener(this._onChange);
+import React, { Component } from 'react';
+import DiffStore from '../stores/DiffStore';
+import DiffResultsTable from './DiffResultsTable.react'
+
+class DiffSection extends Component {
+
+	constructor() {
+		super();
+		this.state = { data: [] };
+	}
+
+	componentDidMount() {
+		DiffStore.addListener(this._onChange.bind(this));
 		DiffStore.getDiff();
-	},
+	}
 
-	getInitialState: function() {
-		return { data: [] };
-	},
-
-	updateFromStores: function() {
+	updateFromStores() {
 		this.setState({ data: DiffStore.getDiff() });
-	},
+	}
 
-	render: function() {
+	render() {
 
 		return (
 			<DiffResultsTable data={this.state.data} />
 		);
-	},
+	}
 
-	_onChange: function() {
+	_onChange() {
 		this.updateFromStores();
 	}
 
-});
+}
 
-module.exports = DiffSection;
+export default DiffSection;
