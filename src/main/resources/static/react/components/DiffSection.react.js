@@ -9,7 +9,7 @@ class DiffSection extends Component {
 
 	constructor() {
 		super();
-		this.state = { diffAnalyzer: { allMissingCards: { cards: [] } } };
+		this.state = { diffAnalyzer: { allMissingCards: { cards: [] }, filteredDiffs: [] } };
 	}
 
 	componentDidMount() {
@@ -24,7 +24,13 @@ class DiffSection extends Component {
 	render() {
 
 		return (
-			<MissingCardsPanel missingCards={this.state.diffAnalyzer.allMissingCards.cards} limit="15" />
+			<section className="panel">
+				<div className="panel-heading">Found { this.state.diffAnalyzer.filteredDiffs.length } results.</div>
+				<div className="panel-body">
+					<MissingCardsPanel missingCards={this.state.diffAnalyzer.allMissingCards.cards} limit="15" />
+					<DiffResultsTable deckDiffs={this.state.diffAnalyzer.filteredDiffs} />
+				</div>
+			</section>
 		);
 	}
 
