@@ -1,5 +1,6 @@
 import { Store as FluxStore} from 'flux/utils';
 import HearthstoneDispatcher from '../dispatcher/HearthstoneDispatcher'
+import { diff } from '../utils/HearthstoneWebAPIUtils';
 
 class DiffStore extends FluxStore {
 
@@ -7,10 +8,7 @@ class DiffStore extends FluxStore {
 		if (this.diff) {
 			return this.diff;
 		} else {
-			HearthstoneDispatcher.dispatch({
-				type: "DIFF_RESULTS",
-				diff : [ 'c', 'd' ]
-			});
+			diff();
 			return [];
 		}
 	}
