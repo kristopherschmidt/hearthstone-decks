@@ -1,22 +1,22 @@
 import { Store as FluxStore} from 'flux/utils';
 import HearthstoneDispatcher from '../dispatcher/HearthstoneDispatcher'
-import { diff } from '../utils/HearthstoneWebAPIUtils';
+import { runDiffAnalyzer } from '../utils/HearthstoneWebAPIUtils';
 
 class DiffStore extends FluxStore {
 
-	getDiff() {
-		if (this.diff) {
-			return this.diff;
+	getDiffAnalyzer() {
+		if (this.diffAnalyzer) {
+			return this.diffAnalyzer;
 		} else {
-			diff();
+			runDiffAnalyzer();
 			return [];
 		}
 	}
 
 	__onDispatch(payload) {
 		switch(payload.type) {
-			case 'DIFF_RESULTS':
-				this.diff = payload.diff;
+			case 'DIFFANALYZER_RESULTS':
+				this.diffAnalyzer = payload.diffAnalyzer;
 				this.__emitChange();
 				break;
 

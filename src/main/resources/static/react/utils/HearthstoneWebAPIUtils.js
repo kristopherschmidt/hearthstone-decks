@@ -1,14 +1,14 @@
-import { receiveDiffResults } from '../actions/HearthstoneServerActionCreators';
+import { receiveDiffAnalyzerResults } from '../actions/HearthstoneServerActionCreators';
 
-var diff = function() {
+var runDiffAnalyzer = function() {
 	  $.ajax({
 	      url: '/api/diffanalyzer',
 	      dataType: 'json',
 	      cache: false,
 	      success: function(data) {
-	        receiveDiffResults(data.allMissingCards.cards);
+	        receiveDiffAnalyzerResults(data);
 	      }
     	});
 }
 
-export { diff };
+export { runDiffAnalyzer };

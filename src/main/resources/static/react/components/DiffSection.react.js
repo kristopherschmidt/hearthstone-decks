@@ -9,22 +9,22 @@ class DiffSection extends Component {
 
 	constructor() {
 		super();
-		this.state = { data: [] };
+		this.state = { diffAnalyzer: { allMissingCards: { cards: [] } } };
 	}
 
 	componentDidMount() {
 		DiffStore.addListener(this._onChange.bind(this));
-		DiffStore.getDiff();
+		DiffStore.getDiffAnalyzer();
 	}
 
 	updateFromStores() {
-		this.setState({ data: DiffStore.getDiff() });
+		this.setState({ diffAnalyzer: DiffStore.getDiffAnalyzer() });
 	}
 
 	render() {
 
 		return (
-			<MissingCardsPanel missingCards={this.state.data} limit="15" />
+			<MissingCardsPanel missingCards={this.state.diffAnalyzer.allMissingCards.cards} limit="15" />
 		);
 	}
 

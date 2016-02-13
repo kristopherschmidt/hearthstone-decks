@@ -1,10 +1,10 @@
 import HearthstoneDispatcher from '../dispatcher/HearthstoneDispatcher'
 
-var	receiveDiffResults = function(diffResults) {
+var	receiveDiffAnalyzerResults = function(diffAnalyzerResults) {
 		HearthstoneDispatcher.dispatch({
-			type: "DIFF_RESULTS",
-			diff : diffResults
+			type: "DIFFANALYZER_RESULTS",
+			diffAnalyzer : diffAnalyzerResults
 		});
 }
 
-export { receiveDiffResults };
+export { receiveDiffAnalyzerResults };
