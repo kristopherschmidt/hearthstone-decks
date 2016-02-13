@@ -1,6 +1,6 @@
 var React = require('react');
 
-var SearchResultsTable = React.createClass({
+var DiffResultsTable = React.createClass({
 
 	render: function() {
 
@@ -28,4 +28,4 @@ var SearchResultsTable = React.createClass({
 
 });
 
-module.exports = SearchResultsTable;
+module.exports = DiffResultsTable;

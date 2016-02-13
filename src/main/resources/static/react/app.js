@@ -1,8 +1,9 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Sidebar = require('./components/Sidebar.react');
-var SearchSection = require('./components/SearchSection.react');
+var DiffSection = require('./components/DiffSection.react');
 var WebAPIUtils = require('./utils/WebAPIUtils');
+var HearthstoneDispatcher = require('./dispatcher/HearthstoneDispatcher')
 
 var adminMenuItemData = [ { link : "#/admin/load", text : "Load Decks" } ];
 var collectionMenuItemData = [ 
@@ -15,14 +16,11 @@ var adminMenuData = { icon : 'icon_tools', text : "Admin", menuItemData : adminM
 var collectionMenuData = { icon : 'icon_archive_alt', text : "Collections", menuItemData : collectionMenuItemData }
 var menuData = [ adminMenuData, collectionMenuData ];
 
-
-var data = WebAPIUtils.getDiff();
-
 ReactDOM.render(
 		<Sidebar homeLink="/index_react.html" menuData={menuData} />,
 		document.getElementById('sidebar-wrapper')
 );
 
 ReactDOM.render(
-	<SearchSection data={data} />, document.getElementById('content')
+	<DiffSection />, document.getElementById('content')
 );
