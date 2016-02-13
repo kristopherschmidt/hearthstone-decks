@@ -7,14 +7,28 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     browserify: {
-      main: {
-        src: 'src/main/resources/static/react/hearthstonereactapp.js',
-        dest: 'src/main/resources/static/react/bundle.js'
+      dist: {
+        files: {
+          'src/main/resources/static/react/bundle.js' : 
+            [ 'src/main/resources/static/react/**/*.js',
+              'src/main/resources/static/react/**/*.jsx'
+            ]
+        },
+        options: {
+          transform: ['babelify']
+        }
       }
     },
     watch: {
-      files: 'js/*',
-      tasks: ['default']
+      build: {
+        files: 'src/main/resources/static/react/bundle.js',
+        options: {
+          livereload: {
+            host: 'localhost',
+            port: 35729,
+          }
+        }
+      }
     }
   });
 }

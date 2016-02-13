@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import DiffStore from '../stores/DiffStore';
+import MissingCardsPanel from './MissingCardsPanel.react'
 import DiffResultsTable from './DiffResultsTable.react'
 
 class DiffSection extends Component {
@@ -23,7 +24,7 @@ class DiffSection extends Component {
 	render() {
 
 		return (
-			<DiffResultsTable data={this.state.data} />
+			<MissingCardsPanel missingCards={this.state.data} limit="15" />
 		);
 	}
 
