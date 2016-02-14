@@ -144,7 +144,11 @@ public class TempoStormDeckRepository extends AbstractWebDeckRepository {
 	}
 
 	int getRating(Map<String, Object> data) {
-		return (Integer) data.get("voteScore");
+		try {
+			return (Integer) data.get("voteScore");
+		} catch (Exception ex) {
+			return 0;
+		}
 	}
 
 	private LocalDate getLastUpdated(Map<String, Object> deckMap) {
