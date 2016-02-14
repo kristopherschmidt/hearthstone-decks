@@ -1,10 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import numeral from 'numeral';
+//var numeral = require('numeral');
 
 export default class DiffResultsTable extends Component {
 
 	render() {
 
 		var rows = this.props.deckDiffs.map(function(deckDiff) {
+
+			var missingCards = deckDiff.missingCards.cards.map(function(card) {
+				return (
+					<li key={card.cardName}>{card.numCards} x { card.cardName }</li>
+				);
+			});
+
 			return (
 				<tr key={deckDiff.desiredDeck.url}>
 					<td>
@@ -12,10 +21,13 @@ export default class DiffResultsTable extends Component {
 					</td>
 					<td>{ deckDiff.requiredDust }</td>
 					<td>{ deckDiff.fullDustValue }</td>
-					<td>{ deckDiff.percentComplete }%</td>
+
+					<td>{ numeral(deckDiff.percentComplete / 100).format('0%') }</td>
 					<td>{ deckDiff.rating }</td>
-					<td>{ deckDiff.rankingMetric }</td>
-					<td>TBD Missing Cards</td>
+					<td>{ numeral(deckDiff.rankingMetric).format(0) }</td>
+					<td>
+						<ul>{ missingCards }</ul>
+					</td>
 				</tr>
 			);
 		});
