@@ -1,12 +1,34 @@
 import React, { Component } from 'react';
 import numeral from 'numeral';
-//var numeral = require('numeral');
+import DiffResultsTableHeader from './DiffResultsTableHeader.react'
 
 export default class DiffResultsTable extends Component {
 
+	constructor() {
+		super();
+		this.sortType = "fullDustValue";
+		this.state = { sortedDiffs : [] };
+	}
+
+
+	_sortedDiffs(sortType) {
+		//shallow copy the diff props array for sorting, so as not to disturb the actual props
+		var sortedDiffs = this.props.deckDiffs.slice();
+		sortedDiffs.sort(function(a, b) {
+			if (a[sortType] < b[sortType]) {
+				return 1;
+			} else if (a[sortType] > b[sortType]) {
+				return -1;
+			} else {
+				return 0;
+			}
+		});
+		return sortedDiffs;
+	}
+
 	render() {
 
-		var rows = this.props.deckDiffs.map(function(deckDiff) {
+		var rows = this._sortedDiffs(this.sortType).map(function(deckDiff) {
 
 			var missingCards = deckDiff.missingCards.cards.map(function(card) {
 				return (
@@ -36,11 +58,11 @@ export default class DiffResultsTable extends Component {
 			<table className="table table-condensed table-bordered table-striped">
 				<thead>
 					<tr>
-						<th className="col-sm-4">Deck Name</th>
-						<th className="col-sm-1">Required Dust</th>
+						<DiffResultsTableHeader className="col-sm-4" columnName="Deck Name"></DiffResultsTableHeader>
+						<DiffResultsTableHeader className="col-sm-1" columnName="Required Dust"></DiffResultsTableHeader>
 						<th className="col-sm-1">Full Dust Value</th>
 						<th className="col-sm-1">Percent Complete</th>
-						<th className="col-sm-1">Ratinge</th>
+						<th className="col-sm-1">Rating</th>
 						<th className="col-sm-1">Ranking Metric</th>
 						<th className="col-sm-3">Missing Cards</th>
 					</tr>
