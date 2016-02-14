@@ -6,7 +6,7 @@ export default class DiffResultsTable extends Component {
 
 	constructor() {
 		super();
-		this.state = { sortType: "fullDustValue", sortReverse: false, sortedDiffs : [] };
+		this.state = { sortType: "requiredDust", sortReverse: true, sortedDiffs : [] };
 		this.onSort = this.onSort.bind(this);
 	}
 
@@ -38,7 +38,7 @@ export default class DiffResultsTable extends Component {
 
 			var missingCards = deckDiff.missingCards.cards.map(function(card) {
 				return (
-					<li key={card.cardName}>{card.numCards} x { card.cardName }</li>
+					<li key={card.cardName}>{card.numCards}x { card.cardName }</li>
 				);
 			});
 

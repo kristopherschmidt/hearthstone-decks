@@ -42,6 +42,7 @@ class DiffSection extends Component {
 					<div className="panel-heading">Found { this.state.diffAnalyzer.filteredDiffs.length } results.</div>
 					<div className="panel-body">
 						<MissingCardsPanel missingCards={this.state.diffAnalyzer.allMissingCards.cards} limit="15" />
+						<div className="panel-content">All Results:</div>
 						<DiffResultsTable deckDiffs={this.state.diffAnalyzer.filteredDiffs} />
 					</div>
 				</section>
