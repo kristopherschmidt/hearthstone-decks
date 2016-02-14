@@ -9,19 +9,21 @@ module.exports = function(grunt) {
     browserify: {
       dist: {
         files: {
-          'src/main/resources/static/react/bundle.js' : 
-            [ 'src/main/resources/static/react/**/*.js',
-              'src/main/resources/static/react/**/*.jsx'
-            ]
+          'src/main/resources/static/bundle.js' : 
+            [ 'src/main/resources/static/react/**/*.js' ]
         },
         options: {
-          transform: ['babelify']
-        }
+          transform: ['babelify'],
+          watch: true,
+          browserifyOptions: {
+        	debug: true
+      	  }
+        },
       }
     },
     watch: {
       build: {
-        files: 'src/main/resources/static/react/bundle.js',
+        files: 'src/main/resources/static/bundle.js',
         options: {
           livereload: {
             host: 'localhost',
