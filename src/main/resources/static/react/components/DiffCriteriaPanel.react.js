@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import * as HearthstoneActionCreators from '../actions/HearthstoneActionCreators';
-var CheckboxGroup = require('react-checkbox-group');
+import CardInput from './CardInput.react';
+import CheckboxGroup from 'react-checkbox-group';
 
 export default class DiffCriteriaPanel extends Component {
 
 	constructor() {
 		super();
-		this.state = {};
+	}
+
+	handleCardChange(cards) {
+		HearthstoneActionCreators.changeCards(cards);
 	}
 
 	handleCollectionChange(event) {
@@ -16,10 +20,20 @@ export default class DiffCriteriaPanel extends Component {
 	}
 
 	handleClassChange(event) {
-		this.state.playerClasses = this.refs.playerClasses.getCheckedValues();
+		HearthstoneActionCreators.changePlayerClasses(this.refs.playerClasses.getCheckedValues());
 	}
 
 	render() {
+
+		var playerClassesData = [ "Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock", "Warrior" ];
+		var playerClassCheckboxes = playerClassesData.map(function(playerClass) {
+			return (
+				<label className="checkbox-inline" key={playerClass}> 
+					<input type="checkbox" value={playerClass}></input>{playerClass}
+				</label>
+			);
+		});
+
 		return (
 			<section className="panel">
 				
@@ -44,17 +58,17 @@ export default class DiffCriteriaPanel extends Component {
 							<label className="col-sm-2 control-label">Classes</label>
 							<div className="col-sm-10">
 
-							   <CheckboxGroup name="fruits" ref="playerClasses" onChange={this.handleClassChange.bind(this)}>
-									<label className="checkbox-inline"> 
-										<input type="checkbox" value="Druid"></input>
-										Druid
-									</label>
-									<label className="checkbox-inline"> 
-										<input type="checkbox" value="Hunter"></input>
-										Hunter
-									</label> 
+							   <CheckboxGroup name="fruits" ref="playerClasses" onChange={this.handleClassChange.bind(this)} value={this.props.diffCriteria.playerClasses}>
+									{ playerClassCheckboxes }
 							   	</CheckboxGroup>
 							
+							</div>
+						</div>
+
+						<div className="form-group">
+							<label className="col-sm-2 control-label">Cards</label>
+							<div className="col-sm-10">
+									<CardInput onChange={this.handleCardChange.bind(this)} cardNames={this.props.diffCriteria.cards}></CardInput>
 							</div>
 						</div>
 

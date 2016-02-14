@@ -5,6 +5,7 @@ import DiffStore from '../stores/DiffStore';
 import DiffCriteriaPanel from './DiffCriteriaPanel.react';
 import MissingCardsPanel from './MissingCardsPanel.react';
 import DiffResultsTable from './DiffResultsTable.react';
+import * as HearthstoneActionCreators from '../actions/HearthstoneActionCreators';
 
 class DiffSection extends Component {
 
@@ -16,6 +17,10 @@ class DiffSection extends Component {
 	componentDidMount() {
 		DiffStore.addListener(this._onChange.bind(this));
 		DiffStore.getDiffAnalyzer();
+	}
+
+	handleMissingCardsClick(cardName) {
+		HearthstoneActionCreators.addFilterCard(cardName);
 	}
 
 	updateFromStores() {
@@ -41,7 +46,7 @@ class DiffSection extends Component {
 				<section className="panel">
 					<div className="panel-heading">Found { this.state.diffAnalyzer.filteredDiffs.length } results.</div>
 					<div className="panel-body">
-						<MissingCardsPanel missingCards={this.state.diffAnalyzer.allMissingCards.cards} limit="15" />
+						<MissingCardsPanel missingCards={this.state.diffAnalyzer.allMissingCards.cards} limit="15" onClick={this.handleMissingCardsClick.bind(this)} />
 						<div className="panel-content">All Results:</div>
 						<DiffResultsTable deckDiffs={this.state.diffAnalyzer.filteredDiffs} />
 					</div>

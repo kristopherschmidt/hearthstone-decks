@@ -7,7 +7,7 @@ class DiffStore extends FluxStore {
 	constructor(dispatcher) {
 		super(dispatcher);
 		this.diffAnalyzer = null;
-		this.diffCriteria = { collection: "hearthpwnRepository" };
+		this.diffCriteria = { collection: "", playerClasses: [], cards: [] };
 	}
 
 	getDiffAnalyzer() {
@@ -29,17 +29,34 @@ class DiffStore extends FluxStore {
 
 	__onDispatch(payload) {
 		switch(payload.type) {
-			case 'DIFFANALYZER_RESULTS':
+			case "DIFFANALYZER_RESULTS":
 				this.diffAnalyzer = payload.diffAnalyzer;
 				this.__emitChange();
 				break;
-			case 'CHANGE_COLLECTION':
+			case "CHANGE_CARDS":
+				this.diffCriteria.cards = payload.cards;
+				this.__emitChange();
+				this.runDiffAnalyzer();
+				break;
+			case "CHANGE_COLLECTION":
 				if (this.diffCriteria.collection != payload.collection) {
 					this.diffCriteria.collection = payload.collection;
 					this.__emitChange();
 					this.runDiffAnalyzer();
 				}
-
+				break;
+			case "CHANGE_PLAYER_CLASSES":
+				this.diffCriteria.playerClasses = payload.playerClasses;
+				this.__emitChange();
+				this.runDiffAnalyzer();
+				break;
+			case "ADD_FILTER_CARD":
+				if (!this.diffCriteria.cards.includes(payload.cardName)) {
+					this.diffCriteria.cards.push(payload.cardName);
+					this.__emitChange();
+					this.runDiffAnalyzer();
+				}
+				break;
 
 			default:
 				//no-op

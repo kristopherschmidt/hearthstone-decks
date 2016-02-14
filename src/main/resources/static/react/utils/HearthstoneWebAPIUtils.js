@@ -13,4 +13,15 @@ var runDiffAnalyzer = function(criteria) {
     	});
 }
 
-export { runDiffAnalyzer };
+var getCards = function() {
+	  $.ajax({
+	      url: '/api/cards',
+	      dataType: 'json',
+	      cache: false,
+	      success: function(data) {
+	        HearthstoneActionCreators.receiveCards(data);
+	      }
+    	});
+}
+
+export { runDiffAnalyzer, getCards };

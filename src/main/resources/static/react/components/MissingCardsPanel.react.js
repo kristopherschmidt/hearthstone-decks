@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 
 export default class MissingCardsPanel extends Component {
 
+	handleClick(cardName) {
+		this.props.onClick(cardName);
+	}
+
 	render() {
 		var cards = [];
 		this.props.missingCards.sort(function(a, b) {
@@ -13,7 +17,7 @@ export default class MissingCardsPanel extends Component {
 			}
 			var deckCard = this.props.missingCards[i];
 			cards.push(
-				<a href="" className="list-group-item" key={deckCard.cardName}>{ deckCard.cardName } ({ deckCard.numCards })</a>
+				<a href="javascript:;" onClick={this.handleClick.bind(this, deckCard.cardName)} className="list-group-item" key={deckCard.cardName}>{ deckCard.cardName } ({ deckCard.numCards })</a>
 			);
 		}
 
