@@ -26,6 +26,7 @@ export default class DiffResultsTableHeader extends Component {
 				<a href="javascript:;" onClick={this._handleSort.bind(this, this.props.columnName)}>
 					{this.props.columnName}
 				</a>
+				{ sortIcon }
 			</th>
 		);
 	}

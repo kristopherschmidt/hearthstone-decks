@@ -26,6 +26,10 @@ export default class DiffResultsTable extends Component {
 		return sortedDiffs;
 	}
 
+	onSort(sortType) {
+		alert("changed sortType: "+sortType);
+	}
+
 	render() {
 
 		var rows = this._sortedDiffs(this.sortType).map(function(deckDiff) {
@@ -59,7 +63,7 @@ export default class DiffResultsTable extends Component {
 				<thead>
 					<tr>
 						<DiffResultsTableHeader className="col-sm-4" columnName="Deck Name"></DiffResultsTableHeader>
-						<DiffResultsTableHeader className="col-sm-1" columnName="Required Dust"></DiffResultsTableHeader>
+						<DiffResultsTableHeader className="col-sm-1" columnName="Required Dust" onSort={this._sortedDiffs.bind(this)}></DiffResultsTableHeader>
 						<th className="col-sm-1">Full Dust Value</th>
 						<th className="col-sm-1">Percent Complete</th>
 						<th className="col-sm-1">Rating</th>
