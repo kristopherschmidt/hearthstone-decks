@@ -2,20 +2,19 @@ import React, { Component } from 'react';
 
 export default class DiffResultsTableHeader extends Component {
 
-	constructor() {
-		super();
-		this.state = { sorted: false, sortReverse: false };
+	_handleSort() {
+		var sortReverse = this.isSortedColumn() ? !this.props.sortReverse : this.props.sortReverse;
+		this.props.onSort(this.props.columnSortType, sortReverse);
 	}
 
-	_handleSort(columnName) {
-		this.setState({ sorted: true, sortReverse: !this.state.sortReverse });
-		this.props.onSort(columnName);
+	isSortedColumn() {
+		return (this.props.tableSortType == this.props.columnSortType);
 	}
 
 	render() {
 		var sortIcon;	
-		if (this.state.sorted) {
-			if (this.sortReverse) {
+		if (this.isSortedColumn()) {
+			if (this.props.sortReverse) {
 				sortIcon = (<span className="fa fa-caret-down"></span>);
 			} else {
 				sortIcon = (<span className="fa fa-caret-up"></span>);
@@ -23,8 +22,8 @@ export default class DiffResultsTableHeader extends Component {
 		}
 		return (
 			<th>
-				<a href="javascript:;" onClick={this._handleSort.bind(this, this.props.columnName)}>
-					{this.props.columnName}
+				<a href="javascript:;" onClick={this._handleSort.bind(this)}>
+					{this.props.children}
 				</a>
 				{ sortIcon }
 			</th>

@@ -6,33 +6,35 @@ export default class DiffResultsTable extends Component {
 
 	constructor() {
 		super();
-		this.sortType = "fullDustValue";
-		this.state = { sortedDiffs : [] };
+		this.state = { sortType: "fullDustValue", sortReverse: false, sortedDiffs : [] };
+		this.onSort = this.onSort.bind(this);
 	}
 
+	componentWillReceiveProps(newProps) {
+		this._sortDiffs(this.state.sortType, this.state.sortReverse, newProps.deckDiffs);
+	}
 
-	_sortedDiffs(sortType) {
+	_sortDiffs(sortType, sortReverse, deckDiffs) {
 		//shallow copy the diff props array for sorting, so as not to disturb the actual props
-		var sortedDiffs = this.props.deckDiffs.slice();
-		sortedDiffs.sort(function(a, b) {
+		var sortedDiffs = deckDiffs.slice().sort(function(a, b) {
 			if (a[sortType] < b[sortType]) {
-				return 1;
+				return sortReverse ? -1 : 1;
 			} else if (a[sortType] > b[sortType]) {
-				return -1;
+				return sortReverse ? 1 :-1;
 			} else {
 				return 0;
 			}
 		});
-		return sortedDiffs;
+		this.setState({ sortType: sortType, sortReverse: sortReverse, sortedDiffs: sortedDiffs });
 	}
 
-	onSort(sortType) {
-		alert("changed sortType: "+sortType);
+	onSort(sortType, sortReverse) {
+		this._sortDiffs(sortType, sortReverse, this.props.deckDiffs)
 	}
 
 	render() {
 
-		var rows = this._sortedDiffs(this.sortType).map(function(deckDiff) {
+		var rows = this.state.sortedDiffs.map(function(deckDiff) {
 
 			var missingCards = deckDiff.missingCards.cards.map(function(card) {
 				return (
@@ -58,17 +60,29 @@ export default class DiffResultsTable extends Component {
 			);
 		});
 
+		var tableHeaderData = [
+			{ className: "col-sm-4", columnSortType: "", columnName: "Deck Name" },
+			{ className: "col-sm-1", columnSortType: "requiredDust", columnName: "Required Dust" },
+			{ className: "col-sm-1", columnSortType: "fullDustValue", columnName: "Full Dust Value" },
+			{ className: "col-sm-1", columnSortType: "percentComplete", columnName: "Percent Complete" },
+			{ className: "col-sm-1", columnSortType: "rating", columnName: "Rating" },
+			{ className: "col-sm-1", columnSortType: "rankingMetric", columnName: "Ranking Metric" },
+			{ className: "col-sm-3", columnSortType: "", columnName: "Missing Cards" },
+		];
+
+		var tableHeaders = tableHeaderData.map(function(headerData) {
+			return (
+				<DiffResultsTableHeader key={headerData.columnName} className={headerData.className} columnSortType={headerData.columnSortType} onSort={this.onSort} tableSortType={this.state.sortType} sortReverse={this.state.sortReverse}>
+					{headerData.columnName}
+				</DiffResultsTableHeader>
+			);
+		}.bind(this));
+
 		return (
 			<table className="table table-condensed table-bordered table-striped">
 				<thead>
 					<tr>
-						<DiffResultsTableHeader className="col-sm-4" columnName="Deck Name"></DiffResultsTableHeader>
-						<DiffResultsTableHeader className="col-sm-1" columnName="Required Dust" onSort={this._sortedDiffs.bind(this)}></DiffResultsTableHeader>
-						<th className="col-sm-1">Full Dust Value</th>
-						<th className="col-sm-1">Percent Complete</th>
-						<th className="col-sm-1">Rating</th>
-						<th className="col-sm-1">Ranking Metric</th>
-						<th className="col-sm-3">Missing Cards</th>
+						{ tableHeaders }
 					</tr>
 				</thead>
 				<tbody>
