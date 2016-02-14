@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { runDiffAnalyzer } from '../utils/HearthstoneWebAPIUtils';
+import * as HearthstoneActionCreators from '../actions/HearthstoneActionCreators';
 var CheckboxGroup = require('react-checkbox-group');
 
-export default class DiffSearchCriteria extends Component {
+export default class DiffCriteriaPanel extends Component {
 
 	constructor() {
 		super();
@@ -11,18 +11,12 @@ export default class DiffSearchCriteria extends Component {
 
 	handleCollectionChange(event) {
 		if (event) {
-			this.state.collection = event.target.value;
-			this.diff();
+			HearthstoneActionCreators.changeCollection(event.target.value);
 		}
 	}
 
 	handleClassChange(event) {
 		this.state.playerClasses = this.refs.playerClasses.getCheckedValues();
-		this.diff();
-	}
-
-	diff() {
-		runDiffAnalyzer({ collection: this.state.collection, playerClasses: this.state.playerClasses });
 	}
 
 	render() {
@@ -35,7 +29,7 @@ export default class DiffSearchCriteria extends Component {
 						<div className="form-group">
 							<label className="col-sm-2 control-label">Collection</label>
 							<div className="col-sm-10">
-								<select className="form-control" onChange={this.handleCollectionChange.bind(this)}>
+								<select className="form-control" onChange={this.handleCollectionChange.bind(this)} value={this.props.diffCriteria.collection}>
 									<option value="">All</option>
 									<option value="hearthpwnRepository">Hearthpwn</option>
 									<option value="hearthstoneTopDeckRepository">Hearthstone

@@ -1,4 +1,4 @@
-import { receiveDiffAnalyzerResults } from '../actions/HearthstoneServerActionCreators';
+import * as HearthstoneActionCreators from '../actions/HearthstoneActionCreators';
 
 var runDiffAnalyzer = function(criteria) {
 	$.ajaxSettings.traditional = true;
@@ -8,7 +8,7 @@ var runDiffAnalyzer = function(criteria) {
 	      dataType: 'json',
 	      cache: false,
 	      success: function(data) {
-	        receiveDiffAnalyzerResults(data);
+	        HearthstoneActionCreators.receiveDiffAnalyzerResults(data);
 	      }
     	});
 }

@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import DiffStore from '../stores/DiffStore';
-import DiffSearchCriteria from './DiffSearchCriteria.react';
+import DiffCriteriaPanel from './DiffCriteriaPanel.react';
 import MissingCardsPanel from './MissingCardsPanel.react';
 import DiffResultsTable from './DiffResultsTable.react';
 
@@ -10,7 +10,7 @@ class DiffSection extends Component {
 
 	constructor() {
 		super();
-		this.state = { diffAnalyzer: { allMissingCards: { cards: [] }, filteredDiffs: [] } };
+		this.state = { diffAnalyzer: { allMissingCards: { cards: [] }, filteredDiffs: [] }, diffCriteria: {} };
 	}
 
 	componentDidMount() {
@@ -19,7 +19,7 @@ class DiffSection extends Component {
 	}
 
 	updateFromStores() {
-		this.setState({ diffAnalyzer: DiffStore.getDiffAnalyzer() });
+		this.setState({ diffAnalyzer: DiffStore.getDiffAnalyzer(), diffCriteria: DiffStore.getDiffCriteria() });
 	}
 
 	render() {
@@ -34,7 +34,7 @@ class DiffSection extends Component {
 					</div>
 				</div>
 
-				<DiffSearchCriteria></DiffSearchCriteria>
+				<DiffCriteriaPanel diffCriteria={this.state.diffCriteria}></DiffCriteriaPanel>
 
 				<hr></hr>
 				

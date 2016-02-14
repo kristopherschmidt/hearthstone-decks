@@ -7,4 +7,11 @@ var	receiveDiffAnalyzerResults = function(diffAnalyzerResults) {
 		});
 }
 
-export { receiveDiffAnalyzerResults };
+var changeCollection = function(collection) {
+	HearthstoneDispatcher.dispatch({
+		type: "CHANGE_COLLECTION",
+		collection: collection
+	})
+}
+
+export { receiveDiffAnalyzerResults, changeCollection };

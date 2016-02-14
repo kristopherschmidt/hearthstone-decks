@@ -1,16 +1,30 @@
 import { Store as FluxStore} from 'flux/utils';
 import HearthstoneDispatcher from '../dispatcher/HearthstoneDispatcher'
-import { runDiffAnalyzer } from '../utils/HearthstoneWebAPIUtils';
+import * as HearthstoneWebAPIUtils from '../utils/HearthstoneWebAPIUtils';
 
 class DiffStore extends FluxStore {
+
+	constructor(dispatcher) {
+		super(dispatcher);
+		this.diffAnalyzer = null;
+		this.diffCriteria = { collection: "hearthpwnRepository" };
+	}
 
 	getDiffAnalyzer() {
 		if (this.diffAnalyzer) {
 			return this.diffAnalyzer;
 		} else {
-			runDiffAnalyzer();
+			this.runDiffAnalyzer();
 			return [];
 		}
+	}
+
+	getDiffCriteria() {
+		return this.diffCriteria;
+	}
+
+	runDiffAnalyzer() {
+		HearthstoneWebAPIUtils.runDiffAnalyzer(this.diffCriteria);
 	}
 
 	__onDispatch(payload) {
@@ -19,6 +33,13 @@ class DiffStore extends FluxStore {
 				this.diffAnalyzer = payload.diffAnalyzer;
 				this.__emitChange();
 				break;
+			case 'CHANGE_COLLECTION':
+				if (this.diffCriteria.collection != payload.collection) {
+					this.diffCriteria.collection = payload.collection;
+					this.__emitChange();
+					this.runDiffAnalyzer();
+				}
+
 
 			default:
 				//no-op
