@@ -15,13 +15,13 @@ export default class DiffResultsTableHeader extends Component {
 		var sortIcon;	
 		if (this.isSortedColumn()) {
 			if (this.props.sortReverse) {
-				sortIcon = (<span className="fa fa-caret-down"></span>);
-			} else {
 				sortIcon = (<span className="fa fa-caret-up"></span>);
+			} else {
+				sortIcon = (<span className="fa fa-caret-down"></span>);
 			}
 		}
 		return (
-			<th>
+			<th className={this.props.className}>
 				<a href="javascript:;" onClick={this._handleSort.bind(this)}>
 					{this.props.children}
 				</a>
