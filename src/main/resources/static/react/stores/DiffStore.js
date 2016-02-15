@@ -30,8 +30,8 @@ class DiffStore extends FluxStore {
 				this.diffAnalyzer = payload.diffAnalyzer;
 				this.__emitChange();
 				break;
-			case "CHANGE_CARDS":
-				this.diffCriteria.cards = payload.cards;
+			case "CHANGE_PLAYER_CLASSES":
+				this.diffCriteria.playerClasses = payload.playerClasses;
 				this.__emitChange();
 				this.runDiffAnalyzer();
 				break;
