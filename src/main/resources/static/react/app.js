@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from'react-dom';
+import { Router, Route, Link, hashHistory } from 'react-router';
 import Sidebar from './components/Sidebar.react';
-import DiffSection from './components/DiffSection.react'
-import HearthstoneDispatcher from './dispatcher/HearthstoneDispatcher'
+import DiffSection from './components/DiffSection.react';
+import LoadDecksSection from './components/LoadDecksSection.react';
+import HearthstoneDispatcher from './dispatcher/HearthstoneDispatcher';
 
 const adminMenuItemData = [ { link : "#/admin/load", text : "Load Decks" } ];
 const collectionMenuItemData = [ 
@@ -21,5 +23,10 @@ ReactDOM.render(
 );
 
 ReactDOM.render(
-	<DiffSection />, document.getElementById('content')
+	(
+		<Router history={hashHistory}>
+			<Route path="/" component={DiffSection}></Route>
+			<Route path="/admin/load" component={LoadDecksSection}></Route>
+		</Router>
+	), document.getElementById('content')
 );
