@@ -11,20 +11,28 @@ class DiffSection extends Component {
 
 	constructor() {
 		super();
-		this.state = { diffAnalyzer: { allMissingCards: { cards: [] }, filteredDiffs: [] }, diffCriteria: {} };
+		this.state = this._getStateFromStores();
+		this._onChange = this._onChange.bind(this);
 	}
 
 	componentDidMount() {
-		DiffStore.addListener(this._onChange.bind(this));
-		DiffStore.getDiffAnalyzer();
+		this.removeListenerToken = DiffStore.addListener(this._onChange);
 	}
 
-	handleMissingCardsClick(cardName) {
+	componentWillUnmount() {
+   		this.removeListenerToken.remove();
+  	}
+
+	_handleMissingCardsClick(cardName) {
 		HearthstoneActionCreators.addFilterCard(cardName);
 	}
 
-	updateFromStores() {
-		this.setState({ diffAnalyzer: DiffStore.getDiffAnalyzer(), diffCriteria: DiffStore.getDiffCriteria() });
+	_getStateFromStores() {
+		return { diffAnalyzer: DiffStore.getDiffAnalyzer(), diffCriteria: DiffStore.getDiffCriteria() };
+	}
+
+	_onChange() {
+		this.setState(this._getStateFromStores());
 	}
 
 	render() {
@@ -46,7 +54,7 @@ class DiffSection extends Component {
 				<section className="panel">
 					<div className="panel-heading">Found { this.state.diffAnalyzer.filteredDiffs.length } results.</div>
 					<div className="panel-body">
-						<MissingCardsPanel missingCards={this.state.diffAnalyzer.allMissingCards.cards} limit="15" onClick={this.handleMissingCardsClick.bind(this)} />
+						<MissingCardsPanel missingCards={this.state.diffAnalyzer.allMissingCards.cards} limit="15" onClick={this._handleMissingCardsClick.bind(this)} />
 						<div className="panel-content">All Results:</div>
 						<DiffResultsTable deckDiffs={this.state.diffAnalyzer.filteredDiffs} />
 					</div>
@@ -55,10 +63,6 @@ class DiffSection extends Component {
 			</div>
 
 		);
-	}
-
-	_onChange() {
-		this.updateFromStores();
 	}
 
 }

@@ -6,17 +6,13 @@ class DiffStore extends FluxStore {
 
 	constructor(dispatcher) {
 		super(dispatcher);
-		this.diffAnalyzer = null;
+		this.diffAnalyzer = { allMissingCards: { cards: [] }, filteredDiffs: [] };
 		this.diffCriteria = { collection: "", playerClasses: [], cards: [] };
+		this.runDiffAnalyzer();
 	}
 
 	getDiffAnalyzer() {
-		if (this.diffAnalyzer) {
-			return this.diffAnalyzer;
-		} else {
-			this.runDiffAnalyzer();
-			return [];
-		}
+		return this.diffAnalyzer;
 	}
 
 	getDiffCriteria() {
