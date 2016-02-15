@@ -9,8 +9,12 @@ export default class DiffCriteriaPanel extends Component {
 		super();
 	}
 
-	handleCardChange(cards) {
-		HearthstoneActionCreators.changeCards(cards);
+	handleCardAddition(cardName) {
+		HearthstoneActionCreators.addFilterCard(cardName);
+	}
+
+	handleCardDelete(cardName) {
+		HearthstoneActionCreators.removeFilterCard(cardName);
 	}
 
 	handleCollectionChange(event) {
@@ -68,7 +72,7 @@ export default class DiffCriteriaPanel extends Component {
 						<div className="form-group">
 							<label className="col-sm-2 control-label">Cards</label>
 							<div className="col-sm-10">
-									<CardInput onChange={this.handleCardChange.bind(this)} cardNames={this.props.diffCriteria.cards}></CardInput>
+									<CardInput handleAddition={this.handleCardAddition.bind(this)} handleDelete={this.handleCardDelete.bind(this)} cardNames={this.props.diffCriteria.cards}></CardInput>
 							</div>
 						</div>
 

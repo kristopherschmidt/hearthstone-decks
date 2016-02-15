@@ -7,7 +7,7 @@ export default class CardInput extends Component {
 
 	constructor() {
 		super();
-		this.state = { tags: [], suggestions: this._getSuggestionsFromStore() };
+		this.state = { suggestions: this._getSuggestionsFromStore() };
 	}
 
 	componentDidMount() {
@@ -18,35 +18,19 @@ export default class CardInput extends Component {
    		this.removeListenerToken.remove();
   	}
 
-	componentWillReceiveProps(props) {
-		this.setState({ tags: this._getTagsFromProps() });
-	}
-
 	handleDelete(index) {
-		/*
-		var tags=this.state.tags;
-		tags.splice(index,1);
-		this.setState({tags:tags});
-		this.props.onChange(this.state.tags.map(function(tag) { return tag.text }));
-		*/
+		var cardToDelete = this.props.cardNames[index];
+		this.props.handleDelete(cardToDelete);
 	}
 
 	handleAddition(tag) {
-		/*
-		var tags=this.state.tags;
-		tags.push({id:tags.length+ 1,text:tag});
-		this.setState({tags:tags});
-		this.props.onChange(this.state.tags.map(function(tag) { return tag.text }));
-		*/
+		if (this.state.suggestions.indexOf(tag) != -1) {
+			this.props.handleAddition(tag);
+		}
 	}
 
 	handleDrag(tag,currPos,newPos) {
-		/*
-		var tags=this.state.tags;
-		tags.splice(currPos,1);
-		tags.splice(newPos,0,tag);
-		this.setState({tags:tags});
-		*/
+	
 	}
 
 	_getTagsFromProps() {
@@ -66,9 +50,10 @@ export default class CardInput extends Component {
 	}
 
 	render() {
+		var tags = this._getTagsFromProps();
 		return(
 			 <ReactTags
-                    tags={this.state.tags}
+                    tags={tags}
                     suggestions={this.state.suggestions}
                     handleDelete={this.handleDelete.bind(this)}
                     handleAddition={this.handleAddition.bind(this)}

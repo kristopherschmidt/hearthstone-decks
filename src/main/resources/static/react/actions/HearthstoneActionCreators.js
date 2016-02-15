@@ -21,10 +21,10 @@ var addFilterCard = function(data) {
 	});
 }
 
-var changeCards = function(cards) {
+var removeFilterCard = function(data) {
 	HearthstoneDispatcher.dispatch({
-		type: "CHANGE_CARDS",
-		cards: cards
+		type: "REMOVE_FILTER_CARD",
+		cardName: data
 	});
 }
 
@@ -42,4 +42,4 @@ var changePlayerClasses = function(playerClasses) {
 	});
 }
 
-export { receiveDiffAnalyzerResults, changeCollection, changePlayerClasses, receiveCards, changeCards, addFilterCard };
+export { receiveDiffAnalyzerResults, changeCollection, changePlayerClasses, receiveCards, addFilterCard, removeFilterCard };

@@ -24,6 +24,7 @@ class DiffStore extends FluxStore {
 	}
 
 	__onDispatch(payload) {
+		var i = "breakpoint";
 		switch(payload.type) {
 			case "DIFFANALYZER_RESULTS":
 				this.diffAnalyzer = payload.diffAnalyzer;
@@ -41,17 +42,20 @@ class DiffStore extends FluxStore {
 					this.runDiffAnalyzer();
 				}
 				break;
-			case "CHANGE_PLAYER_CLASSES":
-				this.diffCriteria.playerClasses = payload.playerClasses;
-				this.__emitChange();
-				this.runDiffAnalyzer();
-				break;
 			case "ADD_FILTER_CARD":
 				if (!this.diffCriteria.cards.includes(payload.cardName)) {
 					this.diffCriteria.cards.push(payload.cardName);
 					this.__emitChange();
 					this.runDiffAnalyzer();
 				}
+				break;
+			case "REMOVE_FILTER_CARD":	
+				var filterCardIndex = this.diffCriteria.cards.indexOf(payload.cardName);
+				if (filterCardIndex != -1) {
+					this.diffCriteria.cards.splice(filterCardIndex, 1);
+				}
+				this.__emitChange();
+				this.runDiffAnalyzer();
 				break;
 
 			default:
