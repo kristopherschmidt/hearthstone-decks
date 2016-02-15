@@ -7,59 +7,62 @@ export default class CardInput extends Component {
 
 	constructor() {
 		super();
-		this.state = {
-            tags: [],
-            suggestions: []
-		}
+		this.state = { tags: [], suggestions: this._getSuggestionsFromStore() };
 	}
 
 	componentDidMount() {
-		CardStore.addListener(this._onChange.bind(this));
-		this._buildSuggestionsFromCards(CardStore.getCards());
+		this.removeListenerToken = CardStore.addListener(this._onChange.bind(this));
 	}
+
+	componentWillUnmount() {
+   		this.removeListenerToken.remove();
+  	}
 
 	componentWillReceiveProps(props) {
-		this._buildTagsFromCardNames(props.cardNames);
+		this.setState({ tags: this._getTagsFromProps() });
 	}
-
-	_buildSuggestionsFromCards(cardSuggestions) {
-		this.state.suggestions = cardSuggestions.map(function(card) {
-			return card.name;
-		});
-		this.setState(this.state);
-	}
-
-	_buildTagsFromCardNames(cardNames) {
-		this.state.tags = cardNames.map(function(cardName) {
-			return { id: cardName, text: cardName };
-		});
-		this.setState(this.state); 
-	}
-
-	_onChange() {
-		this._buildSuggestionsFromCards(CardStore.getCards());
-	}
-
 
 	handleDelete(index) {
+		/*
 		var tags=this.state.tags;
 		tags.splice(index,1);
 		this.setState({tags:tags});
 		this.props.onChange(this.state.tags.map(function(tag) { return tag.text }));
+		*/
 	}
 
 	handleAddition(tag) {
+		/*
 		var tags=this.state.tags;
 		tags.push({id:tags.length+ 1,text:tag});
 		this.setState({tags:tags});
 		this.props.onChange(this.state.tags.map(function(tag) { return tag.text }));
+		*/
 	}
 
 	handleDrag(tag,currPos,newPos) {
+		/*
 		var tags=this.state.tags;
 		tags.splice(currPos,1);
 		tags.splice(newPos,0,tag);
 		this.setState({tags:tags});
+		*/
+	}
+
+	_getTagsFromProps() {
+		return this.props.cardNames.map(function(cardName) {
+			return { id: cardName, text: cardName };
+		});
+	}
+
+	_getSuggestionsFromStore() {
+		return CardStore.getCards().map(function(card) {
+			return card.name;
+		});
+	}
+
+	_onChange() {
+		this.setState({ suggestions: this._getSuggestionsFromStore() });
 	}
 
 	render() {
@@ -79,4 +82,3 @@ export default class CardInput extends Component {
 	}
 
 }
-CardInput.defaultProps = { cardNames: [] };
