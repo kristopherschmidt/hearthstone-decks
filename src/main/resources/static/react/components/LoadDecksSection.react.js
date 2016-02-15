@@ -40,6 +40,8 @@ export default class LoadDecksSection extends Component {
 
 		return (
 
+	<section className="wrapper">
+
 		<div>
 
 			<div className="row">
@@ -84,6 +86,8 @@ export default class LoadDecksSection extends Component {
 			</section>
 
 		</div>
+
+	</section>
 
 		);
 	}

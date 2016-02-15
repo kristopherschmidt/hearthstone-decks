@@ -38,7 +38,7 @@ class DiffSection extends Component {
 
 		return (
 
-			<div>
+			<section className="wrapper">
 
 				<div className="row">
 					<div className="col-sm-12">
@@ -59,7 +59,7 @@ class DiffSection extends Component {
 					</div>
 				</section>
 
-			</div>
+			</section>
 
 		);
 	}
