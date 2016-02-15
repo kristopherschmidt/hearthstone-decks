@@ -14,14 +14,28 @@ var runDiffAnalyzer = function(criteria) {
 }
 
 var getCards = function() {
+  $.ajax({
+      url: '/api/cards',
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        HearthstoneActionCreators.receiveCards(data);
+      }
+	});
+}
+
+var loadDecks = function() {
 	  $.ajax({
-	      url: '/api/cards',
+	      url: '/api/decks/refresh',
 	      dataType: 'json',
 	      cache: false,
 	      success: function(data) {
-	        HearthstoneActionCreators.receiveCards(data);
-	      }
+	        HearthstoneActionCreators.deckLoadSuccess(data);
+	      },
+	      error: function (data) {
+    		HearthstoneActionCreators.deckLoadFailure(data);
+          }
     	});
 }
 
-export { runDiffAnalyzer, getCards };
+export { runDiffAnalyzer, getCards, loadDecks };

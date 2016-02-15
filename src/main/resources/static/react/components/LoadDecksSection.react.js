@@ -1,7 +1,42 @@
 import React, { Component } from 'react';
+import DeckStore from '../stores/DeckStore';
+import * as HearthstoneActionCreators from '../actions/HearthstoneActionCreators';
 
 export default class LoadDecksSection extends Component {
+
+	constructor() {
+		super();
+		this.state = this._getStateFromStores();
+	}
+
+	componentDidMount() {
+		this.removeListenerToken = DeckStore.addListener(this._onChange.bind(this));
+	}
+
+	componentWillUnmount() {
+   		this.removeListenerToken.remove();
+  	}
+
+	_getStateFromStores() {
+		return { isLoading: DeckStore.getIsLoading() };
+	}
+
+	_onChange() {
+		this.setState(this._getStateFromStores());
+	}
+
+	_onClick() {
+		HearthstoneActionCreators.loadDecks();
+	}
+
 	render() {
+
+		var button;
+		if (this.state.isLoading) {
+			button = (<i className="fa fa-spinner fa-spin fa-3x"></i>);
+		} else {
+			button = (<a className="btn btn-primary form-control" onClick={this._onClick.bind(this)}>Go!</a>);
+		}
 
 		return (
 
@@ -39,8 +74,7 @@ export default class LoadDecksSection extends Component {
 					
 						<div className="form-group">
 							<div className="col-sm-12">
-								<a className="btn btn-primary form-control">Go!</a>
-								<i className="fa fa-spinner fa-spin fa-3x"></i>
+								{button}
 							</div>
 						</div>
 					

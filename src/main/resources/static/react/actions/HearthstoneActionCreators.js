@@ -42,4 +42,22 @@ var changePlayerClasses = function(playerClasses) {
 	});
 }
 
-export { receiveDiffAnalyzerResults, changeCollection, changePlayerClasses, receiveCards, addFilterCard, removeFilterCard };
+var loadDecks = function() {
+	HearthstoneDispatcher.dispatch({
+		type: "LOAD_DECKS"
+	});
+}
+
+var deckLoadSuccess = function() {
+	HearthstoneDispatcher.dispatch({
+		type: "DECK_LOAD_SUCCESS"
+	});
+}
+
+var deckLoadFailure = function() {
+	HearthstoneDispatcher.dispatch({
+		type: "DECK_LOAD_FAILURE"
+	});
+}
+
+export { receiveDiffAnalyzerResults, changeCollection, changePlayerClasses, receiveCards, addFilterCard, removeFilterCard, loadDecks, deckLoadSuccess, deckLoadFailure };

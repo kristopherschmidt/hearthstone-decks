@@ -12,11 +12,10 @@ class DiffSection extends Component {
 	constructor() {
 		super();
 		this.state = this._getStateFromStores();
-		this._onChange = this._onChange.bind(this);
 	}
 
 	componentDidMount() {
-		this.removeListenerToken = DiffStore.addListener(this._onChange);
+		this.removeListenerToken = DiffStore.addListener(this._onChange.bind(this));
 	}
 
 	componentWillUnmount() {

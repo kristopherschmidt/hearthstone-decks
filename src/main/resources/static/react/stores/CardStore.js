@@ -6,16 +6,12 @@ class CardStore extends FluxStore {
 
 	constructor(dispatcher) {
 		super(dispatcher);
-		this.cards;
+		this.cards = [];
+		HearthstoneWebAPIUtils.getCards();
 	}
 
 	getCards() {
-		if (this.cards) {
-			return this.cards;
-		} else {
-			HearthstoneWebAPIUtils.getCards();
-			return [];
-		}
+		return this.cards;
 	}
 
 	__onDispatch(payload) {
