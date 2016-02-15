@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from'react-dom';
-import { Router, Route, Link, hashHistory } from 'react-router';
-import Sidebar from './components/Sidebar.react';
+import { IndexRoute, Router, Route, Link, hashHistory } from 'react-router';
+import App from './components/App.react';
 import DiffSection from './components/DiffSection.react';
 import LoadDecksSection from './components/LoadDecksSection.react';
-import HearthstoneDispatcher from './dispatcher/HearthstoneDispatcher';
+
 
 const adminMenuItemData = [ { link : "#/admin/load", text : "Load Decks" } ];
 const collectionMenuItemData = [ 
@@ -18,15 +18,12 @@ const collectionMenuData = { icon : 'icon_archive_alt', text : "Collections", me
 const menuData = [ adminMenuData, collectionMenuData ];
 
 ReactDOM.render(
-		<Sidebar homeLink="/index_react.html" menuData={menuData} />,
-		document.getElementById('sidebar-wrapper')
-);
-
-ReactDOM.render(
 	(
 		<Router history={hashHistory}>
-			<Route path="/" component={DiffSection}></Route>
-			<Route path="/admin/load" component={LoadDecksSection}></Route>
+			<Route path="/" component={App}>
+				<IndexRoute component={DiffSection}/>
+				<Route path="/admin/load" component={LoadDecksSection}></Route>
+			</Route>
 		</Router>
-	), document.getElementById('content')
+	), document.getElementById('container')
 );

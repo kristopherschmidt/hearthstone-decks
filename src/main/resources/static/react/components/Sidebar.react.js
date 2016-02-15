@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router'
 
 class SidebarLink extends Component {
 	render() {
@@ -18,8 +19,14 @@ class SubMenuList extends Component {
 
 	render() {
 		var menuItems = this.props.menuItemData.map(function(item) {
+			var link;
+			if (item.link.startsWith("http")) {
+				link = (<a href={item.link}>{item.text}</a>);
+			} else {
+				link = (<Link to={item.link}>{item.text}</Link>);
+			}
 			return (
-				<li key={item.text}><a className="" href={item.link}>{item.text}</a></li>
+				<li key={item.text}>{link}</li>
 			);
 		});
 		return (
