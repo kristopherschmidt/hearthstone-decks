@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from'react-dom';
-import { IndexRoute, Router, Route, Link, hashHistory } from 'react-router';
+import { IndexRoute, Router, Route, Link, hashHistory, browserHistory } from 'react-router';
 import App from './components/App.react';
 import DiffSection from './components/DiffSection.react';
 import LoadDecksSection from './components/LoadDecksSection.react';
@@ -19,8 +19,8 @@ const menuData = [ adminMenuData, collectionMenuData ];
 
 ReactDOM.render(
 	(
-		<Router history={hashHistory}>
-			<Route path="/" component={App}>
+		<Router history={browserHistory}>
+			<Route path="/index_react.html" component={App}>
 				<IndexRoute component={DiffSection}/>
 				<Route path="/admin/load" component={LoadDecksSection}></Route>
 			</Route>

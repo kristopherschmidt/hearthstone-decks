@@ -19,7 +19,7 @@ export default class App extends Component {
 			<div>
 
 				<header id="topheader" className="header dark-bg">
-					<a href="/index_react.html" className="logo">Hearthstone Deck Helper</a>
+					<a href="/index_react.html" className="logo">Hearthstone Deck Helper (React.js / Flux)</a>
 				</header>
 
 				<Sidebar homeLink="/index_react.html" menuData={menuData}></Sidebar>
