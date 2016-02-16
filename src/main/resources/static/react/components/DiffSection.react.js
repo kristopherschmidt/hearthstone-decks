@@ -16,6 +16,9 @@ class DiffSection extends Component {
 
 	componentDidMount() {
 		this.removeListenerToken = DiffStore.addListener(this._onChange.bind(this));
+		if (this.props.location.query.collection) {
+			HearthstoneActionCreators.changeCollection(this.props.location.query.collection);
+		}
 	}
 
 	componentWillUnmount() {
