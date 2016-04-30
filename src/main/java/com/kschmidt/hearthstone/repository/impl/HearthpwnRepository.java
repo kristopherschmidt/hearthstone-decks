@@ -71,7 +71,7 @@ public class HearthpwnRepository extends AbstractWebDeckRepository {
 		for (Element cardElement : cardElements) {
 			String cardName = cardElement.select("b a").get(0).text();
 			Card card = cardRepository.findCard(cardName);
-			Pattern p = Pattern.compile(".* (\\d)$");
+			Pattern p = Pattern.compile(".* (\\d).*$");
 			Matcher m = p.matcher(cardElement.text());
 			if (m.matches()) {
 				DeckCard deckCard = new DeckCard(card, Integer.parseInt(m.group(1)));
@@ -122,7 +122,7 @@ public class HearthpwnRepository extends AbstractWebDeckRepository {
 	public List<String> getDeckUrls(String deckListUrl) throws IOException {
 		List<String> deckUrls = new ArrayList<String>();
 		Document doc = getDocument(deckListUrl);
-		LOG.error(doc.toString());
+		LOG.debug(doc.toString());
 		Elements links = doc.select("table.listing-decks tbody tr td.col-name span a");
 		for (Element link : links) {
 			String deckUrl = link.attr("abs:href");
@@ -149,12 +149,6 @@ public class HearthpwnRepository extends AbstractWebDeckRepository {
 		HttpGet request = new HttpGet(url);
 		HttpResponse response = client.execute(request);
 		String content = getContent(response);
-		LOG.debug(content);
-		Header refreshHeader = response.getHeaders("Refresh")[0];
-		String newURL = "http://www.hearthpwn.com" + refreshHeader.getValue().substring(6);
-		request = new HttpGet(newURL);
-		response = client.execute(request);
-		content = getContent(response);
 		LOG.debug(content);
 		Document doc = Jsoup.parse(content.toString());
 		doc.setBaseUri(BASE_URI);

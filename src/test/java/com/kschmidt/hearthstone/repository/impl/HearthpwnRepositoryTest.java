@@ -53,7 +53,7 @@ public class HearthpwnRepositoryTest {
 		List<String> urls = hearthpwn.getDeckUrls(
 				"http://www.hearthpwn.com/decks?filter-build=28&filter-deck-tag=1&filter-class=64");
 		Assert.assertFalse(urls.isEmpty());
-		LOG.debug(urls.toString());
+		LOG.info(urls.toString());
 	}
 
 	@Test

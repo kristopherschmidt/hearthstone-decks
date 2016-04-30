@@ -23,7 +23,7 @@ import com.kschmidt.hearthstone.repository.MongoDeckRepository;
 public class MongoDeckRepositoryTransactionalTest {
 
 	@Autowired
-	private HearthpwnRepository hearthpwn;
+	private IcyVeinsDeckRepository repository;
 
 	@Autowired
 	private MongoDeckRepository mongoDeckRepository;
@@ -38,8 +38,8 @@ public class MongoDeckRepositoryTransactionalTest {
 
 	@Test
 	public void testSaveAndReadBack() throws IOException {
-		String deckUrl = "http://www.hearthpwn.com/decks/308694-reynads-op-dragon-priest";
-		Deck deck = hearthpwn.getDeck(deckUrl);
+		String deckUrl = "http://www.icy-veins.com/hearthstone/legendary-ramp-c-thun-druid-standard-deck";
+		Deck deck = repository.getDeck(deckUrl);
 		assertNotNull(deck.getLastUpdated());
 		mongoDeckRepository.save(deck);
 		Deck deckRead = mongoDeckRepository.findByUrl(deckUrl);
