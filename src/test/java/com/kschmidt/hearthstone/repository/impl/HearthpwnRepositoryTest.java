@@ -33,7 +33,7 @@ public class HearthpwnRepositoryTest {
 
 	@BeforeClass
 	public static void setUpClass() throws JsonParseException, JsonMappingException, IOException {
-		cardRepository = new JSONCardRepository("AllSets.json");
+		cardRepository = new JSONCardRepository("cards.collectible.json");
 	}
 
 	@Before
@@ -44,14 +44,14 @@ public class HearthpwnRepositoryTest {
 	@Test
 	public void testGetDocument() throws IOException {
 		Document doc = hearthpwn.getDocument(
-				"http://www.hearthpwn.com/decks?filter-build=26&filter-deck-tag=1&filter-class=64&sort=-rating");
+				"http://www.hearthpwn.com/decks?filter-build=28&filter-deck-tag=1&filter-class=64");
 		Assert.assertNotNull(doc);
 	}
 
 	@Test
 	public void testGetDeckUrls() throws IOException {
 		List<String> urls = hearthpwn.getDeckUrls(
-				"http://www.hearthpwn.com/decks?filter-build=26&filter-deck-tag=1&filter-class=64&sort=-rating");
+				"http://www.hearthpwn.com/decks?filter-build=28&filter-deck-tag=1&filter-class=64");
 		Assert.assertFalse(urls.isEmpty());
 		LOG.debug(urls.toString());
 	}
@@ -68,7 +68,7 @@ public class HearthpwnRepositoryTest {
 	@Test
 	public void testGetDecks() throws IOException {
 		List<Deck> decks = hearthpwn.getDecks(
-				"http://www.hearthpwn.com/decks?filter-unreleased-cards=f&filter-build=26&filter-deck-tag=1&filter-class=64&sort=-rating");
+				"http://www.hearthpwn.com/decks?filter-unreleased-cards=f&filter-build=28&filter-deck-tag=1&filter-class=64");
 		assertThat(decks.size(), equalTo(25));
 	}
 

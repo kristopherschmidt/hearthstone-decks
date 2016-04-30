@@ -34,7 +34,7 @@ public class IntegrationTest {
 	@BeforeClass
 	public static void setUp() throws JsonParseException, JsonMappingException,
 			IOException, InvalidFormatException {
-		CardRepository cardRepository = new JSONCardRepository("AllSets.json");
+		CardRepository cardRepository = new JSONCardRepository("cards.collectible.json");
 		icyVeins = new IcyVeinsDeckRepository(cardRepository);
 		masterCollection = new ExcelDeckRepository(cardRepository);
 		userDeck = masterCollection.getDeck("HearthstoneMasterCollection.xlsx");
@@ -44,21 +44,21 @@ public class IntegrationTest {
 	public void testDiffAgainstDruidFastBRM() throws Exception {
 		diffAgainst(
 				"http://www.icy-veins.com/hearthstone/legendary-druid-fast-brm-deck",
-				0, 11180, PlayerClass.Druid);
+				0, 11180, PlayerClass.DRUID);
 	}
 
 	@Test
 	public void testDiffAgainstLegendaryDragonRamp() throws Exception {
 		diffAgainst(
 				"http://www.icy-veins.com/hearthstone/legendary-dragon-ramp-druid-brm-deck",
-				0, 8160, PlayerClass.Druid);
+				0, 8160, PlayerClass.DRUID);
 	}
 
 	@Test
 	public void testDiffAgainstMidBudgetRampDruid() throws Exception {
 		diffAgainst(
 				"http://www.icy-veins.com/hearthstone/mid-budget-ramp-druid-brm-deck",
-				0, 6300, PlayerClass.Druid);
+				0, 6300, PlayerClass.DRUID);
 	}
 
 	private void diffAgainst(String url, int expectedRequiredDust,

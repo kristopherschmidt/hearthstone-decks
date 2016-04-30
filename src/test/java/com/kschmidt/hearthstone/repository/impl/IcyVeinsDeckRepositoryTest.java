@@ -37,7 +37,7 @@ public class IcyVeinsDeckRepositoryTest {
 
 	@BeforeClass
 	public static void setUpClass() throws JsonParseException, JsonMappingException, IOException {
-		cardRepository = new JSONCardRepository("AllSets.json");
+		cardRepository = new JSONCardRepository("cards.collectible.json");
 	}
 
 	@Before
@@ -59,7 +59,7 @@ public class IcyVeinsDeckRepositoryTest {
 		assertTrue(card.isPresent());
 		assertThat(card.get().getCardName(), equalTo("Loatheb"));
 		assertThat(card.get().getNumCards(), equalTo(1));
-		assertThat(card.get().getRarity(), equalTo(Rarity.Legendary));
+		assertThat(card.get().getRarity(), equalTo(Rarity.LEGENDARY));
 		assertThat(card.get().getDustValue(), equalTo(1600));
 
 		card = deck.findCard("Rampage");

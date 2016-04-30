@@ -24,7 +24,7 @@ public class RepositoryConfiguration {
 	@Bean
 	public JSONCardRepository jsonCardRepository() throws JsonParseException,
 			JsonMappingException, IOException {
-		return new JSONCardRepository("AllSets.json");
+		return new JSONCardRepository("cards.collectible.json");
 	}
 
 	@Bean

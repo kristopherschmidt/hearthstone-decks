@@ -191,7 +191,7 @@ public class MongoDeckRepositoryFindTest {
 		assertTrue(druidOnly.size() > 0);
 		assertTrue(druidOnly.size() < allClasses.size());
 		for (Deck deck : druidOnly) {
-			assertThat(deck.getPlayerClass(), equalTo(PlayerClass.Druid));
+			assertThat(deck.getPlayerClass(), equalTo(PlayerClass.DRUID));
 		}
 	}
 

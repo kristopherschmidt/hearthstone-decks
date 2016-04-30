@@ -29,16 +29,16 @@ public class DiffAnalyzerTest {
 
 	@Before
 	public void setUp() {
-		diff1 = new DeckDiffBuilder().withUserCard("a", Rarity.Common, 1)
-				.withUserCard("d", Rarity.Common, 2)
-				.withDesiredCard("a", Rarity.Common, 2).build();
-		diff2 = new DeckDiffBuilder().withUserCard("a", Rarity.Common, 1)
-				.withDesiredCard("b", Rarity.Rare, 2)
-				.withDesiredCard("a", Rarity.Common, 2).build();
+		diff1 = new DeckDiffBuilder().withUserCard("a", Rarity.COMMON, 1)
+				.withUserCard("d", Rarity.COMMON, 2)
+				.withDesiredCard("a", Rarity.COMMON, 2).build();
+		diff2 = new DeckDiffBuilder().withUserCard("a", Rarity.COMMON, 1)
+				.withDesiredCard("b", Rarity.RARE, 2)
+				.withDesiredCard("a", Rarity.COMMON, 2).build();
 		diff3 = new DeckDiffBuilder()
-				.withUserCard("a", Rarity.Common, 1)
-				.withDesiredCard("a", Rarity.Common, 2)
-				.withDesiredCard("c", Rarity.Epic, 1, PlayerClass.Neutral,
+				.withUserCard("a", Rarity.COMMON, 1)
+				.withDesiredCard("a", Rarity.COMMON, 2)
+				.withDesiredCard("c", Rarity.EPIC, 1, PlayerClass.NEUTRAL,
 						"The Grand Tournament").build();
 		diffs = Arrays.asList(new DeckDiff[] { diff1, diff2, diff3 });
 	}

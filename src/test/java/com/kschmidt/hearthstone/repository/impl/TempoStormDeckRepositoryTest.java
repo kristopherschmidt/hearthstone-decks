@@ -39,7 +39,7 @@ public class TempoStormDeckRepositoryTest {
 
 	@BeforeClass
 	public static void setUpClass() throws JsonParseException, JsonMappingException, IOException {
-		cardRepository = new JSONCardRepository("AllSets.json");
+		cardRepository = new JSONCardRepository("cards.collectible.json");
 	}
 
 	@Before
@@ -55,18 +55,18 @@ public class TempoStormDeckRepositoryTest {
 
 	@Test
 	public void testGetDeckFromSlug() throws IOException {
-		Deck deck = tempoStorm.getDeck("seventythree-aggro-flamewaker-mage");
+		Deck deck = tempoStorm.getDeck("prolly-bad-cthun-rogue");
 		assertThat(deck.getNumCards(), equalTo(30));
-		assertThat(deck.getName(), equalTo("seventythree-aggro-flamewaker-mage"));
+		assertThat(deck.getName(), equalTo("prolly-bad-cthun-rogue"));
 		assertThat(deck.getUrl(),
-				equalTo("https://tempostorm.com/hearthstone/decks/seventythree-aggro-flamewaker-mage"));
+				equalTo("https://tempostorm.com/hearthstone/decks/prolly-bad-cthun-rogue"));
 		assertThat(deck.getCollection(), equalTo("tempoStormDeckRepository"));
-		assertThat(deck.getRating(), greaterThan(1));
-		assertThat(deck.getLastUpdated(), greaterThan((ChronoLocalDate) LocalDate.of(2015, Month.APRIL, 24)));
+		//assertThat(deck.getRating(), greaterThan(1));
+		assertThat(deck.getLastUpdated(), greaterThan((ChronoLocalDate) LocalDate.of(2016, Month.APRIL, 26)));
 
-		Optional<DeckCard> card = deck.findCard("Clockwork Gnome");
+		Optional<DeckCard> card = deck.findCard("Sap");
 		assertTrue(card.isPresent());
-		assertThat(card.get().getCardName(), equalTo("Clockwork Gnome"));
+		assertThat(card.get().getCardName(), equalTo("Sap"));
 		assertThat(card.get().getNumCards(), equalTo(2));
 
 		card = deck.findCard("Rampage");
@@ -84,7 +84,10 @@ public class TempoStormDeckRepositoryTest {
 	public void testGetDeckSlugs() throws IOException {
 		List<String> deckSlugs = tempoStorm.getDeckUrls("https://tempostorm.com/api/decks");
 		Assert.assertFalse(deckSlugs.isEmpty());
-		LOG.debug("num slugs: " + deckSlugs.size());
+		LOG.info("num slugs: " + deckSlugs.size());
+		for (String slug : deckSlugs) {
+			LOG.info(slug);
+		}
 	}
 
 	@Test
@@ -98,6 +101,7 @@ public class TempoStormDeckRepositoryTest {
 		List<Deck> decks = tempoStorm.getAllDecks();
 		Assert.assertFalse(decks.isEmpty());
 		for (Deck deck : decks) {
+			LOG.info(deck.getName() + ": " + deck.getNumCards());
 			assertThat(deck.getNumCards(), equalTo(30));
 		}
 	}

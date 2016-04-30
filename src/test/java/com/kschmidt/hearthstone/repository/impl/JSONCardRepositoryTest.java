@@ -24,26 +24,32 @@ public class JSONCardRepositoryTest {
 	public void testFindCard() throws JsonParseException, JsonMappingException,
 			IOException {
 
-		CardRepository cardRepository = new JSONCardRepository("AllSets.json");
+		CardRepository cardRepository = new JSONCardRepository("cards.collectible.json");
 		List<Card> cards = cardRepository.getCards();
 		assertTrue(cards.size() > 0);
 
 		Card card = cardRepository.findCard("Deathwing");
 		assertNotNull(card);
-		assertThat(card.getRarity(), equalTo(Rarity.Legendary));
-		Assert.assertThat(card.getPlayerClass(), equalTo(PlayerClass.Neutral));
-		assertThat(card.getCardSet(), equalTo("Classic"));
+		assertThat(card.getRarity(), equalTo(Rarity.LEGENDARY));
+		Assert.assertThat(card.getPlayerClass(), equalTo(PlayerClass.NEUTRAL));
+		assertThat(card.getCardSet(), equalTo("EXPERT1"));
 
 		card = cardRepository.findCard("Frostbolt");
 		assertNotNull(card);
-		assertThat(card.getRarity(), equalTo(Rarity.Common));
-		assertThat(card.getPlayerClass(), equalTo(PlayerClass.Mage));
-		assertThat(card.getCardSet(), equalTo("Basic"));
+		assertThat(card.getRarity(), equalTo(Rarity.COMMON));
+		assertThat(card.getPlayerClass(), equalTo(PlayerClass.MAGE));
+		assertThat(card.getCardSet(), equalTo("CORE"));
 		
 		card = cardRepository.findCard("Reno Jackson");
 		assertNotNull(card);
-		assertThat(card.getRarity(), equalTo(Rarity.Legendary));
-		assertThat(card.getPlayerClass(), equalTo(PlayerClass.Neutral));
-		assertThat(card.getCardSet(), equalTo("League of Explorers"));
+		assertThat(card.getRarity(), equalTo(Rarity.LEGENDARY));
+		assertThat(card.getPlayerClass(), equalTo(PlayerClass.NEUTRAL));
+		assertThat(card.getCardSet(), equalTo("LOE"));
+		
+		card = cardRepository.findCard("Yogg-Saron, Hope's End");
+		assertNotNull(card);
+		assertThat(card.getRarity(), equalTo(Rarity.LEGENDARY));
+		assertThat(card.getPlayerClass(), equalTo(PlayerClass.NEUTRAL));
+		assertThat(card.getCardSet(), equalTo("OG"));
 	}
 }

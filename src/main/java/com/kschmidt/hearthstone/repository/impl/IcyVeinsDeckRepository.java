@@ -40,7 +40,7 @@ public class IcyVeinsDeckRepository extends AbstractWebDeckRepository {
 
 		Element deckCardListTable = doc.select("table.deck_card_list").get(0);
 		Elements cardElements = deckCardListTable.select("td ul li");
-		Pattern p = Pattern.compile("(\\d)x *(.*?)( (GvG|BrM|Naxx|TGT|LoE))?");
+		Pattern p = Pattern.compile("(\\d)x *(.*?)( (GvG|BrM|Naxx|TGT|LoE|TOG))?");
 		for (int i = 0; i < cardElements.size(); ++i) {
 			Element cardElement = cardElements.get(i);
 			Matcher m = p.matcher(cardElement.text());

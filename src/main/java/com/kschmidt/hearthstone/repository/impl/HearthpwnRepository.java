@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -121,7 +122,7 @@ public class HearthpwnRepository extends AbstractWebDeckRepository {
 	public List<String> getDeckUrls(String deckListUrl) throws IOException {
 		List<String> deckUrls = new ArrayList<String>();
 		Document doc = getDocument(deckListUrl);
-		// LOG.debug(doc.toString());
+		LOG.error(doc.toString());
 		Elements links = doc.select("table.listing-decks tbody tr td.col-name span a");
 		for (Element link : links) {
 			String deckUrl = link.attr("abs:href");
@@ -147,6 +148,35 @@ public class HearthpwnRepository extends AbstractWebDeckRepository {
 				.setDefaultRequestConfig(RequestConfig.custom().setCircularRedirectsAllowed(true).build()).build();
 		HttpGet request = new HttpGet(url);
 		HttpResponse response = client.execute(request);
+		String content = getContent(response);
+		LOG.debug(content);
+		Header refreshHeader = response.getHeaders("Refresh")[0];
+		String newURL = "http://www.hearthpwn.com" + refreshHeader.getValue().substring(6);
+		request = new HttpGet(newURL);
+		response = client.execute(request);
+		content = getContent(response);
+		LOG.debug(content);
+		Document doc = Jsoup.parse(content.toString());
+		doc.setBaseUri(BASE_URI);
+		return doc;
+	}
+	
+	private String getContent(HttpResponse response) throws IllegalStateException, IOException {
+		BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+		StringBuffer result = new StringBuffer();
+		String line = "";
+		while ((line = rd.readLine()) != null) {
+			result.append(line);
+		}
+		return result.toString();
+	}
+	
+	/**
+	 * 	Document getDocument(String url) throws ClientProtocolException, IOException {
+		HttpClient client = HttpClientBuilder.create()
+				.setDefaultRequestConfig(RequestConfig.custom().setCircularRedirectsAllowed(true).build()).build();
+		HttpGet request = new HttpGet(url);
+		HttpResponse response = client.execute(request);
 		BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 		StringBuffer result = new StringBuffer();
 		String line = "";
@@ -157,5 +187,6 @@ public class HearthpwnRepository extends AbstractWebDeckRepository {
 		doc.setBaseUri(BASE_URI);
 		return doc;
 	}
+	*/
 
 }

@@ -34,7 +34,7 @@ public class HearthstoneTopDeckRepositoryTest {
 	@BeforeClass
 	public static void setUpClass() throws JsonParseException,
 			JsonMappingException, IOException {
-		cardRepository = new JSONCardRepository("AllSets.json");
+		cardRepository = new JSONCardRepository("cards.collectible.json");
 	}
 
 	@Before

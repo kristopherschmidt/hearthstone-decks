@@ -92,7 +92,7 @@ public class Deck {
 	}
 
 	public PlayerClass getPlayerClass() {
-		return playerClass != null ? playerClass : PlayerClass.Neutral;
+		return playerClass != null ? playerClass : PlayerClass.NEUTRAL;
 	}
 
 	public int getRating() {
@@ -120,12 +120,12 @@ public class Deck {
 			cards.add(deckCard);
 		}
 		PlayerClass cardClass = deckCard.getCard().getPlayerClass();
-		if (playerClass == null && cardClass != PlayerClass.Neutral) {
+		if (playerClass == null && cardClass != PlayerClass.NEUTRAL) {
 			playerClass = cardClass;
-		} else if (playerClass != null && cardClass != PlayerClass.Neutral
+		} else if (playerClass != null && cardClass != PlayerClass.NEUTRAL
 				&& playerClass != cardClass) {
 			// we have mixed player classes in the same deck
-			playerClass = PlayerClass.Neutral;
+			playerClass = PlayerClass.NEUTRAL;
 		} else {
 			// Either the player class is the same as the card class,
 			// or the player class is null and the card class is neutral,

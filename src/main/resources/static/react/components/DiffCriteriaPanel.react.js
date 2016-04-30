@@ -18,9 +18,7 @@ export default class DiffCriteriaPanel extends Component {
 	}
 
 	handleCollectionChange(event) {
-		if (event) {
-			HearthstoneActionCreators.changeCollection(event.target.value);
-		}
+		HearthstoneActionCreators.changeCollection(event.target.value);
 	}
 
 	handleClassChange(event) {

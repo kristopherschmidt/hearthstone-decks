@@ -3,6 +3,12 @@
 	[
 		{
 			"path": "src\\main\\resources\\static"
+		},
+		{
+			"path": "E:\\git\\openmrs-owa-conceptdictionary"
+		},
+		{
+			"path": "C:\\Users\\Kris\\openmrs\\conceptdictionary\\owa\\conceptdictionary"
 		}
 	]
 }

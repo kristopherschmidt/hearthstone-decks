@@ -1,5 +1,6 @@
 package com.kschmidt.hearthstone.domain;
 
+import org.apache.poi.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,11 +44,11 @@ public class Card {
 						+ "' for card: " + name, ex);
 			}
 		} else {
-			playerClass = PlayerClass.Neutral;
+			playerClass = PlayerClass.NEUTRAL;
 		}
 		if (rarityString != null) {
 			try {
-				this.rarity = Rarity.valueOf(rarityString);
+				this.rarity = Rarity.valueOf(rarityString.toUpperCase());
 			} catch (IllegalArgumentException ex) {
 				LOG.error("Unknown card rarity: '" + rarityString
 						+ "' for card: " + name, ex);

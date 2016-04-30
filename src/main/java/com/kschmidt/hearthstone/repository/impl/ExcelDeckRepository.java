@@ -58,9 +58,9 @@ public class ExcelDeckRepository {
 	private void addCardsFromAllSheets(Deck deck, Workbook workbook) {
 		// Check for single-sheet cardlist version 5 for TGT, else fall back to
 		// pre-TGT
-		Sheet sheet = workbook.getSheet("Card List");
+		Sheet sheet = workbook.getSheet("Cards");
 		if (sheet != null) {
-			addCardsFromSheet("Card List", deck, workbook,
+			addCardsFromSheet("Cards", deck, workbook,
 					new PostTGTDeckCardBuilder());
 		} else {
 			for (int i = 0; i < SHEETS_WITH_CARDS.length; ++i) {

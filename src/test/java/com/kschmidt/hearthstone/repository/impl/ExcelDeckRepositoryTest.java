@@ -38,7 +38,7 @@ public class ExcelDeckRepositoryTest {
 	
 	private void assertGetDeck(String excelDeckFilename) throws IOException, InvalidFormatException {
 		ExcelDeckRepository masterCollection = new ExcelDeckRepository(
-				new JSONCardRepository("AllSets.json"));
+				new JSONCardRepository("cards.collectible.json"));
 		deck = masterCollection.getDeck(excelDeckFilename);
 
 		// check for a card that shouldn't be present

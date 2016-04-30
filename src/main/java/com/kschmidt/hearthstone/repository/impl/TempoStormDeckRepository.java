@@ -62,15 +62,7 @@ public class TempoStormDeckRepository extends AbstractWebDeckRepository {
 
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://tempostorm.com/api/decks/findOne")
 				.queryParam("filter", "{\"where\":{\"slug\":\"" + slug
-						+ "\"},\"fields\":{\"id\":true,\"createdDate\":true,\"name\":true,\"description\":true,"
-						+ "\"playerClass\":true,\"premium\":true,\"slug\":true,\"dust\":true,\"heroName\":true," + ""
-						+ "\"authorId\":true,\"deckType\":true,\"viewCount\":true,\"isPublic\":true,\"votes\":true,"
-						+ "\"voteScore\":true,\"chapters\":true,\"youtubeId\":true,\"gameModeType\":true,\"isActive\":true},"
-						+ "\"include\":[{\"relation\":\"cards\",\"scope\":{\"include\":[\"card\"]}},"
-						+ "{\"relation\":\"comments\",\"scope\":{\"include\":[\"author\"]}},"
-						+ "{\"relation\":\"author\",\"scope\":{\"fields\":[\"id\",\"email\",\"username\",\"social\",\"subscription\"]}},"
-						+ "{\"relation\":\"matchups\"}]}");
-
+						+ "\"},\"fields\":[\"id\",\"createdDate\",\"name\",\"description\",\"playerClass\",\"premium\",\"dust\",\"heroName\",\"authorId\",\"deckType\",\"isPublic\",\"chapters\",\"youtubeId\",\"gameModeType\",\"isActive\",\"isCommentable\"],\"include\":[{\"relation\":\"cards\",\"scope\":{\"include\":\"card\",\"scope\":{\"fields\":[\"id\",\"name\",\"cardType\",\"cost\",\"dust\",\"photoNames\"]}}},{\"relation\":\"comments\",\"scope\":{\"fields\":[\"id\",\"votes\",\"authorId\",\"createdDate\",\"text\"],\"include\":{\"relation\":\"author\",\"scope\":{\"fields\":[\"id\",\"username\"]}}}},{\"relation\":\"author\",\"scope\":{\"fields\":[\"id\",\"username\"]}},{\"relation\":\"matchups\",\"scope\":{\"fields\":[\"forChance\",\"deckName\",\"className\"]}},{\"relation\":\"votes\",\"fields\":[\"id\",\"direction\",\"authorId\"]}]}");
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		URI uri = builder.build().encode().toUri();
 		HttpEntity<String> result = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
@@ -107,13 +99,9 @@ public class TempoStormDeckRepository extends AbstractWebDeckRepository {
 	public List<String> getDeckUrls(String slugListUrl) throws JsonParseException, JsonMappingException, IOException {
 		List<String> slugs = new ArrayList<String>();
 
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://tempostorm.com/api/decks")
-				.queryParam("filter",
-						"{\"where\":{\"isFeatured\":false,\"isPublic\":true," + "" + "\"playerClass\":{\"inq\":"
-								+ "[\"Hunter\",\"Druid\",\"Mage\",\"Paladin\",\"Priest\",\"Rogue\",\"Shaman\",\"Warlock\",\"Warrior\"]}},"
-								+ "\"fields\":{\"name\":true,\"description\":true,\"slug\":true,\"heroName\":true,\"authorId\":true,"
-								+ "\"voteScore\":true,\"playerClass\":true,\"dust\":true,\"createdDate\":true,\"premium\":true},"
-								+ "\"include\":[\"author\"],\"order\":\"createdDate DESC\",\"skip\":0,\"limit\":104}");
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://tempostorm.com/api/decks").queryParam(
+				"filter",
+				"{\"where\":{\"isFeatured\":false,\"isPublic\":true},\"fields\":{\"id\":true,\"name\":true,\"heroName\":true,\"authorId\":true,\"playerClass\":true,\"dust\":true,\"createdDate\":true,\"premium\":true},\"include\":[{\"relation\":\"author\",\"scope\":{\"fields\":[\"id\",\"username\"]}},{\"relation\":\"votes\",\"scope\":{\"fields\":[\"id\",\"direction\",\"authorId\"]}},{\"relation\":\"slugs\"}],\"order\":\"createdDate DESC\",\"skip\":0,\"limit\":104}");
 
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		URI uri = builder.build().encode().toUri();
@@ -122,13 +110,14 @@ public class TempoStormDeckRepository extends AbstractWebDeckRepository {
 
 		List<Map<String, Object>> data = mapper.readValue(json, List.class);
 		for (Map<String, Object> deck : data) {
-			slugs.add((String) deck.get("slug"));
+			slugs.add(((List<Map<String, String>>) deck.get("slugs")).get(0).get("slug"));
 		}
-		
-		slugs.remove("freezish-mage");
-		slugs.remove("zoo-1");
-		slugs.remove("tako-pandaria");
-		slugs.remove("reno-shaman-test");
+
+		slugs.remove("old-tempogods");
+		slugs.remove("old-tempo-gods");
+		slugs.remove("cthun-elisa-jackson");
+		slugs.remove("hope-ends-with-tempo");
+		slugs.remove("zoo-cancer-12");
 		return slugs;
 	}
 
@@ -143,12 +132,10 @@ public class TempoStormDeckRepository extends AbstractWebDeckRepository {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	int getRating(Map<String, Object> data) {
-		try {
-			return (Integer) data.get("voteScore");
-		} catch (Exception ex) {
-			return 0;
-		}
+		List<Map<String, String>> votes = (List<Map<String, String>>) data.get("votes");
+		return votes.size();
 	}
 
 	private LocalDate getLastUpdated(Map<String, Object> deckMap) {

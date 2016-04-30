@@ -2,7 +2,7 @@ package com.kschmidt.hearthstone.domain;
 
 public enum Rarity {
 
-	Free(0), Common(40), Rare(100), Epic(400), Legendary(1600);
+	FREE(0), COMMON(40), RARE(100), EPIC(400), LEGENDARY(1600);
 
 	private int dustValue;
 
