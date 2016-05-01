@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,62 +46,21 @@ public class MongoDeckRepositoryFindTest {
 	}
 
 	@Test
-	public void testFindByCardName() {
-		List<Deck> decks = mongoDeckRepository.findDecksContainingCard("Cruel Taskmaster");
-		assertTrue(decks.size() > 1);
-		for (Deck deck : decks) {
-			assertTrue(deck.findCard("Cruel Taskmaster").isPresent());
-		}
-	}
-
-	// note this is still a bug
-	@Ignore
-	@Test
 	public void testFindByCardNameWithQuote() {
-		List<Deck> decks = mongoDeckRepository.findDecksContainingCard("Vol'jin");
+		List<Deck> decks = mongoDeckRepository.findDecksContainingCard("C'Thun");
 		assertTrue(decks.size() > 1);
 		for (Deck deck : decks) {
-			assertTrue(deck.findCard("Vol'jin").isPresent());
+			assertTrue(deck.findCard("C'Thun").isPresent());
 		}
 	}
 
 	@Test
-	public void testFindByCardNamesIn() {
-		List<Deck> decks = mongoDeckRepository
-				.findDecksContainingSomeCards(Arrays.asList("Cruel Taskmaster", "Warsong Commander"));
+	public void testFindByCardNamesWithQuote() {
+		List<Deck> decks = mongoDeckRepository.find(null, Arrays.asList("C'Thun", "Twin Emperor Vek'lor"), null);
 		assertTrue(decks.size() > 1);
 		for (Deck deck : decks) {
-			assertTrue(deck.findCard("Cruel Taskmaster").isPresent() || deck.findCard("Warsong Commander").isPresent());
-		}
-	}
-
-	@Ignore
-	@Test
-	public void testFindByCardNamesInWithQuote() {
-		List<Deck> decks = mongoDeckRepository.findDecksContainingSomeCards(Arrays.asList("Vol'jin"));
-		assertTrue(decks.size() > 1);
-		for (Deck deck : decks) {
-			assertTrue(deck.findCard("Vol'jin").isPresent());
-		}
-	}
-
-	@Test
-	public void testFindByCardNamesAll() {
-		List<Deck> decks = mongoDeckRepository
-				.findDecksContainingAllCards(Arrays.asList("Cruel Taskmaster", "Warsong Commander"));
-		assertTrue(decks.size() > 1);
-		for (Deck deck : decks) {
-			assertTrue(deck.findCard("Cruel Taskmaster").isPresent() && deck.findCard("Warsong Commander").isPresent());
-		}
-	}
-
-	@Ignore
-	@Test
-	public void testFindByCardNamesAllWithQuote() {
-		List<Deck> decks = mongoDeckRepository.findDecksContainingAllCards(Arrays.asList("Vol'jin"));
-		assertTrue(decks.size() > 1);
-		for (Deck deck : decks) {
-			assertTrue(deck.findCard("Vol'jin").isPresent());
+			assertTrue(deck.findCard("C'Thun").isPresent());
+			assertTrue(deck.findCard("Twin Emperor Vek'lor").isPresent());
 		}
 	}
 
@@ -128,61 +86,34 @@ public class MongoDeckRepositoryFindTest {
 	}
 
 	@Test
-	public void testFindByCollectionAndCards() {
-		List<Deck> decks = mongoDeckRepository.findByCollectionAndCards("icyVeinsDeckRepository",
-				Arrays.asList("Ragnaros the Firelord", "Sylvanas Windrunner"));
-		assertTrue(decks.size() > 0);
-		for (Deck deck : decks) {
-			assertThat(deck.getCollection(), equalTo("icyVeinsDeckRepository"));
-			assertTrue(deck.findCard("Ragnaros the Firelord").isPresent());
-			assertTrue(deck.findCard("Sylvanas Windrunner").isPresent());
-		}
-	}
-
-	@Ignore
-	@Test
 	public void testFindByCollectionAndCardsWithQuote() {
-		List<Deck> decks = mongoDeckRepository.findByCollectionAndCards("icyVeinsDeckRepository",
-				Arrays.asList("Vol'jin"));
+		List<Deck> decks = mongoDeckRepository.find("icyVeinsDeckRepository", Arrays.asList("C'Thun"), null);
 		assertTrue(decks.size() > 0);
 		for (Deck deck : decks) {
 			assertThat(deck.getCollection(), equalTo("icyVeinsDeckRepository"));
-			assertTrue(deck.findCard("Vol'jin").isPresent());
+			assertTrue(deck.findCard("C'Thun").isPresent());
 		}
 	}
 
-	// Should search for the cards in all collections
-	@Test
-	public void testFindByCollectionAndCardsWhereCollectionIsNull() {
-		List<Deck> decks = mongoDeckRepository.findByCollectionAndCards(null,
-				Arrays.asList("Ragnaros the Firelord", "Sylvanas Windrunner"));
-		assertTrue(decks.size() > 0);
-		for (Deck deck : decks) {
-			assertNotNull(deck.getCollection());
-			assertTrue(deck.findCard("Ragnaros the Firelord").isPresent());
-			assertTrue(deck.findCard("Sylvanas Windrunner").isPresent());
-		}
-	}
-
-	// Should search for the cards in all collections
 	@Test
 	public void testFindByCollectionAndCardsWhereCardsAreEmpty() {
-		List<Deck> decks = mongoDeckRepository.findByCollectionAndCards(null, new ArrayList<String>());
+		List<Deck> decks = mongoDeckRepository.find(null, new ArrayList<String>(), null);
 		assertThat(decks.size(), equalTo(mongoDeckRepository.findAll().size()));
 	}
 
-	// Should search for the cards in all collections
 	@Test
 	public void testFindByCollectionAndCardsAndPlayerClass() {
-		List<Deck> allClasses = mongoDeckRepository.findByCollectionAndCards(null,
-				Arrays.asList("Dr. Boom", "Sylvanas Windrunner"));
-		List<Deck> druidOnly = mongoDeckRepository.find(null, Arrays.asList("Dr. Boom", "Sylvanas Windrunner"),
+		List<Deck> allClasses = mongoDeckRepository.find(null, Arrays.asList("Beckoner of Evil", "Twilight Elder"),
+				null);
+		List<Deck> druidOnly = mongoDeckRepository.find(null, Arrays.asList("Beckoner of Evil", "Twilight Elder"),
 				Arrays.asList(PlayerClass.DRUID.name()));
 		assertTrue(druidOnly.size() > 0);
-		assertTrue(druidOnly.size() < allClasses.size());
 		for (Deck deck : druidOnly) {
 			assertThat(deck.getPlayerClass(), equalTo(PlayerClass.DRUID));
+			assertTrue(deck.findCard("Beckoner of Evil").isPresent());
+			assertTrue(deck.findCard("Twilight Elder").isPresent());
 		}
+		assertTrue(druidOnly.size() < allClasses.size());
 	}
 
 	// Should search for the cards in all collections
