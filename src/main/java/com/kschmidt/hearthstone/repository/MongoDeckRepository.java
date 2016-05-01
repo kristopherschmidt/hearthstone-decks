@@ -9,10 +9,6 @@ import com.kschmidt.hearthstone.domain.Deck;
 
 public interface MongoDeckRepository extends MongoRepository<Deck, String>, CustomMongoDeckRepository {
 
-	@Query(value = "{ 'cards.card.name' : ?0 }")
-	List<Deck> findDecksContainingCard(String cardName);
-
-
 	@Query(value = "{ $or : [ { $where: '?0 == null' } , { collection : ?0 } ] }")
 	List<Deck> findByCollection(String collectionName);
 

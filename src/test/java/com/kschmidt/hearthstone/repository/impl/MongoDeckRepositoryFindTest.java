@@ -2,7 +2,6 @@ package com.kschmidt.hearthstone.repository.impl;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -47,10 +46,19 @@ public class MongoDeckRepositoryFindTest {
 
 	@Test
 	public void testFindByCardNameWithQuote() {
-		List<Deck> decks = mongoDeckRepository.findDecksContainingCard("C'Thun");
+		List<Deck> decks = mongoDeckRepository.find(null, Arrays.asList("C'Thun"), null);
 		assertTrue(decks.size() > 1);
 		for (Deck deck : decks) {
 			assertTrue(deck.findCard("C'Thun").isPresent());
+		}
+	}
+	
+	@Test
+	public void testFindByCardNameWithComma() {
+		List<Deck> decks = mongoDeckRepository.find(null, Arrays.asList("N'Zoth, the Corruptor"), null);
+		assertTrue(decks.size() > 1);
+		for (Deck deck : decks) {
+			assertTrue(deck.findCard("N'Zoth, the Corruptor").isPresent());
 		}
 	}
 
