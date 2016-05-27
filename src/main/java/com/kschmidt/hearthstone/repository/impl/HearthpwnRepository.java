@@ -105,7 +105,7 @@ public class HearthpwnRepository extends AbstractWebDeckRepository {
 		// sample URL for Druid. Filter-build is for TGT. Class is for druid.
 		// http://www.hearthpwn.com/decks?filter-build=24&filter-class=100&sort=-rating
 		List<Deck> decks = new ArrayList<Deck>();
-		String deckListUrlPrefix = "http://www.hearthpwn.com/decks?filter-unreleased-cards=f&filter-build=26&filter-deck-tag=1&filter-class=";
+		String deckListUrlPrefix = "http://www.hearthpwn.com/decks?filter-unreleased-cards=f&filter-build=28&filter-deck-tag=1&filter-class=";
 		String deckListUrlPostfix = "&sort=-rating";
 		String[] classes = new String[] { "4", "8", "16", "32", "64", "128", "256", "512", "1024" };
 		for (int i = 0; i < classes.length; ++i) {
