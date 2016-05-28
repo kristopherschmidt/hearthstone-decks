@@ -6,11 +6,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,28 +48,32 @@ public class HearthstoneTopDeckRepositoryTest {
 	@Test
 	public void testGetDeck() throws Exception {
 		Deck deck = topDeck
-				.getDeck("http://www.hearthstonetopdeck.com/deck/4577/current/handlock-falcon");
+				.getDeck("http://www.hearthstonetopdeck.com/deck/standard/5591/warrior-control-bradfordlee");
 		assertThat(deck.getNumCards(), equalTo(30));
-		assertThat(deck.getName(), equalTo("#1 - HandLock - Falcon"));
+		assertThat(deck.getName(), equalTo("#1 - Warrior Control - Bradfordlee"));
 		assertThat(
 				deck.getUrl(),
-				equalTo("http://www.hearthstonetopdeck.com/deck/4577/current/handlock-falcon"));
+				equalTo("http://www.hearthstonetopdeck.com/deck/standard/5591/warrior-control-bradfordlee"));
 		assertThat(deck.getCollection(),
 				equalTo("hearthstoneTopDeckRepository"));
-
-		Optional<DeckCard> card = deck.findCard("Loatheb");
+		Optional<DeckCard> card = deck.findCard("Frothing Berserker");
 		assertTrue(card.isPresent());
-		assertThat(card.get().getCardName(), equalTo("Loatheb"));
-		assertThat(card.get().getNumCards(), equalTo(1));
-
-		card = deck.findCard("Rampage");
-		assertFalse(card.isPresent());
+		assertThat(card.get().getNumCards(), equalTo(2));
+	}
+	
+	@Test
+	public void testParseLastUpdated() {
+		String text = "Format: Standard - Updated: 2016/05/23";
+		LocalDate date = topDeck.parseLastUpdated(text);
+		assertThat(date.getMonth(), equalTo(Month.MAY));
+		assertThat(date.getDayOfMonth(), equalTo(23));
+		assertThat(date.getYear(), equalTo(2016));
 	}
 
 	@Test
 	public void testGetDeckList() throws IOException {
 		List<String> deckUrls = topDeck
-				.getDeckUrls("http://www.hearthstonetopdeck.com/metagame/Mage/0/current");
+				.getDeckUrls("http://www.hearthstonetopdeck.com/metagame/standard/mage/0");
 		Assert.assertFalse(deckUrls.isEmpty());
 		Assert.assertTrue(deckUrls.get(0).startsWith(
 				"http://www.hearthstonetopdeck.com"));
@@ -75,25 +82,28 @@ public class HearthstoneTopDeckRepositoryTest {
 	@Test
 	public void testGetDecks() throws IOException {
 		List<Deck> decks = topDeck
-				.getDecks("http://www.hearthstonetopdeck.com/metagame/Mage/0/current");
+				.getDecks("http://www.hearthstonetopdeck.com/metagame/standard/mage/0");
 		Assert.assertFalse(decks.isEmpty());
 		for (Deck deck : decks) {
 			assertThat(deck.getNumCards(), equalTo(30));
 		}
 	}
 
+	//previously blacklisted decks no longer exist
+	@Ignore
 	@Test
 	public void testDeckBlacklist() throws IOException {
 		List<String> urls = topDeck
-				.getDeckUrls("http://www.hearthstonetopdeck.com/metagame/Hunter/0/current");
+				.getDeckUrls("TBD");
+		Assert.assertFalse(urls.isEmpty());
 		assertFalse(urls
-				.contains("http://www.hearthstonetopdeck.com/deck/4818/current/hunter-midrange-kucha"));
+				.contains("TBD"));
 	}
 
 	@Test
 	public void testGetAllDecks() throws Exception {
 		List<Deck> decks = topDeck.getAllDecks();
-		LOG.debug(decks.toString());
+		assertTrue(decks.size() > 10);
 	}
 
 }
